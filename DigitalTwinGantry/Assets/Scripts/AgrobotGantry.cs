@@ -7,20 +7,24 @@ using UnityEngine;
 /// </summary>
 public class AgrobotGantry : MonoBehaviour
 {
-    [Tooltip("If the casing should be shown")]
+    [Tooltip("Show the fictional exterior casing")]
     [SerializeField] private bool showCasing = true;
     private IAgrobotBehaviour m_currentBehaviour;
     private Dictionary<AgrobotAction, IAgrobotBehaviour> m_actions;
 
-    //movement
-    private Transform m_transform;
-    private float m_speed;
-    private float m_turnSpeed;
+    /// <summary>
+    /// Forward-facing movement speed in meters per second.
+    /// </summary>
+    private float MovementSpeed { get; set; }
+    /// <summary>
+    /// Horizontal rotation speed in degrees per second.
+    /// </summary>
+    private float TurningSpeed { get; set; }
 
-    // Start is called before the first frame update
     void Start()
     {
-        m_transform = GetComponent<Transform>();
+        MovementSpeed = 1.0f;
+        TurningSpeed = 10.0f;
 
         m_actions = new Dictionary<AgrobotAction, IAgrobotBehaviour>();
         m_actions.Add(AgrobotAction.HARVESTING, new AgrobotHarvesting());
@@ -28,30 +32,19 @@ public class AgrobotGantry : MonoBehaviour
         m_actions.Add(AgrobotAction.WEEDING, new AgrobotWeeding());
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
-    }
+        //moving
+        if(MovementSpeed != 0.0f)
+        {
+            transform.Translate(transform.forward * Time.deltaTime * MovementSpeed);
+        }
 
-    public void Drive(float speed)
-    {
-
-    }
-
-    public void Stop()
-    {
-
-    }
-
-    public void TurnLeft(float turnSpeed)
-    {
-
-    }
-
-    public void TurnRight(float turnSpeed)
-    {
-
+        //turning
+        if(TurningSpeed != 0.0f)
+        {
+            transform.Rotate(Vector3.up, Time.deltaTime * TurningSpeed);
+        }
     }
 
     public void DoAction(float actionSpeed)
