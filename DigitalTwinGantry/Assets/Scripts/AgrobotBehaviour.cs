@@ -5,30 +5,15 @@ using UnityEngine;
 /// <summary>
 /// 
 /// </summary>
-public interface IAgrobotBehaviour
+abstract public class AgrobotBehaviour
 {
-    void DoAction();
-}
 
-public class AgrobotHarvesting : IAgrobotBehaviour
-{
-    public void DoAction()
-    {
-        
-    }
-}
-
-public class AgrobotSowing : IAgrobotBehaviour
-{
-    public void DoAction()
+    public void Update(float deltaTime)
     {
 
     }
-}
 
-public class AgrobotWeeding : IAgrobotBehaviour
-{
-    public void DoAction()
+    public void ActionFinished(AgrobotAction action)
     {
 
     }

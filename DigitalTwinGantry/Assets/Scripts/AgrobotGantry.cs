@@ -7,8 +7,7 @@ using UnityEngine;
 /// </summary>
 public class AgrobotGantry : MonoBehaviour
 {
-	private IAgrobotBehaviour m_currentBehaviour;
-	private Dictionary<AgrobotAction, IAgrobotBehaviour> m_actions;
+	private AgrobotBehaviour m_currentBehaviour;
 
 	/// <summary>
 	/// Forward-facing movement speed in meters per second. Setting this to a positive value will make the gantry move forwards. 
@@ -27,11 +26,6 @@ public class AgrobotGantry : MonoBehaviour
 
 		MovementSpeed = 1.0f;
 		TurningSpeed = 10.0f;
-
-		m_actions = new Dictionary<AgrobotAction, IAgrobotBehaviour>();
-		m_actions.Add(AgrobotAction.HARVESTING, new AgrobotHarvesting());
-		m_actions.Add(AgrobotAction.SOWING, new AgrobotSowing());
-		m_actions.Add(AgrobotAction.WEEDING, new AgrobotWeeding());
 	}
 
 	void Update()
@@ -54,23 +48,8 @@ public class AgrobotGantry : MonoBehaviour
 		//show/hide all pieces of the casing
     }
 
-	public void DoAction(float actionSpeed)
-	{
-		m_currentBehaviour.DoAction();
-	}
-
-	public void SetAction(AgrobotAction action)
-	{
-		m_currentBehaviour = m_actions[action];
-	}
-}
-
-/// <summary>
-/// Used to identify AgrobotBehaviours
-/// </summary>
-public enum AgrobotAction
-{
-	HARVESTING,
-	SOWING,
-	WEEDING
+	public void SetBehaviour(AgrobotBehaviour behaviour)
+    {
+		m_currentBehaviour = behaviour;
+    }
 }
