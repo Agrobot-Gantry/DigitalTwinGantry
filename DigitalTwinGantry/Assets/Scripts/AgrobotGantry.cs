@@ -11,25 +11,29 @@ public class AgrobotGantry : MonoBehaviour
     private AgrobotEquipment m_equipment;
     private AgrobotBehaviour m_currentBehaviour;
 
+    [SerializeField]
+    private AgrobotTool[] m_tools;
+
     /// <summary>
     /// Forward-facing movement speed in meters per second. Setting this to a positive value will make the gantry move forwards. 
     /// Negative values will make it move backwards.
     /// </summary>
-    private float MovementSpeed { get; set; }
+    public float MovementSpeed { get; set; }
     /// <summary>
     /// Horizontal rotation speed in degrees per second. Setting this to a positive value will make the gantry move right.
     /// Negative values will make it turn left.
     /// </summary>
-    private float TurningSpeed { get; set; }
+    public float TurningSpeed { get; set; }
 
     void Start()
     {
-        m_equipment = new AgrobotEquipment();
-        //m_currentBehaviour = TODO
+        MovementSpeed = 0.0f;
+        TurningSpeed = 0.0f;
+        m_equipment = new AgrobotEquipment(m_tools);
+        m_currentBehaviour = new LaneFarmingBehaviour();
         ShowCasing(true);
 
-        MovementSpeed = 1.0f;
-        TurningSpeed = 10.0f;
+        m_currentBehaviour.Start(this);
     }
 
     void Update()

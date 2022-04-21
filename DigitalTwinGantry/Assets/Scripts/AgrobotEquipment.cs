@@ -11,9 +11,9 @@ public class AgrobotEquipment
 {
     private AgrobotTool[] m_tools;
 
-    public AgrobotEquipment()
+    public AgrobotEquipment(AgrobotTool[] tools)
     {
-        m_tools = new AgrobotTool[] { }; //TODO get the tools somehow
+        m_tools = tools;
 
         //check if each flag has not more than 1 tool assigned
         foreach (InteractableFlag flag in System.Enum.GetValues(typeof(InteractableFlag)))
