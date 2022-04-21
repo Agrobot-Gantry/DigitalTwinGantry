@@ -13,14 +13,25 @@ abstract public class AgrobotBehaviour
     protected List<AgrobotAction> m_ongoingActions;
     protected List<AgrobotInteractable> m_interactables;
 
-    AgrobotBehaviour(AgrobotGantry agrobotGantry)
+    AgrobotBehaviour()
     {
-        m_gantry = agrobotGantry;
         m_ongoingActions = new List<AgrobotAction>();
         m_interactables = new List<AgrobotInteractable>(); //TODO fill this list
     }
 
-    abstract public void Update(float deltaTime);
+    virtual public void Start(AgrobotGantry agrobotGantry)
+    {
+        m_gantry = agrobotGantry;
+    }
+
+    virtual public void Update(float deltaTime)
+    {
+        foreach(AgrobotAction action in m_ongoingActions) {
+            action.Update(deltaTime);
+        }
+    }
+
+    abstract public void Stop();
 
     /// <summary>
     /// Starts an action and adds it to the list of ongoing actions. When the action is finished it is removed from the list by a callback.

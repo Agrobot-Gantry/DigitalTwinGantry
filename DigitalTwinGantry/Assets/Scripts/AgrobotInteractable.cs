@@ -8,17 +8,27 @@ using UnityEngine;
 /// </summary>
 public class AgrobotInteractable : MonoBehaviour
 {
-    public InteractableFlags m_flags;
+    private InteractableFlag m_flags;
 
     /// <summary>
     /// Creates actions targeting this interactable. The types of action is determined by the flags. 
     /// The actions come in an array sorted in the order in which they should be executed.
     /// </summary>
     /// <returns>an array of appropriate AgrobotActions targeting this interactable</returns>
-    public AgrobotAction[] GetAction()
+    public AgrobotAction[] GetActions()
     {
         //TODO implement
         return null;
+    }
+
+    public void SetFlag(InteractableFlag flag)
+    {
+        m_flags |= flag;
+    }
+
+    public void ClearFlag(InteractableFlag flag)
+    {
+        m_flags &= ~flag;
     }
 }
 
@@ -26,7 +36,7 @@ public class AgrobotInteractable : MonoBehaviour
 /// Flags are to decide which actions whould be used for a specific interactable.
 /// </summary>
 [Flags]
-public enum InteractableFlags
+public enum InteractableFlag
 {
     NONE = 0,
     HARVEST = 1<<0,

@@ -20,11 +20,21 @@ abstract public class AgrobotAction
 
     abstract public void Start();
 
+    abstract public void Update(float deltaTime);
+
     /// <summary>
-    /// Tells the behaviour that this action is finished. Subclasses should call this function when they are finished.
+    /// Returns the flags that are relevant tot this action. These flags will be cleared from the target interactable when this action finishes.
+    /// </summary>
+    /// <returns>the flags that should be cleared when this action finishes</returns>
+    abstract public InteractableFlag GetFlags();
+
+    /// <summary>
+    /// Clears the flags (the ones relevant to this action) of the target interactable and tells the behaviour that this action is finished. 
+    /// Subclasses should call this function when they are finished.
     /// </summary>
     protected void Finish()
     {
+        m_interactable.ClearFlag(GetFlags());
         m_callback(this);
     }
 }

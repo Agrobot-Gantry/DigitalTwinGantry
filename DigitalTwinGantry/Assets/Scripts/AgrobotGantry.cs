@@ -52,6 +52,9 @@ public class AgrobotGantry : MonoBehaviour
 
 	public void SetBehaviour(AgrobotBehaviour behaviour)
     {
+		m_currentBehaviour.Stop();
 		m_currentBehaviour = behaviour;
-    }
+		m_currentBehaviour.Start(this);
+
+	}
 }
