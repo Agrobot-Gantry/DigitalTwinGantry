@@ -51,8 +51,8 @@ public class AgrobotInteractable : MonoBehaviour
 public enum InteractableFlag
 {
     NONE = 0,
-    SOW = 1 << 0,
-    WATER = 1<<1,
-    HARVEST = 1 << 2,
+    HARVEST = 1 << 0,
+    SOW = 1 << 1,
+    WATER = 1<<2,
     UPROOT = 1 << 3
 }

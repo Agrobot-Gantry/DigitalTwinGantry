@@ -11,6 +11,8 @@ using UnityEngine.Assertions;
 public class AgrobotTool : MonoBehaviour
 {
     [SerializeField]
+    private ToolReach m_reach;
+    [SerializeField]
     private GameObject m_tool;
     [SerializeField]
     private InteractableFlag m_flag;
@@ -20,6 +22,7 @@ public class AgrobotTool : MonoBehaviour
     void Start()
     {
         m_reachables = new List<AgrobotInteractable>();
+        m_reach.ConnectToTool(this);
 
         //check if the tool has exactly one flag set
         Assert.IsTrue(AgrobotInteractable.FlagCount(m_flag) == 1);
@@ -30,19 +33,17 @@ public class AgrobotTool : MonoBehaviour
 
     }
 
-    void OnTriggerEnter(Collider other)
+    public void OnReachEnter(AgrobotInteractable interactable)
     {
-        AgrobotInteractable interactable = other.gameObject.GetComponent<AgrobotInteractable>();
-        if (interactable != null && interactable.HasFlag(m_flag))
+        if (interactable.HasFlag(m_flag))
         {
             m_reachables.Add(interactable);
         }
     }
 
-    void OnTriggerExit(Collider other)
+    public void OnReachExit(AgrobotInteractable interactable)
     {
-        AgrobotInteractable interactable = other.gameObject.GetComponent<AgrobotInteractable>();
-        if (interactable != null && interactable.HasFlag(m_flag))
+        if (interactable.HasFlag(m_flag))
         {
             m_reachables.Remove(interactable);
         }
