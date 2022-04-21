@@ -9,10 +9,13 @@ using UnityEngine.Assertions;
 /// </summary>
 public class AgrobotEquipment
 {
-    private AgrobotTool[] m_tools; //TODO get the tools somehow
+    private AgrobotTool[] m_tools;
+    //TODO dynamic reach
 
     public AgrobotEquipment()
     {
+        m_tools = new AgrobotTool[] { }; //TODO get the tools somehow
+
         //check if each flag has not more than 1 tool assigned
         foreach (InteractableFlag flag in System.Enum.GetValues(typeof(InteractableFlag)))
         {
@@ -34,7 +37,7 @@ public class AgrobotEquipment
     {
         foreach (AgrobotTool tool in m_tools)
         {
-            if(tool.GetFlag() == flag)
+            if (tool.GetFlag() == flag)
             {
                 return tool;
             }
@@ -46,7 +49,7 @@ public class AgrobotEquipment
     public AgrobotInteractable[] GetReachables()
     {
         List<AgrobotInteractable> interactables = new List<AgrobotInteractable>();
-        foreach(AgrobotTool tool in m_tools)
+        foreach (AgrobotTool tool in m_tools)
         {
             interactables.AddRange(tool.Reachables);
         }

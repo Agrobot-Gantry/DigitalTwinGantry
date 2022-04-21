@@ -14,17 +14,20 @@ public class AgrobotTool : MonoBehaviour
     private GameObject m_tool;
     [SerializeField]
     private InteractableFlag m_flag;
-    public List<AgrobotInteractable> Reachables { get; }
+    public List<AgrobotInteractable> Reachables { get { return m_reachables; } }
+    private List<AgrobotInteractable> m_reachables;
 
     void Start()
     {
+        m_reachables = new List<AgrobotInteractable>();
+
         //check if the tool has exactly one flag set
         Assert.IsTrue(AgrobotInteractable.FlagCount(m_flag) == 1);
     }
 
     void Update()
     {
-        
+
     }
 
     void OnTriggerEnter(Collider other)
@@ -32,7 +35,7 @@ public class AgrobotTool : MonoBehaviour
         AgrobotInteractable interactable = other.gameObject.GetComponent<AgrobotInteractable>();
         if (interactable != null && interactable.HasFlag(m_flag))
         {
-            Reachables.Add(interactable);
+            m_reachables.Add(interactable);
         }
     }
 
@@ -41,7 +44,7 @@ public class AgrobotTool : MonoBehaviour
         AgrobotInteractable interactable = other.gameObject.GetComponent<AgrobotInteractable>();
         if (interactable != null && interactable.HasFlag(m_flag))
         {
-            Reachables.Remove(interactable);
+            m_reachables.Remove(interactable);
         }
     }
 

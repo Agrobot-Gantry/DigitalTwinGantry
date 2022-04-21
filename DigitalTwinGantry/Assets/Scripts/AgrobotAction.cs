@@ -11,11 +11,13 @@ abstract public class AgrobotAction
     private Callback m_callback;
 
     protected AgrobotInteractable m_interactable;
+    protected AgrobotEquipment m_equipment;
 
-    public AgrobotAction(AgrobotBehaviour behaviour, AgrobotInteractable target)
+    public AgrobotAction(AgrobotBehaviour behaviour, AgrobotInteractable target, AgrobotEquipment equipment)
     {
         m_callback = new Callback(behaviour.ActionFinished);
         m_interactable = target;
+        m_equipment = equipment;
     }
 
     abstract public void Start();
