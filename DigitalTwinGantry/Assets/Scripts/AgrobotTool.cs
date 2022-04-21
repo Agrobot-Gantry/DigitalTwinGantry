@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Assertions;
 
 /// <summary>
-/// This script should be added to an invisible cube that defines the reach of the tool. 
+/// The reach of the tool is defined by the collider of the ToolReach object.
 /// The tool itself (visuals and animation) is the tool parameter in the editor.
 /// The flag parameter defines which type of interactable this tool can interact with.
 /// </summary>

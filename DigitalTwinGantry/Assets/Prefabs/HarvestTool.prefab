@@ -155,7 +155,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_reach: {fileID: 3823396615376525348}
   m_tool: {fileID: 8381462618914241251}
-  m_flag: 4
+  m_flag: 1
 --- !u!1 &8381462618914241251
 GameObject:
   m_ObjectHideFlags: 0

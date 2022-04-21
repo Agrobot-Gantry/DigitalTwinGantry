@@ -10,7 +10,6 @@ using UnityEngine.Assertions;
 public class AgrobotEquipment
 {
     private AgrobotTool[] m_tools;
-    //TODO dynamic reach
 
     public AgrobotEquipment()
     {
