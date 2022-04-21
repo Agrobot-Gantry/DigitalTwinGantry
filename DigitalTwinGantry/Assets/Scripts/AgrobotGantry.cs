@@ -55,6 +55,17 @@ public class AgrobotGantry : MonoBehaviour
 		m_currentBehaviour.Stop();
 		m_currentBehaviour = behaviour;
 		m_currentBehaviour.Start(this);
+	}
 
+	/// <returns>the total width of the gantry (including the wheels) in meters</returns>
+	public float GetGantryWidth()
+    {
+		return -1.0f; //TODO implement
+    }
+
+	/// <returns>the width of the wheels</returns>
+	public float GetGantryWheelWidth()
+    {
+		return -1.0f; //TODO implement
 	}
 }
