@@ -8,7 +8,7 @@ using UnityEngine;
 /// </summary>
 public class AgrobotInteractable : MonoBehaviour
 {
-    private InteractableFlag m_flags;
+    [SerializeField] InteractableFlag m_flags;
 
     /// <summary>
     /// Creates actions targeting this interactable. The types of action is determined by the flags. 
@@ -19,11 +19,6 @@ public class AgrobotInteractable : MonoBehaviour
     {
         //TODO implement
         return null;
-    }
-
-    public void SetFlag(InteractableFlag flag)
-    {
-        m_flags |= flag;
     }
 
     public void ClearFlag(InteractableFlag flag)
@@ -39,7 +34,8 @@ public class AgrobotInteractable : MonoBehaviour
 public enum InteractableFlag
 {
     NONE = 0,
-    HARVEST = 1<<0,
+    SOW = 1 << 0,
     WATER = 1<<1,
-    SOW = 1<<2
+    HARVEST = 1 << 2,
+    UPROOT = 1 << 3
 }
