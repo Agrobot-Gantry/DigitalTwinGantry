@@ -11,12 +11,12 @@ abstract public class AgrobotBehaviour
 {
     protected AgrobotGantry m_gantry;
     protected List<AgrobotAction> m_ongoingActions;
-    protected List<AgrobotInteractable> m_interactables;
+    protected AgrobotInteractable[] m_interactables;
 
-    AgrobotBehaviour()
+    public AgrobotBehaviour()
     {
         m_ongoingActions = new List<AgrobotAction>();
-        m_interactables = new List<AgrobotInteractable>(); //TODO fill this list
+        m_interactables = Object.FindObjectsOfType<AgrobotInteractable>();
     }
 
     virtual public void Start(AgrobotGantry agrobotGantry)
@@ -40,6 +40,15 @@ abstract public class AgrobotBehaviour
     protected void StartAction(AgrobotAction action)
     {
         m_ongoingActions.Add(action);
+    }
+
+    /// <summary>
+    /// Updates the interactables this behaviour is keeping track of (which should be all of them).
+    /// Call this when interactables have been added or removed.
+    /// </summary>
+    public void UpdateInteractables(AgrobotInteractable[] interactables)
+    {
+        m_interactables = Object.FindObjectsOfType<AgrobotInteractable>();
     }
 
     /// <summary>
