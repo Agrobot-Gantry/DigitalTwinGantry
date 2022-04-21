@@ -30,6 +30,18 @@ public class AgrobotInteractable : MonoBehaviour
     {
         m_flags &= ~flag;
     }
+
+    /// <returns>the amount of flags that have been set</returns>
+    public static int FlagCount(InteractableFlag flag)
+    {
+        int count = 0;
+        while(flag != 0)
+        {
+            count++;
+            flag &= flag - 1; //peel off least significant bit
+        }
+        return count;
+    }
 }
 
 /// <summary>

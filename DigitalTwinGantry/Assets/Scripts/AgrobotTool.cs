@@ -18,16 +18,8 @@ public class AgrobotTool : MonoBehaviour
 
     void Start()
     {
-        //check if the tool has just one flag
-        bool exclusiveFlag = false;
-        foreach (InteractableFlag flag in System.Enum.GetValues(typeof(InteractableFlag)))
-        {
-            if (m_flag == flag)
-            {
-                exclusiveFlag = true;
-            }
-        }
-        Assert.IsTrue(exclusiveFlag);
+        //check if the tool has exactly one flag set
+        Assert.IsTrue(AgrobotInteractable.FlagCount(m_flag) == 1);
     }
 
     void Update()

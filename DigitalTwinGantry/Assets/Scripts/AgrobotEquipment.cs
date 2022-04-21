@@ -26,8 +26,7 @@ public class AgrobotEquipment
 
     public AgrobotTool GetTool(InteractableFlag flag)
     {
-        //TODO assert it is only one flag
-        foreach(AgrobotTool tool in m_tools)
+        foreach (AgrobotTool tool in m_tools)
         {
             if(tool.GetFlag() == flag)
             {
