@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 
+/// <summary>
+/// The equipment contains all of the tools that interact with AgrobotInteractables.
+/// AgrobotActions should use this class to get access to the tools they require.
+/// </summary>
 public class AgrobotEquipment
 {
     private AgrobotTool[] m_tools; //TODO get the tools somehow
@@ -24,6 +28,8 @@ public class AgrobotEquipment
         }
     }
 
+    /// <param name="flag">the flag of the desired tool</param>
+    /// <returns>the tool that is supposed to manipulate interactables of the specified flag</returns>
     public AgrobotTool GetTool(InteractableFlag flag)
     {
         foreach (AgrobotTool tool in m_tools)
