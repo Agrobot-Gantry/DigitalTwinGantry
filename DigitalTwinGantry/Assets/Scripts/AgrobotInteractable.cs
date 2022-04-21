@@ -21,6 +21,11 @@ public class AgrobotInteractable : MonoBehaviour
         return null;
     }
 
+    public bool HasFlag(InteractableFlag flag)
+    {
+        return m_flags.HasFlag(flag);
+    }
+
     public void ClearFlag(InteractableFlag flag)
     {
         m_flags &= ~flag;
