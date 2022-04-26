@@ -28,7 +28,7 @@ public class ToolReach : MonoBehaviour
         AgrobotInteractable interactable = other.gameObject.GetComponent<AgrobotInteractable>();
         if (interactable != null)
         {
-            foreach(ToolCallback callback in m_enterCallbacks)
+            foreach (ToolCallback callback in m_enterCallbacks)
             {
                 callback(interactable);
             }

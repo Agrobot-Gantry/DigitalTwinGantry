@@ -50,7 +50,7 @@ public class AgrobotGantry : MonoBehaviour
             transform.Rotate(Vector3.up, Time.deltaTime * TurningSpeed);
         }
 
-        //m_currentBehaviour.Update(Time.deltaTime); TODO
+        m_currentBehaviour.Update(Time.deltaTime);
     }
 
     public void ShowCasing(bool showCasing)
