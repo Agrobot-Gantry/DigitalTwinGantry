@@ -9,11 +9,13 @@ public class SliderMeter : MonoBehaviour
     [SerializeField] private Grabbable m_grabbable;
     [SerializeField] private OneGrabTranslateTransformer m_transformer;
     [SerializeField] private int m_totalSelections;
+    [SerializeField] private AudioSource m_audio;
 
     private float[] m_sections;
 
     private int m_currentSection;
     public int CurrentSection { get => m_currentSection; }
+    public int TotalSections { get => m_totalSelections; }
 
     private void Start() {
         m_grabbable.WhenGrabbableUpdated += WhenGrabbableUpdated;
@@ -44,14 +46,18 @@ public class SliderMeter : MonoBehaviour
     }
 
     private void WhenGrabbableUpdated(GrabbableArgs args) {
+        CalculateCurrentSection();
+
         if (args.GrabbableEvent == GrabbableEvent.Remove) {
-            CalculateCurrentSection();
             Debug.Log(CurrentSection);
         }
     }
 
     private void CalculateCurrentSection() {
         float smallestDistance = 1000;
+
+        int previousSection = m_currentSection;
+
         for (int i = 0; i < m_sections.Length; i++) {
             float distance = Mathf.Abs(transform.position.x - m_sections[i]);
 
@@ -59,6 +65,10 @@ public class SliderMeter : MonoBehaviour
                 m_currentSection = i;
                 smallestDistance = distance;
             }
+        }
+
+        if (previousSection != m_currentSection) {
+            m_audio.Play();
         }
     }
 
