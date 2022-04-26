@@ -44,7 +44,7 @@ public class AgrobotEquipment
         return null;
     }
 
-    /// <returns>all interactables in reach of all tools</returns>
+    /// <returns>all interactables in reach of an appropriate tool</returns>
     public AgrobotInteractable[] GetReachables()
     {
         List<AgrobotInteractable> interactables = new List<AgrobotInteractable>();

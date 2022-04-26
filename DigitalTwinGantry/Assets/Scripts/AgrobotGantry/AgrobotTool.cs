@@ -18,6 +18,10 @@ public class AgrobotTool : MonoBehaviour
     private GameObject m_tool;
     [SerializeField]
     private InteractableFlag m_flag;
+
+    /// <summary>
+    /// A list of all interactables that are in reach of this tool and have an appropriate flag.
+    /// </summary>
     public List<AgrobotInteractable> Reachables { get { return m_reachables; } }
     private List<AgrobotInteractable> m_reachables;
 
