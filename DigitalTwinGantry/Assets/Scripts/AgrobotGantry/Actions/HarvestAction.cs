@@ -21,7 +21,6 @@ public class HarvestAction : AgrobotAction
 
     public override IEnumerator Start()
     {
-        //don't move height axis
         while (Vector3.Distance(m_tool.GetToolObject().transform.position, m_targetInteractable.transform.position) > 0.1f)
         {
             m_tool.GetToolObject().transform.position = Vector3.MoveTowards(
