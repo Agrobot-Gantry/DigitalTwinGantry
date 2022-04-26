@@ -8,6 +8,7 @@ using UnityEngine.Assertions;
 /// The tool itself (visuals and animation) is the tool parameter in the editor.
 /// The flag parameter defines which type of interactable this tool can interact with.
 /// Each tool keeps a list of all interactables (with the right flag) that it can reach.
+/// Actions make use of tools for animation.
 /// </summary>
 public class AgrobotTool : MonoBehaviour
 {
@@ -40,15 +41,11 @@ public class AgrobotTool : MonoBehaviour
         {
             m_reachables.Add(interactable);
         }
-        //TODO remove interactables that are still in reach but no longer have the necessary flag
     }
 
     public void OnReachExit(AgrobotInteractable interactable)
     {
-        if (interactable.HasFlag(m_flag)) //TODO probably remove this check
-        {
-            m_reachables.Remove(interactable);
-        }
+        m_reachables.Remove(interactable);
     }
 
     /// <summary>
