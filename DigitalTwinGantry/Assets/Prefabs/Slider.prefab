@@ -244,6 +244,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9597e632dfbca247bcf65e49c67078e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!82 &5799195220038723033 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 5666281663881421036, guid: cc68667a9a6b3d346b7035f6ae372ff7, type: 3}
+  m_PrefabInstance: {fileID: 2222610482265261365}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &2222610482239006616
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -260,3 +265,7 @@ MonoBehaviour:
   m_grabbable: {fileID: 7756351362854257720}
   m_transformer: {fileID: 4040065322215449485}
   m_totalSelections: 6
+  m_audio: {fileID: 5799195220038723033}
+  m_onSelectionChanged:
+    m_PersistentCalls:
+      m_Calls: []

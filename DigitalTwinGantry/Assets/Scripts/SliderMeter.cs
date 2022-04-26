@@ -50,9 +50,9 @@ public class SliderMeter : MonoBehaviour
     private void WhenGrabbableUpdated(GrabbableArgs args) {
         CalculateCurrentSection();
 
-        if (args.GrabbableEvent == GrabbableEvent.Remove) {
-            Debug.Log(CurrentSection);
-        }
+        // if (args.GrabbableEvent == GrabbableEvent.Remove) {
+        //     Debug.Log(CurrentSection);
+        // }
     }
 
     private void CalculateCurrentSection() {
@@ -61,13 +61,15 @@ public class SliderMeter : MonoBehaviour
         int previousSection = m_currentSection;
 
         for (int i = 0; i < m_sections.Length; i++) {
-            float distance = Mathf.Abs(transform.position.x - m_sections[i]);
+            float distance = Mathf.Abs(transform.localPosition.x - m_sections[i]);
 
             if (distance < smallestDistance) {
                 m_currentSection = i;
                 smallestDistance = distance;
             }
         }
+
+        Debug.Log(m_currentSection);
 
         if (previousSection != m_currentSection) {
             m_audio.Play();
