@@ -3,20 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// The behaviour defines how the gantry moves and what actions it takes.
-/// The behaviour can start actions targeting nearby interactables for things such as harvesting.
+/// The behaviour defines how the gantry moves and when it takes actions.
+/// The AgrobotEquipment on the gantry can be used to detect if there are any interactables in reach.
+/// The behaviour can then start actions targeting these interactables.
 /// The base class keeps the list of ongoing actions up to date.
 /// </summary>
 abstract public class AgrobotBehaviour
 {
     protected AgrobotGantry m_gantry;
     protected List<AgrobotAction> m_ongoingActions;
-    protected AgrobotInteractable[] m_interactables;
+    protected AgrobotInteractable[] m_allInteractables;
 
     public AgrobotBehaviour()
     {
         m_ongoingActions = new List<AgrobotAction>();
-        m_interactables = Object.FindObjectsOfType<AgrobotInteractable>();
+        m_allInteractables = Object.FindObjectsOfType<AgrobotInteractable>();
     }
 
     virtual public void Start(AgrobotGantry agrobotGantry)
@@ -25,8 +26,22 @@ abstract public class AgrobotBehaviour
     }
 
     abstract public void Update(float deltaTime);
-    //TODO add callback from equipment to notify if new valid interactables are in reach
+
     abstract public void Stop();
+
+    /// <summary>
+    /// Updates the list of interactables this behaviour is keeping track of (which should be all of them).
+    /// Also updates the interactables for the equipment. Call this when interactables have been added or removed.
+    /// </summary>
+    public void UpdateAllInteractables()
+    {
+        m_allInteractables = Object.FindObjectsOfType<AgrobotInteractable>();
+        //TODO update equipment
+        foreach (AgrobotInteractable interactable in m_allInteractables)
+        {
+            m_gantry.Equipment.InteractableModified(interactable);
+        }
+    }
 
     /// <summary>
     /// Starts an action and adds it to the list of ongoing actions. When the action is finished it is removed from the list by a callback.
@@ -38,21 +53,13 @@ abstract public class AgrobotBehaviour
     {
         if (action.TargetInteractable.Busy)
         {
+            Debug.LogWarning("tried to start an action on an interactable that was already busy");
             return false;
         }
         action.TargetInteractable.Busy = true;
         m_ongoingActions.Add(action);
         m_gantry.StartCoroutine(action.Start());
         return true;
-    }
-
-    /// <summary>
-    /// Updates the interactables this behaviour is keeping track of (which should be all of them).
-    /// Call this when interactables have been added or removed.
-    /// </summary>
-    public void UpdateInteractables(AgrobotInteractable[] interactables)
-    {
-        m_interactables = Object.FindObjectsOfType<AgrobotInteractable>();
     }
 
     /// <summary>
