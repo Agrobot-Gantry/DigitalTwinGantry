@@ -2,11 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// A simple example of an action.
+/// </summary>
 public class HarvestAction : AgrobotAction
 {
+    private AgrobotTool m_tool;
+
     public HarvestAction(AgrobotBehaviour behaviour, AgrobotInteractable target, AgrobotEquipment equipment) : base(behaviour, target, equipment)
     {
-
+        m_tool = equipment.GetTool(GetFlags());
     }
 
     public override InteractableFlag GetFlags()
@@ -16,10 +21,15 @@ public class HarvestAction : AgrobotAction
 
     public override IEnumerator Start()
     {
-        Debug.Log("started harvest");//
-
-        yield return new WaitForSeconds(1.0f);
-        Debug.Log("finishing harvest");//
+        while (Vector3.Distance(m_tool.GetToolObject().transform.position, m_targetInteractable.transform.position) > 0.1f)
+        {
+            m_tool.GetToolObject().transform.position = Vector3.MoveTowards(
+                m_tool.GetToolObject().transform.position, 
+                m_targetInteractable.transform.position, 
+                Time.deltaTime);
+            yield return null;
+        }
+        
         Finish();
         yield break;
     }

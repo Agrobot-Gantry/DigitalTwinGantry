@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Agrobot goes forward and moves harvestables as soon as it reaches them
+/// A simple example of a behaviour. Makes the gantry move forward intil it runs into something it's tools can reach.
 /// </summary>
 public class LaneFarmingBehaviour : AgrobotBehaviour
 {
@@ -20,7 +20,6 @@ public class LaneFarmingBehaviour : AgrobotBehaviour
 
     public override void Update(float deltaTime)
     {
-        //TODO add callback from equipment to notify if new valid interactables are in reach
         if (m_ongoingActions.Count == 0)
         {
             m_gantry.MovementSpeed = 1.0f; //keep driving

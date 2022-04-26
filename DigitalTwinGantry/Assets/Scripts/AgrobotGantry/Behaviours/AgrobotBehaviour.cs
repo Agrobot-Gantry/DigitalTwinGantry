@@ -25,7 +25,7 @@ abstract public class AgrobotBehaviour
     }
 
     abstract public void Update(float deltaTime);
-
+    //TODO add callback from equipment to notify if new valid interactables are in reach
     abstract public void Stop();
 
     /// <summary>
