@@ -37,12 +37,14 @@ abstract public class AgrobotAction
     abstract public IEnumerator Start();
 
     /// <summary>
-    /// Clears the flags (the ones relevant to this action) of the target interactable and tells the behaviour that this action is finished. 
-    /// Subclasses should call this function when they are finished.
+    /// Clears the flags (only the ones relevant to this action) of the target interactable and lets the equipment account for this change.
+    /// Then it tells the behaviour that this action is finished. Subclasses should call this function when the Start() coroutine is finished.
     /// </summary>
     protected void Finish()
     {
-        m_interactable.ClearFlag(GetFlags());
+        m_interactable.ClearFlag(GetFlags()); 
+        //the flag may be cleared but tools only check flags on collision so we need to update them for this specific interactable
+        m_equipment.InteractableModified(m_interactable);
         m_interactable.busy = false;//
         m_callback(this);
     }

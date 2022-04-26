@@ -40,11 +40,26 @@ public class AgrobotTool : MonoBehaviour
         {
             m_reachables.Add(interactable);
         }
+        //TODO remove interactables that are still in reach but no longer have the necessary flag
     }
 
     public void OnReachExit(AgrobotInteractable interactable)
     {
-        if (interactable.HasFlag(m_flag))
+        if (interactable.HasFlag(m_flag)) //TODO probably remove this check
+        {
+            m_reachables.Remove(interactable);
+        }
+    }
+
+    /// <summary>
+    /// Removes an interactable from the list of reachables if it does not have the appropriate flag.
+    /// This is needed because interactable flags will be removed while the interactable is still in reach,
+    /// and the tool otherwise only checks for flags when the interactable enters/exits its reach.
+    /// </summary>
+    /// <param name="interactable">the interactable that was modified</param>
+    public void InteractableModified(AgrobotInteractable interactable)
+    {
+        if (!interactable.HasFlag(m_flag))
         {
             m_reachables.Remove(interactable);
         }

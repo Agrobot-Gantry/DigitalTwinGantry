@@ -61,4 +61,17 @@ public class AgrobotEquipment
     {
         return GetTool(flag).Reachables.ToArray();
     }
+
+    /// <summary>
+    /// Notify the equipment (and all underlying tools) that a specific interactable has been modified.
+    /// </summary>
+    /// <param name="interactable">the interactable that has been modified</param>
+    public void InteractableModified(AgrobotInteractable interactable)
+    {
+        foreach (AgrobotTool tool in m_tools)
+        {
+            tool.InteractableModified(interactable);
+        }
+    }
+
 }
