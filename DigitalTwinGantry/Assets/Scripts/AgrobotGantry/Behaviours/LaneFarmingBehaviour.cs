@@ -25,14 +25,15 @@ public class LaneFarmingBehaviour : AgrobotBehaviour
             m_gantry.MovementSpeed = 1.0f; //keep driving
             if (this.m_gantry.Equipment.GetReachables().Length > 0) //check reach
             {
-                StartAction(new HarvestAction(this, this.m_gantry.Equipment.GetReachables()[0], this.m_gantry.Equipment));
+                AgrobotAction[] actions = m_gantry.Equipment.GetReachables()[0].GetActions(this, m_gantry.Equipment); //for now we just assume there's just one in reach
+                StartAction(actions[0]); //for now we just assume there's just one action
             }
         }
         else
         {
             m_gantry.MovementSpeed = 0.0f; //stop until the action is complete
         }
-        
+        //TODO stop moving if there are no valid interactables left
     }
 
     public override void Stop()

@@ -9,7 +9,7 @@ public class HarvestAction : AgrobotAction
 {
     private AgrobotTool m_tool;
 
-    public HarvestAction(AgrobotBehaviour behaviour, AgrobotInteractable target, AgrobotEquipment equipment) : base(behaviour, target, equipment)
+    public HarvestAction(AgrobotInteractable target, AgrobotBehaviour behaviour, AgrobotEquipment equipment) : base(target, behaviour, equipment)
     {
         m_tool = equipment.GetTool(GetFlags());
     }
@@ -21,6 +21,7 @@ public class HarvestAction : AgrobotAction
 
     public override IEnumerator Start()
     {
+        //don't move height axis
         while (Vector3.Distance(m_tool.GetToolObject().transform.position, m_targetInteractable.transform.position) > 0.1f)
         {
             m_tool.GetToolObject().transform.position = Vector3.MoveTowards(

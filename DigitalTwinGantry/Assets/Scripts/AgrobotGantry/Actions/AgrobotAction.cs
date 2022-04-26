@@ -13,7 +13,7 @@ abstract public class AgrobotAction
     private delegate void Callback(AgrobotAction action);
     private Callback m_callback;
 
-    public AgrobotAction(AgrobotBehaviour behaviour, AgrobotInteractable target, AgrobotEquipment equipment)
+    public AgrobotAction(AgrobotInteractable target, AgrobotBehaviour behaviour, AgrobotEquipment equipment)
     {
         m_callback = new Callback(behaviour.ActionFinished);
         m_targetInteractable = target;
