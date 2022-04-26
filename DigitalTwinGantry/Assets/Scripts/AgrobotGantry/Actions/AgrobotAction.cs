@@ -1,15 +1,13 @@
 using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 /// <summary>
 /// An action executed by the gantry targeting a single interactable. Think of harvesting a single crop for example.
 /// </summary>
 abstract public class AgrobotAction
 {
-    public AgrobotInteractable Target { get { return m_interactable; } }
+    public AgrobotInteractable TargetInteractable { get { return m_targetInteractable; } }
 
-    protected AgrobotInteractable m_interactable;
+    protected AgrobotInteractable m_targetInteractable;
     protected AgrobotEquipment m_equipment;
 
     private delegate void Callback(AgrobotAction action);
@@ -18,7 +16,7 @@ abstract public class AgrobotAction
     public AgrobotAction(AgrobotBehaviour behaviour, AgrobotInteractable target, AgrobotEquipment equipment)
     {
         m_callback = new Callback(behaviour.ActionFinished);
-        m_interactable = target;
+        m_targetInteractable = target;
         m_equipment = equipment;
     }
 
@@ -42,10 +40,10 @@ abstract public class AgrobotAction
     /// </summary>
     protected void Finish()
     {
-        m_interactable.ClearFlag(GetFlags()); 
+        m_targetInteractable.ClearFlag(GetFlags()); 
         //the flag may be cleared but tools only check flags on collision so we need to update them for this specific interactable
-        m_equipment.InteractableModified(m_interactable);
-        m_interactable.Busy = false;
+        m_equipment.InteractableModified(m_targetInteractable);
+        m_targetInteractable.Busy = false;
         m_callback(this);
     }
 }

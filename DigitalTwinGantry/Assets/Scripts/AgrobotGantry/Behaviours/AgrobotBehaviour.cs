@@ -36,11 +36,11 @@ abstract public class AgrobotBehaviour
     /// <returns>true if the action could be started</returns>
     protected bool StartAction(AgrobotAction action)
     {
-        if (action.Target.Busy)
+        if (action.TargetInteractable.Busy)
         {
             return false;
         }
-        action.Target.Busy = true;
+        action.TargetInteractable.Busy = true;
         m_ongoingActions.Add(action);
         m_gantry.StartCoroutine(action.Start());
         return true;
