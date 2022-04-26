@@ -45,7 +45,7 @@ abstract public class AgrobotAction
         m_interactable.ClearFlag(GetFlags()); 
         //the flag may be cleared but tools only check flags on collision so we need to update them for this specific interactable
         m_equipment.InteractableModified(m_interactable);
-        m_interactable.busy = false;//
+        m_interactable.Busy = false;
         m_callback(this);
     }
 }

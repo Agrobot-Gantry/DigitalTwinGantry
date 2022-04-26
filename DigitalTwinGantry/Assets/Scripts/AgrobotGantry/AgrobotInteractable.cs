@@ -4,12 +4,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Interactables can be added to a crop so that an AgrobotAction can target that crop.
+/// Interactables can be added to a GameObject so that an AgrobotAction can target it using actions.
 /// </summary>
 public class AgrobotInteractable : MonoBehaviour
 {
     [SerializeField] InteractableFlag m_flags;
-    public bool busy = false;//TODO improve busy checking
+
+    public bool Busy { get { return m_busy; } set { m_busy = value; } }
+    private bool m_busy = false;
 
     /// <summary>
     /// Creates actions targeting this interactable. The types of action is determined by the flags. 
