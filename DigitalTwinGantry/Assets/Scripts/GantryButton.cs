@@ -41,7 +41,7 @@ public class GantryButton : MonoBehaviour
 
         if (interactorY < m_startY - m_yMovement + 0.001) {
             if (m_isPressed == false) {
-                m_audio.Play();
+                m_audio?.Play();
                 m_onClick.Invoke();
             }
 

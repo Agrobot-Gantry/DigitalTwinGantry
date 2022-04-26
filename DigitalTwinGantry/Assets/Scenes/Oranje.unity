@@ -3689,7 +3689,7 @@ PrefabInstance:
       objectReference: {fileID: 8600000, guid: c39f55055b9d42f4cba6291772c8cab6, type: 2}
     - target: {fileID: 6120733930752845446, guid: 6665743a39070fc4a9461e25f6f1873a, type: 3}
       propertyPath: field of view
-      value: 0.1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 6120733930752845446, guid: 6665743a39070fc4a9461e25f6f1873a, type: 3}
       propertyPath: m_TargetTexture

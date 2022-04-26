@@ -72,7 +72,7 @@ public class SliderMeter : MonoBehaviour
         Debug.Log(m_currentSection);
 
         if (previousSection != m_currentSection) {
-            m_audio.Play();
+            m_audio?.Play();
             m_onSelectionChanged.Invoke(CurrentSection);
         }
     }

@@ -129,6 +129,9 @@ MonoBehaviour:
   m_interactorTag: Player
   m_yMovement: 0.02
   m_audio: {fileID: 6521910008741435502}
+  m_onClick:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!82 &6521910008741435502
 AudioSource:
   m_ObjectHideFlags: 0
@@ -139,7 +142,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 41204675ff2e12043b892e8f671541eb, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 98e759dfda69aa7468d95f5a2c88e366, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
