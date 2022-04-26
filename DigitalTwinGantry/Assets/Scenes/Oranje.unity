@@ -2930,67 +2930,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!1001 &1155620237
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4562865803389756422, guid: 835be4b0e9d0f4843a49e6d137aa7628, type: 3}
-      propertyPath: m_Name
-      value: Doll
-      objectReference: {fileID: 0}
-    - target: {fileID: 4562865803389756423, guid: 835be4b0e9d0f4843a49e6d137aa7628, type: 3}
-      propertyPath: m_RootOrder
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 4562865803389756423, guid: 835be4b0e9d0f4843a49e6d137aa7628, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.35997075
-      objectReference: {fileID: 0}
-    - target: {fileID: 4562865803389756423, guid: 835be4b0e9d0f4843a49e6d137aa7628, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.8477818
-      objectReference: {fileID: 0}
-    - target: {fileID: 4562865803389756423, guid: 835be4b0e9d0f4843a49e6d137aa7628, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0.55776274
-      objectReference: {fileID: 0}
-    - target: {fileID: 4562865803389756423, guid: 835be4b0e9d0f4843a49e6d137aa7628, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.0000030398364
-      objectReference: {fileID: 0}
-    - target: {fileID: 4562865803389756423, guid: 835be4b0e9d0f4843a49e6d137aa7628, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4562865803389756423, guid: 835be4b0e9d0f4843a49e6d137aa7628, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4562865803389756423, guid: 835be4b0e9d0f4843a49e6d137aa7628, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4562865803389756423, guid: 835be4b0e9d0f4843a49e6d137aa7628, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4562865803389756423, guid: 835be4b0e9d0f4843a49e6d137aa7628, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: -180
-      objectReference: {fileID: 0}
-    - target: {fileID: 4562865803389756423, guid: 835be4b0e9d0f4843a49e6d137aa7628, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4562865803523772800, guid: 835be4b0e9d0f4843a49e6d137aa7628, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 835be4b0e9d0f4843a49e6d137aa7628, type: 3}
 --- !u!1001 &1230740626
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3708,7 +3647,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2222610482071819587, guid: 81101096d39503b4aa34c9635337de10, type: 3}
       propertyPath: m_RootOrder
-      value: 11
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 2222610482071819587, guid: 81101096d39503b4aa34c9635337de10, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3765,7 +3704,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3829115987798259146, guid: 721b3866a8636b04babc26c69aea8266, type: 3}
       propertyPath: m_RootOrder
-      value: 10
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 3829115987798259146, guid: 721b3866a8636b04babc26c69aea8266, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3826,7 +3765,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6521910009101183115, guid: 58587c477c15ded4eafdefd312dd4bb6, type: 3}
       propertyPath: m_RootOrder
-      value: 12
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 6521910009101183115, guid: 58587c477c15ded4eafdefd312dd4bb6, type: 3}
       propertyPath: m_LocalPosition.x

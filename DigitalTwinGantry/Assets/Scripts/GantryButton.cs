@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class GantryButton : MonoBehaviour
 {
     [SerializeField] private string m_interactorTag;
     [SerializeField] private float m_yMovement;
     [SerializeField] private AudioSource m_audio;
+    [SerializeField] private UnityEvent m_onClick;
 
     private bool m_isPressed = false;
 
@@ -40,6 +42,7 @@ public class GantryButton : MonoBehaviour
         if (interactorY < m_startY - m_yMovement + 0.001) {
             if (m_isPressed == false) {
                 m_audio.Play();
+                m_onClick.Invoke();
             }
 
             m_isPressed = true;

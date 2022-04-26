@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using Oculus.Interaction;
 
 public class SliderMeter : MonoBehaviour
@@ -10,6 +11,7 @@ public class SliderMeter : MonoBehaviour
     [SerializeField] private OneGrabTranslateTransformer m_transformer;
     [SerializeField] private int m_totalSelections;
     [SerializeField] private AudioSource m_audio;
+    [SerializeField] private UnityEvent<int> m_onSelectionChanged;
 
     private float[] m_sections;
 
@@ -69,6 +71,7 @@ public class SliderMeter : MonoBehaviour
 
         if (previousSection != m_currentSection) {
             m_audio.Play();
+            m_onSelectionChanged.Invoke(CurrentSection);
         }
     }
 

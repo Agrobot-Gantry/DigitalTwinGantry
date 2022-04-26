@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using Oculus.Interaction;
 
 public class LeverMeter : MonoBehaviour
@@ -8,6 +9,7 @@ public class LeverMeter : MonoBehaviour
     [SerializeField] private Grabbable m_grabbable;
     [SerializeField] private OneGrabRotateTransformer m_transformer;
     [SerializeField] private OneGrabRotateTransformer.Axis m_axis;
+    [SerializeField] private UnityEvent<float> m_onUpdate;
 
     private float m_value;
     public float Value { get => m_value; }
@@ -46,6 +48,8 @@ public class LeverMeter : MonoBehaviour
             }
 
             m_value = Remap(rot, m_transformer.Constraints.MinAngle.Value, m_transformer.Constraints.MaxAngle.Value, 0, 1);
+
+            m_onUpdate.Invoke(Value);
         }
     }
 
