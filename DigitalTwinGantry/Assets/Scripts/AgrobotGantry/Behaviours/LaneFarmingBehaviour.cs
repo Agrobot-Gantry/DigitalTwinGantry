@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Agrobot goes forward and moves harvestables as soon as it reaches them
+/// </summary>
 public class LaneFarmingBehaviour : AgrobotBehaviour
 {
     public LaneFarmingBehaviour() : base()
@@ -21,7 +24,10 @@ public class LaneFarmingBehaviour : AgrobotBehaviour
         base.Update(deltaTime);
         if (this.m_gantry.Equipment.GetReachables().Length > 0)
         {
-
+            //stop and start action
+            //continue driving when all have finished
+            m_gantry.MovementSpeed = 0.0f;
+            StartAction(new HarvestAction(this, this.m_gantry.Equipment.GetReachables()[0], this.m_gantry.Equipment));
         }
     }
 

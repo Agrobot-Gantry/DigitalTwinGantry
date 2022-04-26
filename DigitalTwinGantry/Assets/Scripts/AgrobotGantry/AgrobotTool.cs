@@ -7,6 +7,7 @@ using UnityEngine.Assertions;
 /// The reach of the tool is defined by the collider of the ToolReach object.
 /// The tool itself (visuals and animation) is the tool parameter in the editor.
 /// The flag parameter defines which type of interactable this tool can interact with.
+/// Each tool keeps a list of all interactables (with the right flag) that it can reach.
 /// </summary>
 public class AgrobotTool : MonoBehaviour
 {

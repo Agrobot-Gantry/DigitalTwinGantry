@@ -35,11 +35,21 @@ abstract public class AgrobotBehaviour
 
     /// <summary>
     /// Starts an action and adds it to the list of ongoing actions. When the action is finished it is removed from the list by a callback.
+    /// Actions on interactables that already have an ongoing action targeting them get ignored and cause the method to return false.
     /// </summary>
     /// <param name="action">the AgrobotAction to start</param>
-    protected void StartAction(AgrobotAction action)
+    /// <returns>true if the action could be started</returns>
+    protected bool StartAction(AgrobotAction action)
     {
+        if (action.Target.busy)
+        {
+            Debug.Log("TARGET IS STILL BUSY");//
+            return false;
+        }
+        action.Target.busy = true;//
         m_ongoingActions.Add(action);
+        action.Start();
+        return true;
     }
 
     /// <summary>

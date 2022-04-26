@@ -2,17 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HarvestAction : MonoBehaviour
+public class HarvestAction : AgrobotAction
 {
-    // Start is called before the first frame update
-    void Start()
+    public HarvestAction(AgrobotBehaviour behaviour, AgrobotInteractable target, AgrobotEquipment equipment) : base(behaviour, target, equipment)
     {
-        
+
     }
 
-    // Update is called once per frame
-    void Update()
+    public override InteractableFlag GetFlags()
     {
-        
+        return InteractableFlag.HARVEST;
+    }
+
+    public override void Start()
+    {
+        //m_interactable.busy = true;
+        Debug.Log("started harvest");//
+    }
+
+    public override void Update(float deltaTime)
+    {
+        Debug.Log("updated harvest");//
+        Finish();
     }
 }

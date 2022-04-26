@@ -7,11 +7,13 @@ using UnityEngine;
 /// </summary>
 abstract public class AgrobotAction
 {
-    private delegate void Callback(AgrobotAction action);
-    private Callback m_callback;
+    public AgrobotInteractable Target { get { return m_interactable; } }
 
     protected AgrobotInteractable m_interactable;
     protected AgrobotEquipment m_equipment;
+
+    private delegate void Callback(AgrobotAction action);
+    private Callback m_callback;
 
     public AgrobotAction(AgrobotBehaviour behaviour, AgrobotInteractable target, AgrobotEquipment equipment)
     {
@@ -20,15 +22,15 @@ abstract public class AgrobotAction
         m_equipment = equipment;
     }
 
-    abstract public void Start();
-
-    abstract public void Update(float deltaTime);
-
     /// <summary>
     /// Returns the flags that are relevant tot this action. These flags will be cleared from the target interactable when this action finishes.
     /// </summary>
     /// <returns>the flags that should be cleared when this action finishes</returns>
     abstract public InteractableFlag GetFlags();
+
+    abstract public void Start();
+
+    abstract public void Update(float deltaTime);
 
     /// <summary>
     /// Clears the flags (the ones relevant to this action) of the target interactable and tells the behaviour that this action is finished. 
@@ -37,6 +39,7 @@ abstract public class AgrobotAction
     protected void Finish()
     {
         m_interactable.ClearFlag(GetFlags());
+        m_interactable.busy = false;//
         m_callback(this);
     }
 }
