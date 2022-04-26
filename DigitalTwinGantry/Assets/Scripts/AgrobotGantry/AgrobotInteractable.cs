@@ -9,7 +9,7 @@ using UnityEngine;
 public class AgrobotInteractable : MonoBehaviour
 {
     [SerializeField] InteractableFlag m_flags;
-    public bool busy = false;//
+    public bool busy = false;//TODO improve busy checking
 
     /// <summary>
     /// Creates actions targeting this interactable. The types of action is determined by the flags. 

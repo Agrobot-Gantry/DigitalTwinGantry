@@ -14,15 +14,14 @@ public class HarvestAction : AgrobotAction
         return InteractableFlag.HARVEST;
     }
 
-    public override void Start()
+    public override IEnumerator Start()
     {
-        //m_interactable.busy = true;
         Debug.Log("started harvest");//
+
+        yield return new WaitForSeconds(1.0f);
+        Debug.Log("finishing harvest");//
+        Finish();
+        yield break;
     }
 
-    public override void Update(float deltaTime)
-    {
-        Debug.Log("updated harvest");//
-        Finish();
-    }
 }

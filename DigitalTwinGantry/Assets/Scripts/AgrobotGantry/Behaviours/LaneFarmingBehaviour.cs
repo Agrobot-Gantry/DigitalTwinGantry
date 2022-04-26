@@ -21,7 +21,6 @@ public class LaneFarmingBehaviour : AgrobotBehaviour
 
     public override void Update(float deltaTime)
     {
-        base.Update(deltaTime);
         if (this.m_gantry.Equipment.GetReachables().Length > 0)
         {
             //stop and start action

@@ -24,12 +24,7 @@ abstract public class AgrobotBehaviour
         m_gantry = agrobotGantry;
     }
 
-    virtual public void Update(float deltaTime)
-    {
-        foreach(AgrobotAction action in m_ongoingActions) {
-            action.Update(deltaTime);
-        }
-    }
+    abstract public void Update(float deltaTime);
 
     abstract public void Stop();
 
@@ -43,13 +38,13 @@ abstract public class AgrobotBehaviour
     {
         if (action.Target.busy)
         {
-            Debug.Log("TARGET IS STILL BUSY");//
+            //Debug.Log("TARGET IS STILL BUSY");//
             return false;
         }
         action.Target.busy = true;//
         m_ongoingActions.Add(action);
-        action.Start();
-        return true;
+        m_gantry.StartCoroutine(action.Start());
+        return true; //TODO redo documentation
     }
 
     /// <summary>
