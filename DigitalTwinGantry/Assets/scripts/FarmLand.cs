@@ -38,7 +38,7 @@ public class FarmLand : MonoBehaviour
     }
     private void Start()
     {
-        setCells();
+        setCells(2);
     }
 
     // Update is called once per frame
@@ -47,17 +47,17 @@ public class FarmLand : MonoBehaviour
         if(farmingType != prevFarmingType)
         {
             prevFarmingType = farmingType;
-            setCells();
+            //setCells();
         }
     }
 
     //give slider to this function for the switch
-    private void setCells()
+    public void setCells(int farming)
     {
-       
-        switch (farmingType){
+        activeLand = gameObject.transform.GetChild(farming).gameObject;
+        /*switch (farming){
             case FarmingType.Mono:
-                activeLand = gameObject.transform.GetChild(0).gameObject;
+                
                 break;
             case FarmingType.Strips:
                 activeLand = gameObject.transform.GetChild(1).gameObject;
@@ -65,7 +65,7 @@ public class FarmLand : MonoBehaviour
             case FarmingType.Pixel:
                 activeLand = gameObject.transform.GetChild(2).gameObject;
                 break;
-        }
+        }*/
         foreach (GameObject land in farmTypes)
         {
             if (land == activeLand) land.SetActive(true);
