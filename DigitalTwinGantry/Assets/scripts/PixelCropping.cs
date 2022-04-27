@@ -6,6 +6,7 @@ public class PixelCropping : MonoBehaviour
 {
     private float farmWidth;
     private float pathWidth;
+    [SerializeField] private GameObject land;
     public void setWidth(float farmWidth, float pathWidth)
     {
         this.farmWidth = farmWidth;
@@ -24,15 +25,13 @@ public class PixelCropping : MonoBehaviour
         {
             for (float j = scaleFactorPosZ * -10 / 2; j < scaleFactorPosZ * 10 / 2; j += (farmWidth + pathWidth) * scaleFactorPosZ)
             {
-                CropInteraction cropInteraction = new CropInteraction();
-                GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                GameObject cube = Instantiate(land);
                 cube.transform.localScale = new Vector3(farmWidth - pathWidth, 1, farmWidth - pathWidth);
-                cube.transform.position = new Vector3(i + offset, ground.position.y, ground.position.z + j + offset);
+                cube.transform.position = new Vector3(ground.position.x + i + offset, ground.position.y, ground.position.z + j + offset);
                 if (k==0) cube.GetComponent<Renderer>().material.color = Color.black;
                 else cube.GetComponent<Renderer>().material.color = Color.blue;
                 k++;
                 cube.transform.parent = this.gameObject.transform;
-                cropInteraction.addInteraction(cube);
                 
             }
         }

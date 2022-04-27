@@ -16,6 +16,7 @@ public class FarmLand : MonoBehaviour
     private GameObject activeLand;
     [SerializeField]private float landWidth = 4.0f;
     [SerializeField]private float pathWidth = 0.2f;
+    [SerializeField] private GameObject crop;
 
     public void setWidth(float widthGantry, float widthWheels)
     {
@@ -33,6 +34,10 @@ public class FarmLand : MonoBehaviour
         PixelCropping pc = farmTypes[2].GetComponent<PixelCropping>();
         sc.setWidth(landWidth, pathWidth);
         pc.setWidth(landWidth, pathWidth);
+        
+    }
+    private void Start()
+    {
         setCells();
     }
 

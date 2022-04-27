@@ -762,6 +762,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a77cae2873b431745b19cd9b03c0e707, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  land: {fileID: 7674045355294008642, guid: ce94a3ee22e9d39418dfb8ddbe86ab12, type: 3}
 --- !u!1 &771195631
 GameObject:
   m_ObjectHideFlags: 0
@@ -874,6 +875,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9281e455c2c0394bbe49094076fb4f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  land: {fileID: 7674045355294008642, guid: ce94a3ee22e9d39418dfb8ddbe86ab12, type: 3}
 --- !u!1 &1029329700
 GameObject:
   m_ObjectHideFlags: 0
@@ -947,6 +949,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e344767f1ca75324585451cc2600fe5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  land: {fileID: 7674045355294008642, guid: ce94a3ee22e9d39418dfb8ddbe86ab12, type: 3}
 --- !u!1 &1243528316
 GameObject:
   m_ObjectHideFlags: 0
@@ -1044,7 +1047,7 @@ Transform:
   - {fileID: 531879933}
   - {fileID: 1755066208}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1295286048
 GameObject:
@@ -1186,6 +1189,63 @@ MonoBehaviour:
   _stepBackTime: 0.08
   _maxPercentZeroSamplesTrendVeloc: 0.5
   _linearVelocityScaleModifier: 0.8
+--- !u!1001 &1560983820
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3119885546648364450, guid: 5ee66826a45982545836570c77dd2f34, type: 3}
+      propertyPath: m_Name
+      value: AgrobotGantry
+      objectReference: {fileID: 0}
+    - target: {fileID: 8026312815964508148, guid: 5ee66826a45982545836570c77dd2f34, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8026312815964508148, guid: 5ee66826a45982545836570c77dd2f34, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -3.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8026312815964508148, guid: 5ee66826a45982545836570c77dd2f34, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8026312815964508148, guid: 5ee66826a45982545836570c77dd2f34, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 2.59
+      objectReference: {fileID: 0}
+    - target: {fileID: 8026312815964508148, guid: 5ee66826a45982545836570c77dd2f34, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8026312815964508148, guid: 5ee66826a45982545836570c77dd2f34, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8026312815964508148, guid: 5ee66826a45982545836570c77dd2f34, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8026312815964508148, guid: 5ee66826a45982545836570c77dd2f34, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8026312815964508148, guid: 5ee66826a45982545836570c77dd2f34, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8026312815964508148, guid: 5ee66826a45982545836570c77dd2f34, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8026312815964508148, guid: 5ee66826a45982545836570c77dd2f34, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 5ee66826a45982545836570c77dd2f34, type: 3}
 --- !u!1 &1713350632
 GameObject:
   m_ObjectHideFlags: 0
@@ -1373,9 +1433,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d366ff52c38edd94dbfab04aa0ce52dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  farmingType: 2
+  farmingType: 1
   landWidth: 5
   pathWidth: 0.5
+  crop: {fileID: 0}
 --- !u!64 &1834737805
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -1454,7 +1515,7 @@ Transform:
   - {fileID: 887793417}
   - {fileID: 1171116722}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1902041015
 PrefabInstance:

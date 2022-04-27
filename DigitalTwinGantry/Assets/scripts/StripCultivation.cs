@@ -6,6 +6,7 @@ public class StripCultivation : MonoBehaviour
 {
     private float farmWidth;
     private float pathWidth;
+    [SerializeField] private GameObject land;
 
     public void setWidth(float farmWidth, float pathWidth)
     {
@@ -21,13 +22,11 @@ public class StripCultivation : MonoBehaviour
         float offset = (farmWidth + pathWidth) / 2;
         for (float i = scaleFactorPos*-10/2; i <= scaleFactorPos*10/2; i += (farmWidth + pathWidth)*scaleFactorPos)
         {
-            CropInteraction cropInteraction = new CropInteraction();
-            GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            GameObject cube = Instantiate(land);
             cube.transform.localScale = new Vector3(farmWidth - pathWidth, 1, grandParent.localScale.z*scaleFactor);
-            cube.transform.position = new Vector3(i + offset, ground.position.y, ground.position.z);
+            cube.transform.position = new Vector3(ground.position.x + i + offset, ground.position.y, ground.position.z);
             cube.GetComponent<Renderer>().material.color = Color.green;
             cube.transform.parent = this.gameObject.transform;
-            cropInteraction.addInteraction(cube);
         }
     }
 }
