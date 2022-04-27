@@ -16,15 +16,18 @@ public class StripCultivation : MonoBehaviour
     {
         Transform grandParent = gameObject.transform.root;
         float scaleFactorPos = grandParent.localScale.x;
-        int scaleFactor = 2; //from plane is exactly 10 times lager then cube. change if needed with model scale factor
+        int scaleFactor = 10; //The plane is exactly 10 times lager then the cube. change if needed with model scale factor
         Transform ground = gameObject.transform.parent;
+        float offset = (farmWidth + pathWidth) / 2;
         for (float i = scaleFactorPos*-10/2; i <= scaleFactorPos*10/2; i += (farmWidth + pathWidth)*scaleFactorPos)
         {
+            CropInteraction cropInteraction = new CropInteraction();
             GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            cube.transform.parent = this.gameObject.transform;
-            cube.transform.localScale = new Vector3(farmWidth - pathWidth, 1, ground.localScale.z*scaleFactor);
-            cube.transform.position = new Vector3(i, ground.position.y, ground.position.z);
+            cube.transform.localScale = new Vector3(farmWidth - pathWidth, 1, grandParent.localScale.z*scaleFactor);
+            cube.transform.position = new Vector3(i + offset, ground.position.y, ground.position.z);
             cube.GetComponent<Renderer>().material.color = Color.green;
+            cube.transform.parent = this.gameObject.transform;
+            cropInteraction.addInteraction(cube);
         }
     }
 }
