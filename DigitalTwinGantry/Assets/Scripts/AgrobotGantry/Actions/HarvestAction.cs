@@ -29,7 +29,8 @@ public class HarvestAction : AgrobotAction
                 Time.deltaTime);
             yield return null;
         }
-        
+
+        m_targetInteractable.gameObject.SetActive(false);
         Finish();
         yield break;
     }

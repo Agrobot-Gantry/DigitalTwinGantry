@@ -105,6 +105,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8026312815964508148}
   - component: {fileID: 329504548137172329}
+  - component: {fileID: 4693249330679280201}
+  - component: {fileID: 459802136821148171}
   m_Layer: 0
   m_Name: AgrobotGantry
   m_TagString: Untagged
@@ -142,6 +144,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_tools:
   - {fileID: 1320649008014511958}
+--- !u!54 &4693249330679280201
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3119885546648364450}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!135 &459802136821148171
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3119885546648364450}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &1904127492516112524
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -196,6 +227,10 @@ PrefabInstance:
     - target: {fileID: 6205463523216507025, guid: 97fc4bfc401d80d46b523fa1b2a15bf3, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6449430150138290600, guid: 97fc4bfc401d80d46b523fa1b2a15bf3, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 97fc4bfc401d80d46b523fa1b2a15bf3, type: 3}
