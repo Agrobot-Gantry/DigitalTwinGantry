@@ -188,7 +188,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2222610482239006616, guid: 81101096d39503b4aa34c9635337de10, type: 3}
       propertyPath: m_onSelectionChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2222610482239006616, guid: 81101096d39503b4aa34c9635337de10, type: 3}
       propertyPath: m_onSelectionChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -1222,7 +1222,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8026312815964508148, guid: 5ee66826a45982545836570c77dd2f34, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.1
+      value: -3.54
       objectReference: {fileID: 0}
     - target: {fileID: 8026312815964508148, guid: 5ee66826a45982545836570c77dd2f34, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1450,7 +1450,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   farmingType: 1
-  landWidth: 5
+  landWidth: 2
   pathWidth: 0.5
   crop: {fileID: 0}
 --- !u!64 &1834737805
