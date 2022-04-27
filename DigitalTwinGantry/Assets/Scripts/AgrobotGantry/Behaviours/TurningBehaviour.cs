@@ -35,7 +35,6 @@ public class TurningBehaviour : AgrobotBehaviour
 
     public override void Update(float deltaTime)
     {
-        Debug.Log(CompareAngle(m_startRotation, m_gantry.transform.rotation.eulerAngles.y));
         if (CompareAngle(m_startRotation, m_gantry.transform.rotation.eulerAngles.y) >= m_rotation1 - m_rotationMargin)
         {
             if (step == 0)
