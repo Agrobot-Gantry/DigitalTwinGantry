@@ -69,7 +69,7 @@ public class SliderMeter : MonoBehaviour
             }
         }
 
-        Debug.Log(m_currentSection);
+        // Debug.Log(m_currentSection);
 
         if (previousSection != m_currentSection) {
             m_audio?.Play();
