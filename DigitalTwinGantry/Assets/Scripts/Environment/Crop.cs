@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class Crop : MonoBehaviour
 {
-	[SerializeField]
-	private TimePeriod[] m_timePeriods;
+	public const int TIME_PERIOD_COUNT = 12;
+
+	[SerializeField] private TimePeriod[] m_timePeriods;
 
 	private delegate void OnHarvestCallback(Crop crop);
 	private OnHarvestCallback m_callback;
@@ -33,6 +34,10 @@ public class Crop : MonoBehaviour
 	public void OnInteract(AgrobotAction action)
 	{
 		//TODO
+		if (action.GetFlags().HasFlag(InteractableFlag.SOW))
+		{
+			//TODO change model to the first visible stage
+		}
 		if (action.GetFlags().HasFlag(InteractableFlag.HARVEST))
 		{
 			m_callback(this);
@@ -43,5 +48,14 @@ public class Crop : MonoBehaviour
 	{
 		//TODO
 		return 0;
+	}
+
+	void OnValidate()
+	{
+		if (m_timePeriods.Length != TIME_PERIOD_COUNT)
+		{
+			Debug.LogWarning("Each crop must have exactly " + TIME_PERIOD_COUNT + " time periods!");
+			System.Array.Resize(ref m_timePeriods, TIME_PERIOD_COUNT);
+		}
 	}
 }

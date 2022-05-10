@@ -49,8 +49,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_timePeriods:
-  - InteractableFlags: 0
-    Model: {fileID: 0}
+  - Model: {fileID: 0}
+    InteractableFlags: 0
+  - Model: {fileID: 0}
+    InteractableFlags: 0
+  - Model: {fileID: 0}
+    InteractableFlags: 0
+  - Model: {fileID: 0}
+    InteractableFlags: 0
+  - Model: {fileID: 0}
+    InteractableFlags: 0
+  - Model: {fileID: 0}
+    InteractableFlags: 0
+  - Model: {fileID: 0}
+    InteractableFlags: 0
+  - Model: {fileID: 0}
+    InteractableFlags: 0
+  - Model: {fileID: 0}
+    InteractableFlags: 0
+  - Model: {fileID: 0}
+    InteractableFlags: 0
+  - Model: {fileID: 0}
+    InteractableFlags: 0
+  - Model: {fileID: 0}
+    InteractableFlags: 0
 --- !u!1 &5836443647384666553
 GameObject:
   m_ObjectHideFlags: 0
