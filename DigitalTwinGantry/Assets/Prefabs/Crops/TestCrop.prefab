@@ -110,6 +110,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_flags: 1
+  m_callback:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!54 &4792575290010097737
 Rigidbody:
   m_ObjectHideFlags: 0

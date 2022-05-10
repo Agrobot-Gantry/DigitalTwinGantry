@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 /// <summary>
 /// Interactables can be added to a GameObject so that an AgrobotAction can target it using actions.
@@ -10,6 +11,7 @@ using UnityEngine;
 public class AgrobotInteractable : MonoBehaviour
 {
     [SerializeField] InteractableFlag m_flags;
+    [SerializeField] private UnityEvent<AgrobotAction> m_callback;
 
     /// <summary>
     /// Used by actions to indicate if an interactable is already being used.
@@ -47,6 +49,14 @@ public class AgrobotInteractable : MonoBehaviour
         }
         return actions;
     }
+
+    public void OnInteract(AgrobotAction action)
+	{
+        if (m_callback != null)
+		{
+            m_callback.Invoke(action);
+		}
+	}
 
     public bool HasFlag(InteractableFlag flag)
     {
