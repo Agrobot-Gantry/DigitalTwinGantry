@@ -6,7 +6,7 @@ using UnityEngine;
 public class BlackOut : MonoBehaviour
 {
     [SerializeField] private string[] m_ignoreTags;
-    [SerializeField] private Shader m_effect;
+    // [SerializeField] private Shader m_effect;
     [SerializeField, Range(0, 1)] private float m_completeBlack;
     [SerializeField] private float m_fadeMultiplier;
 
@@ -19,7 +19,8 @@ public class BlackOut : MonoBehaviour
     private void Start() {
         m_inCollider = new List<Collider>();
 
-        m_material = new Material(m_effect);
+        // m_material = new Material(m_effect);
+        m_material = GetComponent<Renderer>().material;
         m_collider = GetComponent<SphereCollider>();
         m_fadeDistance = m_collider.radius;
     }
@@ -62,7 +63,7 @@ public class BlackOut : MonoBehaviour
             blackness = 1;
         }
 
-        m_material.SetFloat("_Blackness", blackness);
+        m_material.SetFloat("_Transparency", blackness);
     }
 
     private void OnRenderImage(RenderTexture src, RenderTexture dest) {
