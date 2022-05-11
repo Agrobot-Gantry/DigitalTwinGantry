@@ -21,7 +21,7 @@ public class Crop : MonoBehaviour
 
 	public void Initialize(CropField cropField, int timePeriodOffset)
 	{
-		m_callback = new OnHarvestCallback(cropField.OnCropHarvested);
+		// m_callback = new OnHarvestCallback(cropField.OnChunkEmpty);
 		m_timePeriodOffset = timePeriodOffset;
 	}
 
