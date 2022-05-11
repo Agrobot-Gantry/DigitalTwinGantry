@@ -30,6 +30,7 @@ public class Crop : MonoBehaviour
 	{
 		m_callback = new OnHarvestCallback(cropField.OnCropHarvested);
 		m_timePeriodOffset = timePeriodOffset;
+		m_currentTimePeriod = m_timePeriods[0];
 
 		foreach (TimePeriod timePeriod in m_timePeriods)
 		{
