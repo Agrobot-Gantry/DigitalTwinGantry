@@ -31,7 +31,7 @@ public class Crop : MonoBehaviour
 
 	public void Initialize(CropField cropField, int timePeriodOffset)
 	{
-		m_harvestCallback = new OnHarvestCallback(cropField.OnCropHarvested);
+		// m_callback = new OnHarvestCallback(cropField.OnChunkEmpty);
 		m_timePeriodOffset = timePeriodOffset;
 		m_currentTimePeriod = m_timePeriods[0];
 
