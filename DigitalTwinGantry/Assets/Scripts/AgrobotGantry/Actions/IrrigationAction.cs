@@ -27,7 +27,6 @@ public class IrrigationAction : AgrobotAction
 			yield return null;
 		}
 
-		m_targetInteractable.gameObject.SetActive(true);
 		Finish();
 		yield break;
 	}

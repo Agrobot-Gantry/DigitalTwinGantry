@@ -30,9 +30,7 @@ public class HarvestAction : AgrobotAction
 			yield return null;
 		}
 
-		m_targetInteractable.gameObject.SetActive(false);
 		Finish();
 		yield break;
 	}
-
 }
