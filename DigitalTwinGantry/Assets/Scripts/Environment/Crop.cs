@@ -5,8 +5,12 @@ using UnityEngine;
 
 public class Crop : MonoBehaviour
 {
+	/// <summary>
+	/// The amount of time periods that every croptype has.
+	/// </summary>
 	public const int TIME_PERIOD_COUNT = 12;
 
+	[SerializeField] private GameObject m_postSowingModel;
 	[SerializeField] private TimePeriod[] m_timePeriods;
 
 	private delegate void OnHarvestCallback(Crop crop);
@@ -44,11 +48,13 @@ public class Crop : MonoBehaviour
 
 	public void OnInteract(AgrobotAction action)
 	{
-		//TODO
 		if (action.GetFlags().HasFlag(InteractableFlag.SOW))
 		{
-			//TODO change model to the first visible stage
+			//change to the model of a recently sown crop
+			m_currentTimePeriod.Model.SetActive(false);
+			m_postSowingModel.SetActive(true);
 		}
+
 		if (action.GetFlags().HasFlag(InteractableFlag.HARVEST))
 		{
 			m_callback(this);
@@ -86,7 +92,7 @@ public class Crop : MonoBehaviour
 		return nearestIndex;
 	}
 
-	/// <returns>the distance between two timeperiods</returns>
+	/// <returns>the difference between two timeperiods</returns>
 	private int DistanceBetween(int timePeriod1, int timePeriod2)
 	{
 		int difference = Math.Abs(timePeriod1 - timePeriod2);
