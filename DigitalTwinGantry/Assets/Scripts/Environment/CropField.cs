@@ -99,7 +99,7 @@ public class CropField : MonoBehaviour
 			for (int z = 0; z < m_yChunks; z++)
 			{
 				GameObject chunkObject = Instantiate(m_chunk, new Vector3(m_field.bounds.min.x, transform.position.y, m_field.bounds.min.z) + 
-					new Vector3(x * chunkWidth + (chunkWidth * 0.5f), 0, z * chunkHeight + (chunkHeight * 0.5f)), Quaternion.Euler(0, 0, 0));
+					new Vector3(x * chunkWidth, 0, z * chunkHeight), Quaternion.Euler(0, 0, 0));
 
 				CropChunk chunk = chunkObject.GetComponent<CropChunk>();
 				chunk.Init(m_cropTypes[Random.Range(0, m_cropTypes.Length)], new Vector2(chunkWidth, chunkHeight));
