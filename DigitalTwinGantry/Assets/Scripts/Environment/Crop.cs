@@ -3,6 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// A crop has a gameobject (appearance) and interactableflags defined for each time period.
+/// </summary>
 public class Crop : MonoBehaviour
 {
 	/// <summary>
@@ -15,7 +18,7 @@ public class Crop : MonoBehaviour
 	[SerializeField] private TimePeriod[] m_timePeriods;
 
 	private delegate void OnHarvestCallback(Crop crop);
-	private OnHarvestCallback m_callback;
+	private OnHarvestCallback m_harvestCallback;
 	private TimePeriod m_currentTimePeriod;
 	private int m_timePeriodOffset; //chunks might decide to grow a crop a little earlier or later after the previous was harvested
 
@@ -28,7 +31,7 @@ public class Crop : MonoBehaviour
 
 	public void Initialize(CropField cropField, int timePeriodOffset)
 	{
-		m_callback = new OnHarvestCallback(cropField.OnCropHarvested);
+		m_harvestCallback = new OnHarvestCallback(cropField.OnCropHarvested);
 		m_timePeriodOffset = timePeriodOffset;
 		m_currentTimePeriod = m_timePeriods[0];
 
@@ -59,7 +62,7 @@ public class Crop : MonoBehaviour
 		if (action.GetFlags().HasFlag(InteractableFlag.HARVEST))
 		{
 			m_currentTimePeriod.Model.SetActive(false);
-			m_callback(this);
+			m_harvestCallback(this);
 		}
 	}
 
@@ -109,8 +112,8 @@ public class Crop : MonoBehaviour
 	{
 		if (m_timePeriods.Length != TIME_PERIOD_COUNT)
 		{
-			Debug.LogError("Each crop must have exactly " + TIME_PERIOD_COUNT + " time periods!");
-			System.Array.Resize(ref m_timePeriods, TIME_PERIOD_COUNT);
+			Debug.LogWarning("Each crop must have exactly " + TIME_PERIOD_COUNT + " time periods!");
+			Array.Resize(ref m_timePeriods, TIME_PERIOD_COUNT);
 		}
 	}
 }
