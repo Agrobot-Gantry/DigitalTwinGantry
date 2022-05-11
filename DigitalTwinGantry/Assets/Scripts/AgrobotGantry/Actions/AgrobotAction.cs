@@ -1,4 +1,5 @@
 using System.Collections;
+using UnityEngine;
 
 /// <summary>
 /// An action executed by the gantry targeting a single interactable. Think of harvesting a single crop for example.
