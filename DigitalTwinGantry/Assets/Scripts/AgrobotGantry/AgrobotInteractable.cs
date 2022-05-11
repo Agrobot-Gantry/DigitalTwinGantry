@@ -25,13 +25,13 @@ public class AgrobotInteractable : MonoBehaviour
 	/// Actions should manipulate this object and not the interactable itself, because it may be used as a hitbox for a parent object.
 	/// The interactable will return its own GameObject if none is set in the editor.
 	/// </summary>
-	public GameObject InteractableObject {
-		get {
-			if (m_interactableObject != null)
-			{
-				return m_interactableObject;
-			}
-			return this.gameObject;
+	public GameObject InteractableObject { get { return m_interactableObject; } }
+
+	void Start()
+	{
+		if (m_interactableObject == null)
+		{
+			m_interactableObject = this.gameObject;
 		}
 	}
 
