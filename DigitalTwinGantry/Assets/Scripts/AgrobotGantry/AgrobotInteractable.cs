@@ -35,15 +35,18 @@ public class AgrobotInteractable : MonoBehaviour
         }
         if (this.HasFlag(InteractableFlag.SOW))
         {
-            throw new NotImplementedException("No AgrobotAction has been implemented for this flag!");
+            actions[index] = new SowAction(this, behaviour, equipment);
+            index++;
         }
         if (this.HasFlag(InteractableFlag.WATER))
         {
-            throw new NotImplementedException("No AgrobotAction has been implemented for this flag!");
+            actions[index] = new IrrigationAction(this, behaviour, equipment);
+            index++;
         }
         if (this.HasFlag(InteractableFlag.UPROOT))
         {
-            throw new NotImplementedException("No AgrobotAction has been implemented for this flag!");
+            actions[index] = new UprootAction(this, behaviour, equipment);
+            index++;
         }
         return actions;
     }

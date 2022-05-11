@@ -2,21 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-/// <summary>
-/// A simple example of an action.
-/// </summary>
-public class HarvestAction : AgrobotAction
+public class UprootAction : AgrobotAction
 {
 	private AgrobotTool m_tool;
 
-	public HarvestAction(AgrobotInteractable target, AgrobotBehaviour behaviour, AgrobotEquipment equipment) : base(target, behaviour, equipment)
+	public UprootAction(AgrobotInteractable target, AgrobotBehaviour behaviour, AgrobotEquipment equipment) : base(target, behaviour, equipment)
 	{
 		m_tool = equipment.GetTool(GetFlags());
 	}
 
 	public override InteractableFlag GetFlags()
 	{
-		return InteractableFlag.HARVEST;
+		return InteractableFlag.UPROOT;
 	}
 
 	public override IEnumerator Start()
