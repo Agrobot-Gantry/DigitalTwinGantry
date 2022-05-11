@@ -10,14 +10,14 @@ public class Crop : MonoBehaviour
 	/// </summary>
 	public const int TIME_PERIOD_COUNT = 12;
 
+	[SerializeField] private AgrobotInteractable m_interactable;
 	[SerializeField] private GameObject m_postSowingModel;
 	[SerializeField] private TimePeriod[] m_timePeriods;
 
 	private delegate void OnHarvestCallback(Crop crop);
 	private OnHarvestCallback m_callback;
 	private TimePeriod m_currentTimePeriod;
-	private int m_timePeriodOffset; //the difference between the desired timeperiod and the real one
-									//chunks might decide to grow a crop a little earlier or later after the previous was harvested
+	private int m_timePeriodOffset; //chunks might decide to grow a crop a little earlier or later after the previous was harvested
 
 	[System.Serializable]
 	private struct TimePeriod
@@ -43,7 +43,7 @@ public class Crop : MonoBehaviour
 		m_currentTimePeriod = m_timePeriods[(newTimePeriod + m_timePeriodOffset) % TIME_PERIOD_COUNT];
 		m_currentTimePeriod.Model.SetActive(true);
 
-		//TODO apply new flags to interactable
+		m_interactable.SetFlags(m_currentTimePeriod.InteractableFlags);
 	}
 
 	public void OnInteract(AgrobotAction action)
@@ -57,6 +57,7 @@ public class Crop : MonoBehaviour
 
 		if (action.GetFlags().HasFlag(InteractableFlag.HARVEST))
 		{
+			m_currentTimePeriod.Model.SetActive(false);
 			m_callback(this);
 		}
 	}
@@ -72,7 +73,7 @@ public class Crop : MonoBehaviour
 	{
 		//find all time periods with the sowing flag
 		List<int> sowingTimePeriods = new List<int>();
-		for(int i = 0; i < TIME_PERIOD_COUNT; i++)
+		for (int i = 0; i < TIME_PERIOD_COUNT; i++)
 		{
 			if (m_timePeriods[i].InteractableFlags.HasFlag(InteractableFlag.SOW))
 			{
