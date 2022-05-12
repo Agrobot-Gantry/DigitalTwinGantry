@@ -10,6 +10,10 @@ public class AgrobotGantry : MonoBehaviour
     public AgrobotEquipment Equipment { get { return m_equipment; } }
     private AgrobotEquipment m_equipment;
     private AgrobotBehaviour m_currentBehaviour;
+    private bool counterClockwise = false;
+    private bool firsRowEnterOccured = false;
+    private bool firsRowExitOccured = false;
+    private bool isTurning;
 
     [SerializeField]
     private AgrobotTool[] m_tools;
@@ -42,12 +46,14 @@ public class AgrobotGantry : MonoBehaviour
         if (MovementSpeed != 0.0f)
         {
             transform.Translate(Vector3.forward * Time.deltaTime * MovementSpeed);
+            isTurning = false;
         }
 
         //turning
         if (TurningSpeed != 0.0f)
         {
             transform.Rotate(Vector3.up, Time.deltaTime * TurningSpeed);
+            isTurning = true;
         }
 
         m_currentBehaviour.Update(Time.deltaTime);
@@ -75,5 +81,31 @@ public class AgrobotGantry : MonoBehaviour
     public float GetGantryWheelWidth()
     {
         return -1.0f; //TODO implement
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.tag == "path" && firsRowEnterOccured && !isTurning)
+        {
+            firsRowExitOccured = true;
+            SetBehaviour(new TurningBehaviour(counterClockwise, 1));
+        }
+       
+        
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "path" && firsRowEnterOccured && firsRowExitOccured && !isTurning)
+        {
+            SetBehaviour(new TurningBehaviour(counterClockwise, 2));
+            counterClockwise = !counterClockwise;
+            firsRowEnterOccured = false;
+            firsRowExitOccured = false;
+        }
+        else if(other.tag == "path" && !isTurning)
+        {
+            firsRowEnterOccured = true;
+        }
+       
     }
 }
