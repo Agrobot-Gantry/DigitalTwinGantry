@@ -48,7 +48,7 @@ public class Crop : MonoBehaviour
 	public void UpdateTimePeriod(int newTimePeriod)
 	{
 		m_currentTimePeriod.Model.SetActive(false);
-		m_currentTimePeriod = m_timePeriods[(newTimePeriod + m_timePeriodOffset) % TIME_PERIOD_COUNT];
+		m_currentTimePeriod = m_timePeriods[(newTimePeriod - m_timePeriodOffset) % TIME_PERIOD_COUNT];
 		m_currentTimePeriod.Model.SetActive(true);
 
 		m_interactable.SetFlags(m_currentTimePeriod.InteractableFlags);
@@ -105,10 +105,11 @@ public class Crop : MonoBehaviour
 	/// <returns>the difference between two timeperiods</returns>
 	public int DistanceBetween(int timePeriod1, int timePeriod2)
 	{
-		int difference = timePeriod1 - timePeriod2;
+		int difference = Mathf.Abs(timePeriod1 - timePeriod2);
 		if (difference > TIME_PERIOD_COUNT / 2)
 		{
 			difference = TIME_PERIOD_COUNT - difference;
+			difference = -difference;
 		}
 		return difference;
 	}

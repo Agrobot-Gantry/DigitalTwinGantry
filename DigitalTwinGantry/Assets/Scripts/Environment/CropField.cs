@@ -67,8 +67,11 @@ public class CropField : MonoBehaviour
 
 	public void OnChunkEmpty(CropChunk chunk)
 	{
-		GameObject crop = m_cropTypes[Random.Range(0, m_cropTypes.Length)];
-		chunk.GenerateChunk(crop);
+		GameObject cropObject = m_cropTypes[Random.Range(0, m_cropTypes.Length)];
+
+		Crop crop = cropObject.GetComponent<Crop>();
+		int offset = crop.DistanceBetween(m_currentMonth, crop.GetNearestSowingTimePeriod(m_currentMonth));
+		chunk.GenerateChunk(cropObject, offset);
 	}
 
 	private void GenerateChunks()
