@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,35 +11,68 @@ public class CropChunk : MonoBehaviour
     private float ySize;
 
     private List<GameObject> m_crops;
+    private int m_totalHarvested;
+    private Action<CropChunk> m_onCHunkEmpty;
 
-    public void Init(GameObject cropType, Vector2 chunkSize)
+    private int m_timePeriod;
+
+    public void Initialize(GameObject cropType, Vector2 chunkSize, int timePeriod, Action<CropChunk> onChunkEmpty)
     {
         m_crops = new List<GameObject>();
         xSize = chunkSize.x;
         ySize = chunkSize.y;
+
+        m_timePeriod = timePeriod;
+        m_onCHunkEmpty = onChunkEmpty;
 
         GenerateChunk(cropType);
     }
 
     public void GenerateChunk(GameObject cropType)
     {
-		// Generate the chunks
+        for (int i = 0; i < m_crops.Count; i++)
+        {
+            Destroy(m_crops[i]);
+        }
+
+        m_crops.Clear();
+        m_totalHarvested = 0;
+
+		// Generate the crops
 		for (float x = 0; x < xSize; x += sizeBetweenCrop)
 		{
 			for (float z = 0; z < ySize; z += sizeBetweenCrop)
 			{
-				GameObject crop = Instantiate(cropType, transform);
-                crop.transform.localPosition = new Vector3(x, transform.position.y, z);
-				m_crops.Add(crop);
+				GameObject cropObject = Instantiate(cropType, transform);
+                cropObject.transform.localPosition = new Vector3(x, transform.position.y, z);
+				m_crops.Add(cropObject);
+
+                Crop crop = cropObject.GetComponent<Crop>();
+
+                int monthOffset = crop.DistanceBetween(m_timePeriod, crop.GetNearestSowingTimePeriod(m_timePeriod));
+                Debug.Log(monthOffset);
+                crop.Initialize(m_timePeriod, monthOffset, OnCropRemoved);
 			}
 		}
     }
 
     public void UpdateTimePeriod(int timePeriod)
     {
+        m_timePeriod = timePeriod;
+
         for (int i = 0; i < m_crops.Count; i++)
         {
             m_crops[i].GetComponent<Crop>().UpdateTimePeriod(timePeriod);
+        }
+    }
+
+    public void OnCropRemoved(Crop crop)
+    {
+        m_totalHarvested++;
+
+        if (m_totalHarvested >= m_crops.Count)
+        {
+            m_onCHunkEmpty(this);
         }
     }
 }

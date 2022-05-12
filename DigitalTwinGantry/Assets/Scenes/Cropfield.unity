@@ -161,7 +161,7 @@ MonoBehaviour:
   m_chunk: {fileID: 3866838336186678800, guid: 7d4700a3209b2d54ea4633fd0866949d, type: 3}
   m_startingMonth: 0
   m_cropTypes:
-  - {fileID: 4765636268649948793, guid: 7667f13bac95a5a499aabd0a1679ce86, type: 3}
+  - {fileID: 2043524626836718842, guid: 27c94459d2d1eb74297cedca8be338d4, type: 3}
 --- !u!4 &1148141021
 Transform:
   m_ObjectHideFlags: 0
@@ -187,7 +187,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 10, y: 1, z: 10}
+  m_Size: {x: 10, y: 3, z: 10}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &1554686990
 PrefabInstance:

@@ -583,6 +583,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: InteractableHitbox
       objectReference: {fileID: 0}
+    - target: {fileID: 4786938082485708586, guid: b68298b3b180cb14ba96eea53a48f974, type: 3}
+      propertyPath: m_showWhenRunning
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5990258141172442277, guid: b68298b3b180cb14ba96eea53a48f974, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8068652257128696338, guid: b68298b3b180cb14ba96eea53a48f974, type: 3}
       propertyPath: m_RootOrder
       value: 6

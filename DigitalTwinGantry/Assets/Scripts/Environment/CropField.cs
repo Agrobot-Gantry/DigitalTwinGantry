@@ -102,7 +102,7 @@ public class CropField : MonoBehaviour
 					new Vector3(x * chunkWidth, 0, z * chunkHeight), Quaternion.Euler(0, 0, 0));
 
 				CropChunk chunk = chunkObject.GetComponent<CropChunk>();
-				chunk.Init(m_cropTypes[Random.Range(0, m_cropTypes.Length)], new Vector2(chunkWidth, chunkHeight));
+				chunk.Initialize(m_cropTypes[Random.Range(0, m_cropTypes.Length)], new Vector2(chunkWidth, chunkHeight), m_currentMonth, OnChunkEmpty);
 
 				m_chunks.Add(chunkObject);
 			}

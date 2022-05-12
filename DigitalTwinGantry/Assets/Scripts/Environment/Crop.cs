@@ -17,8 +17,9 @@ public class Crop : MonoBehaviour
 	[SerializeField] private GameObject m_postSowingModel;
 	[SerializeField] private TimePeriod[] m_timePeriods;
 
-	private delegate void OnHarvestCallback(Crop crop);
-	private OnHarvestCallback m_harvestCallback;
+	// private delegate void OnHarvestCallback(Crop crop);
+	// private OnHarvestCallback m_harvestCallback;
+	private Action<Crop> m_onHarvestCallback;
 	private TimePeriod m_currentTimePeriod;
 	private int m_timePeriodOffset; //chunks might decide to grow a crop a little earlier or later after the previous was harvested
 
@@ -29,9 +30,10 @@ public class Crop : MonoBehaviour
 		public InteractableFlag InteractableFlags;
 	}
 
-	public void Initialize(CropField cropField, int timePeriodOffset)
+	public void Initialize(int currentTimePeriod, int timePeriodOffset, Action<Crop> onHarvestCallback)
 	{
 		// m_callback = new OnHarvestCallback(cropField.OnChunkEmpty);
+		m_onHarvestCallback = onHarvestCallback;
 		m_timePeriodOffset = timePeriodOffset;
 		m_currentTimePeriod = m_timePeriods[0];
 
@@ -39,6 +41,8 @@ public class Crop : MonoBehaviour
 		{
 			timePeriod.Model.SetActive(false);
 		}
+
+		UpdateTimePeriod(currentTimePeriod);
 	}
 
 	public void UpdateTimePeriod(int newTimePeriod)
@@ -62,7 +66,8 @@ public class Crop : MonoBehaviour
 		if (action.GetFlags().HasFlag(InteractableFlag.HARVEST))
 		{
 			m_currentTimePeriod.Model.SetActive(false);
-			m_harvestCallback(this);
+			// m_harvestCallback(this);
+			m_onHarvestCallback(this);
 		}
 	}
 
@@ -89,7 +94,7 @@ public class Crop : MonoBehaviour
 		int nearestIndex = int.MaxValue;
 		foreach (int index in sowingTimePeriods)
 		{
-			if (DistanceBetween(comparedTimePeriod, index) < DistanceBetween(comparedTimePeriod, nearestIndex))
+			if (Mathf.Abs(DistanceBetween(comparedTimePeriod, index)) < Mathf.Abs(DistanceBetween(comparedTimePeriod, nearestIndex)))
 			{
 				nearestIndex = index;
 			}
@@ -98,9 +103,9 @@ public class Crop : MonoBehaviour
 	}
 
 	/// <returns>the difference between two timeperiods</returns>
-	private int DistanceBetween(int timePeriod1, int timePeriod2)
+	public int DistanceBetween(int timePeriod1, int timePeriod2)
 	{
-		int difference = Math.Abs(timePeriod1 - timePeriod2);
+		int difference = timePeriod1 - timePeriod2;
 		if (difference > TIME_PERIOD_COUNT / 2)
 		{
 			difference = TIME_PERIOD_COUNT - difference;
