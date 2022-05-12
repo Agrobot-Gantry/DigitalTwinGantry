@@ -2561,6 +2561,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: AgrobotGantry
       objectReference: {fileID: 0}
+    - target: {fileID: 3119885546648364450, guid: 5ee66826a45982545836570c77dd2f34, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4482372731472728292, guid: 5ee66826a45982545836570c77dd2f34, type: 3}
       propertyPath: m_RootOrder
       value: 5
@@ -5302,6 +5306,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 7557997257567496224, guid: ec9f947e7aab4ee4ea00e87d8ee4a4e1, type: 3}
+      propertyPath: m_Size.x
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7557997257567496224, guid: ec9f947e7aab4ee4ea00e87d8ee4a4e1, type: 3}
+      propertyPath: m_Size.z
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 7557997257567496225, guid: ec9f947e7aab4ee4ea00e87d8ee4a4e1, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -5351,12 +5363,24 @@ PrefabInstance:
       value: CropField
       objectReference: {fileID: 0}
     - target: {fileID: 7557997257567496227, guid: ec9f947e7aab4ee4ea00e87d8ee4a4e1, type: 3}
+      propertyPath: m_path
+      value: 
+      objectReference: {fileID: 3345911593946909174, guid: be38518abad797241beaf837bd6ec9ad, type: 3}
+    - target: {fileID: 7557997257567496227, guid: ec9f947e7aab4ee4ea00e87d8ee4a4e1, type: 3}
       propertyPath: m_agrobot
       value: 
       objectReference: {fileID: 1127241093}
     - target: {fileID: 7557997257567496227, guid: ec9f947e7aab4ee4ea00e87d8ee4a4e1, type: 3}
+      propertyPath: m_xChunks
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7557997257567496227, guid: ec9f947e7aab4ee4ea00e87d8ee4a4e1, type: 3}
+      propertyPath: m_yChunks
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7557997257567496227, guid: ec9f947e7aab4ee4ea00e87d8ee4a4e1, type: 3}
       propertyPath: m_startingMonth
-      value: 3
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7557997257567496227, guid: ec9f947e7aab4ee4ea00e87d8ee4a4e1, type: 3}
       propertyPath: m_cropTypes.Array.size
