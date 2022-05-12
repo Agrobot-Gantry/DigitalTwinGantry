@@ -5356,7 +5356,7 @@ PrefabInstance:
       objectReference: {fileID: 1127241093}
     - target: {fileID: 7557997257567496227, guid: ec9f947e7aab4ee4ea00e87d8ee4a4e1, type: 3}
       propertyPath: m_startingMonth
-      value: 0
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7557997257567496227, guid: ec9f947e7aab4ee4ea00e87d8ee4a4e1, type: 3}
       propertyPath: m_cropTypes.Array.size

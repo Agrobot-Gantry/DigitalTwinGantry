@@ -16,6 +16,7 @@ public class Crop : MonoBehaviour
 	[SerializeField] private AgrobotInteractable m_interactable;
 	[SerializeField] private GameObject m_postSowingModel;
 	[SerializeField] private TimePeriod[] m_timePeriods;
+	public TimePeriod[] TimePeriods {get {return m_timePeriods;}}
 
 	private Action<Crop> m_onHarvestCallback;
 	private TimePeriod m_currentTimePeriod;
@@ -23,7 +24,7 @@ public class Crop : MonoBehaviour
 	//chunks might decide to grow a crop a little earlier or later after the previous was harvested
 
 	[System.Serializable]
-	private struct TimePeriod
+	public struct TimePeriod
 	{
 		public GameObject Model;
 		public InteractableFlag InteractableFlags;
