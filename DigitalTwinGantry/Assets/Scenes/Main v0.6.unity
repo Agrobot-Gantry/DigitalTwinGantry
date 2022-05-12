@@ -5354,5 +5354,17 @@ PrefabInstance:
       propertyPath: m_agrobot
       value: 
       objectReference: {fileID: 1127241093}
+    - target: {fileID: 7557997257567496227, guid: ec9f947e7aab4ee4ea00e87d8ee4a4e1, type: 3}
+      propertyPath: m_startingMonth
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7557997257567496227, guid: ec9f947e7aab4ee4ea00e87d8ee4a4e1, type: 3}
+      propertyPath: m_cropTypes.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7557997257567496227, guid: ec9f947e7aab4ee4ea00e87d8ee4a4e1, type: 3}
+      propertyPath: m_cropTypes.Array.data[1]
+      value: 
+      objectReference: {fileID: 2043524626836718842, guid: 9acbd1565d2769445804dc60fc2007df, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ec9f947e7aab4ee4ea00e87d8ee4a4e1, type: 3}

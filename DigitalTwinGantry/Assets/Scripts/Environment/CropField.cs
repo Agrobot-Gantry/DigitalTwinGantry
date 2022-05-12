@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class CropField : MonoBehaviour
 {
@@ -15,7 +16,7 @@ public class CropField : MonoBehaviour
 
 	[Header("Crops")]
 	[SerializeField] private GameObject m_chunk;
-	[SerializeField, Range(0, Crop.TIME_PERIOD_COUNT)] private int m_startingMonth;
+	[SerializeField, Range(0, Crop.TIME_PERIOD_COUNT - 1)] private int m_startingMonth;
 	[SerializeField] private GameObject[] m_cropTypes;
 
 	private Transform m_agrobotStart;
@@ -67,11 +68,10 @@ public class CropField : MonoBehaviour
 
 	public void OnChunkEmpty(CropChunk chunk)
 	{
-		GameObject cropObject = m_cropTypes[Random.Range(0, m_cropTypes.Length)];
-
-		Crop crop = cropObject.GetComponent<Crop>();
+		Crop crop = GetNearestCrop();
 		int offset = crop.DistanceBetween(m_currentMonth, crop.GetNearestSowingTimePeriod(m_currentMonth));
-		chunk.GenerateChunk(cropObject, offset);
+		
+		chunk.GenerateChunk(crop.gameObject, offset);
 	}
 
 	private void GenerateChunks()
@@ -105,7 +105,7 @@ public class CropField : MonoBehaviour
 					new Vector3(x * chunkWidth, 0, z * chunkHeight), Quaternion.Euler(0, 0, 0));
 
 				CropChunk chunk = chunkObject.GetComponent<CropChunk>();
-				chunk.Initialize(m_cropTypes[Random.Range(0, m_cropTypes.Length)], new Vector2(chunkWidth, chunkHeight), m_currentMonth, OnChunkEmpty);
+				chunk.Initialize(m_cropTypes[UnityEngine.Random.Range(0, m_cropTypes.Length)], new Vector2(chunkWidth, chunkHeight), m_currentMonth, OnChunkEmpty);
 
 				m_chunks.Add(chunkObject);
 			}
@@ -141,6 +141,20 @@ public class CropField : MonoBehaviour
 		OnValidate();
 
 		GenerateChunks();
+	}
+
+	private Crop GetNearestCrop()
+	{
+		Array.Sort(m_cropTypes, (type1, type2) => 
+		{
+			Crop crop1 = type1.GetComponent<Crop>();
+			Crop crop2 = type2.GetComponent<Crop>();
+			
+			return Mathf.Abs(crop1.DistanceBetween(m_currentMonth, crop1.GetNearestSowingTimePeriod(m_currentMonth))) - 
+				Mathf.Abs(crop2.DistanceBetween(m_currentMonth, crop2.GetNearestSowingTimePeriod(m_currentMonth)));
+		});
+
+		return m_cropTypes[0].GetComponent<Crop>();
 	}
 
 	private void OnValidate() 
