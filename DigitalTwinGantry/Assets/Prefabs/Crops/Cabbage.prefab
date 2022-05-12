@@ -73,7 +73,7 @@ GameObject:
   - component: {fileID: 3859218208286368883}
   - component: {fileID: 8805726413765792360}
   m_Layer: 0
-  m_Name: Lettuce
+  m_Name: Cabbage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -111,18 +111,6 @@ MonoBehaviour:
   m_postSowingModel: {fileID: 7119812238996321304}
   m_timePeriods:
   - Model: {fileID: 8745263093566478789}
-    InteractableFlags: 0
-  - Model: {fileID: 8745263093566478789}
-    InteractableFlags: 0
-  - Model: {fileID: 8745263093566478789}
-    InteractableFlags: 0
-  - Model: {fileID: 8745263093566478789}
-    InteractableFlags: 0
-  - Model: {fileID: 8745263093566478789}
-    InteractableFlags: 0
-  - Model: {fileID: 8745263093566478789}
-    InteractableFlags: 0
-  - Model: {fileID: 8745263093566478789}
     InteractableFlags: 6
   - Model: {fileID: 7119812238996321304}
     InteractableFlags: 4
@@ -134,6 +122,18 @@ MonoBehaviour:
     InteractableFlags: 1
   - Model: {fileID: 2151080115826095850}
     InteractableFlags: 8
+  - Model: {fileID: 8745263093566478789}
+    InteractableFlags: 0
+  - Model: {fileID: 8745263093566478789}
+    InteractableFlags: 0
+  - Model: {fileID: 8745263093566478789}
+    InteractableFlags: 0
+  - Model: {fileID: 8745263093566478789}
+    InteractableFlags: 0
+  - Model: {fileID: 8745263093566478789}
+    InteractableFlags: 0
+  - Model: {fileID: 8745263093566478789}
+    InteractableFlags: 0
 --- !u!1 &2151080115826095850
 GameObject:
   m_ObjectHideFlags: 0
@@ -448,7 +448,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d29896baf0b2e2940b80c31c25933d75, type: 2}
+  - {fileID: 2100000, guid: 49e3ebaa013df3a41b8e23e9a3fbac7f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
