@@ -133,7 +133,7 @@ MonoBehaviour:
   - Model: {fileID: 8745263093566478789}
     InteractableFlags: 0
   - Model: {fileID: 8745263093566478789}
-    InteractableFlags: 0
+    InteractableFlags: 9
 --- !u!1 &2151080115826095850
 GameObject:
   m_ObjectHideFlags: 0

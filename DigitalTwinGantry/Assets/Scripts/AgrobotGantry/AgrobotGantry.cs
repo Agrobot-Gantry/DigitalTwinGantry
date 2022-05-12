@@ -68,12 +68,12 @@ public class AgrobotGantry : MonoBehaviour
     /// <returns>the total width of the gantry (including the wheels) in meters</returns>
     public float GetGantryWidth()
     {
-        return 4.0f; //TODO implement
+        return 3.0f; //TODO implement
     }
 
     /// <returns>the width of the wheels</returns>
     public float GetGantryWheelWidth()
     {
-        return -1.0f; //TODO implement
+        return 0.5f; //TODO implement
     }
 }

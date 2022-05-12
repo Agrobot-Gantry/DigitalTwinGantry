@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class CropField : MonoBehaviour
 {
+	private const int MAX_SOWING_DISTANCE = 3;
+
 	[Header("Sizes")]
 	[SerializeField] private BoxCollider m_field;
 	[SerializeField] private int m_xChunks;
@@ -15,7 +18,7 @@ public class CropField : MonoBehaviour
 
 	[Header("Crops")]
 	[SerializeField] private GameObject m_chunk;
-	[SerializeField, Range(0, Crop.TIME_PERIOD_COUNT)] private int m_startingMonth;
+	[SerializeField, Range(0, Crop.TIME_PERIOD_COUNT - 1)] private int m_startingMonth;
 	[SerializeField] private GameObject[] m_cropTypes;
 
 	private Transform m_agrobotStart;
@@ -67,8 +70,10 @@ public class CropField : MonoBehaviour
 
 	public void OnChunkEmpty(CropChunk chunk)
 	{
-		GameObject crop = m_cropTypes[Random.Range(0, m_cropTypes.Length)];
-		chunk.GenerateChunk(crop);
+		Crop crop = GetSowableCrop();
+		int offset = crop.DistanceBetween(m_currentMonth, crop.GetNearestSowingTimePeriod(m_currentMonth));
+		
+		chunk.GenerateChunk(crop.gameObject, offset);
 	}
 
 	private void GenerateChunks()
@@ -102,7 +107,7 @@ public class CropField : MonoBehaviour
 					new Vector3(x * chunkWidth, 0, z * chunkHeight), Quaternion.Euler(0, 0, 0));
 
 				CropChunk chunk = chunkObject.GetComponent<CropChunk>();
-				chunk.Initialize(m_cropTypes[Random.Range(0, m_cropTypes.Length)], new Vector2(chunkWidth, chunkHeight), m_currentMonth, OnChunkEmpty);
+				chunk.Initialize(GetStartingCrop().gameObject, new Vector2(chunkWidth, chunkHeight), m_currentMonth, OnChunkEmpty);
 
 				m_chunks.Add(chunkObject);
 			}
@@ -138,6 +143,52 @@ public class CropField : MonoBehaviour
 		OnValidate();
 
 		GenerateChunks();
+	}
+
+	private Crop GetStartingCrop()
+	{
+		List<Crop> possibleCrops = new List<Crop>();
+		foreach (GameObject cropObject in m_cropTypes)
+		{
+			Crop crop = cropObject.GetComponent<Crop>();
+			if (AgrobotInteractable.FlagCount(crop.TimePeriods[m_currentMonth].InteractableFlags) > 0) 
+			{
+				possibleCrops.Add(crop);
+			}
+		}
+
+		if (possibleCrops.Count > 0) 
+		{
+			return possibleCrops[UnityEngine.Random.Range(0, possibleCrops.Count)];
+		}
+		return m_cropTypes[UnityEngine.Random.Range(0, m_cropTypes.Length)].GetComponent<Crop>();
+	}
+
+	private Crop GetSowableCrop()
+	{
+		//sort the crop types based on how far away their normal sowing period is from the current timeperiod
+		Array.Sort(m_cropTypes, (type1, type2) => 
+		{
+			Crop crop1 = type1.GetComponent<Crop>();
+			Crop crop2 = type2.GetComponent<Crop>();
+			
+			return Mathf.Abs(crop1.DistanceBetween(m_currentMonth, crop1.GetNearestSowingTimePeriod(m_currentMonth))) - 
+				Mathf.Abs(crop2.DistanceBetween(m_currentMonth, crop2.GetNearestSowingTimePeriod(m_currentMonth)));
+		});
+
+		//choose a random crop type that doesn't exceed the max sowing distance
+		int index = UnityEngine.Random.Range(0, m_cropTypes.Length); //pick a random crop type
+		while (index > 0) { //as long as we have other options left
+			Crop crop = m_cropTypes[index].GetComponent<Crop>();
+			if (Mathf.Abs(crop.DistanceBetween(m_currentMonth, crop.GetNearestSowingTimePeriod(m_currentMonth))) <= MAX_SOWING_DISTANCE)
+			{
+				return crop; //return this crop if it's within the max sowing distance
+			}
+			index--; //if not keep looking
+		}
+
+		//index 0 is the last option left, use this crop even if it's further than the max sowing distance
+		return m_cropTypes[index].GetComponent<Crop>();
 	}
 
 	private void OnValidate() 

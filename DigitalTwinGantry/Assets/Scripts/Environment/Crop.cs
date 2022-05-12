@@ -16,15 +16,15 @@ public class Crop : MonoBehaviour
 	[SerializeField] private AgrobotInteractable m_interactable;
 	[SerializeField] private GameObject m_postSowingModel;
 	[SerializeField] private TimePeriod[] m_timePeriods;
+	public TimePeriod[] TimePeriods {get {return m_timePeriods;}}
 
-	// private delegate void OnHarvestCallback(Crop crop);
-	// private OnHarvestCallback m_harvestCallback;
 	private Action<Crop> m_onHarvestCallback;
 	private TimePeriod m_currentTimePeriod;
-	private int m_timePeriodOffset; //chunks might decide to grow a crop a little earlier or later after the previous was harvested
+	private int m_timePeriodOffset; //offset the current crop timeperiod from the real timeperiod received in UpdateTimePeriod(int newTimePeriod)
+	//chunks might decide to grow a crop a little earlier or later after the previous was harvested
 
 	[System.Serializable]
-	private struct TimePeriod
+	public struct TimePeriod
 	{
 		public GameObject Model;
 		public InteractableFlag InteractableFlags;
@@ -32,7 +32,6 @@ public class Crop : MonoBehaviour
 
 	public void Initialize(int currentTimePeriod, int timePeriodOffset, Action<Crop> onHarvestCallback)
 	{
-		// m_callback = new OnHarvestCallback(cropField.OnChunkEmpty);
 		m_onHarvestCallback = onHarvestCallback;
 		m_timePeriodOffset = timePeriodOffset;
 		m_currentTimePeriod = m_timePeriods[0];
@@ -48,7 +47,7 @@ public class Crop : MonoBehaviour
 	public void UpdateTimePeriod(int newTimePeriod)
 	{
 		m_currentTimePeriod.Model.SetActive(false);
-		m_currentTimePeriod = m_timePeriods[(newTimePeriod + m_timePeriodOffset) % TIME_PERIOD_COUNT];
+		m_currentTimePeriod = m_timePeriods[CalculatTimePeriod(newTimePeriod, m_timePeriodOffset)];
 		m_currentTimePeriod.Model.SetActive(true);
 
 		m_interactable.SetFlags(m_currentTimePeriod.InteractableFlags);
@@ -66,7 +65,6 @@ public class Crop : MonoBehaviour
 		if (action.GetFlags().HasFlag(InteractableFlag.HARVEST))
 		{
 			m_currentTimePeriod.Model.SetActive(false);
-			// m_harvestCallback(this);
 			m_onHarvestCallback(this);
 		}
 	}
@@ -106,14 +104,34 @@ public class Crop : MonoBehaviour
 	public int DistanceBetween(int timePeriod1, int timePeriod2)
 	{
 		int difference = timePeriod1 - timePeriod2;
+
 		if (difference > TIME_PERIOD_COUNT / 2)
 		{
 			difference = TIME_PERIOD_COUNT - difference;
+		} else if (difference < -TIME_PERIOD_COUNT / 2) 
+		{
+			difference = TIME_PERIOD_COUNT + difference;
+			difference = -difference;
+		} else
+		{
+			difference = -difference;
 		}
+
 		return difference;
 	}
 
-	void OnValidate()
+	public int CalculatTimePeriod(int timePeriod, int difference) {
+		timePeriod += difference;
+		timePeriod = timePeriod % TIME_PERIOD_COUNT;
+
+		if (timePeriod < 0) {
+			timePeriod += TIME_PERIOD_COUNT;
+		}
+
+		return timePeriod;
+	}
+
+	private void OnValidate()
 	{
 		if (m_timePeriods.Length != TIME_PERIOD_COUNT)
 		{

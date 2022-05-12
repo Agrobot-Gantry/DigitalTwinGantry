@@ -25,10 +25,10 @@ public class CropChunk : MonoBehaviour
         m_timePeriod = timePeriod;
         m_onCHunkEmpty = onChunkEmpty;
 
-        GenerateChunk(cropType);
+        GenerateChunk(cropType, 0);
     }
 
-    public void GenerateChunk(GameObject cropType)
+    public void GenerateChunk(GameObject cropType, int offset)
     {
         for (int i = 0; i < m_crops.Count; i++)
         {
@@ -48,10 +48,7 @@ public class CropChunk : MonoBehaviour
 				m_crops.Add(cropObject);
 
                 Crop crop = cropObject.GetComponent<Crop>();
-
-                int monthOffset = crop.DistanceBetween(m_timePeriod, crop.GetNearestSowingTimePeriod(m_timePeriod));
-                Debug.Log(monthOffset);
-                crop.Initialize(m_timePeriod, monthOffset, OnCropRemoved);
+                crop.Initialize(m_timePeriod, offset, OnCropRemoved);
 			}
 		}
     }
