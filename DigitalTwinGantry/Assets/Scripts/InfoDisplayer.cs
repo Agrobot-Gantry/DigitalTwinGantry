@@ -10,15 +10,23 @@ public class InfoDisplayer : MonoBehaviour
     [SerializeField] private Text m_monthText;
     [SerializeField] private Text m_actionText;
 
-    private void Update() {
-        m_monthText.text = "Month: " + m_cropField.CurrentMonth;
+    private void Start() {
+        StartCoroutine(OnUpdate());
+    }
 
-        string actionText = "Actions: ";
-        foreach (AgrobotAction action in m_gantry.CurrentBehaviour.OnGoingActions)
-        {   
-            actionText += action.GetType().Name + ", ";
+    private IEnumerator OnUpdate() {
+        while (true) {
+            m_monthText.text = "Month: " + m_cropField.CurrentMonth;
+
+            string actionText = "Actions: ";
+            foreach (AgrobotAction action in m_gantry.CurrentBehaviour.OnGoingActions)
+            {   
+                actionText += action.GetType().Name + ", ";
+            }
+
+            m_actionText.text = actionText;
+
+            yield return new WaitForSeconds(1);
         }
-
-        m_actionText.text = actionText;
     }
 }
