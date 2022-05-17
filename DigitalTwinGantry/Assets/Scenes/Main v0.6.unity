@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5564,11 +5564,43 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7557997257567496227, guid: ec9f947e7aab4ee4ea00e87d8ee4a4e1, type: 3}
       propertyPath: m_cropTypes.Array.size
-      value: 2
+      value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 7557997257567496227, guid: ec9f947e7aab4ee4ea00e87d8ee4a4e1, type: 3}
+      propertyPath: m_cropTypes.Array.data[0]
+      value: 
+      objectReference: {fileID: 2043524626836718842, guid: 9acbd1565d2769445804dc60fc2007df, type: 3}
     - target: {fileID: 7557997257567496227, guid: ec9f947e7aab4ee4ea00e87d8ee4a4e1, type: 3}
       propertyPath: m_cropTypes.Array.data[1]
       value: 
-      objectReference: {fileID: 2043524626836718842, guid: 9acbd1565d2769445804dc60fc2007df, type: 3}
+      objectReference: {fileID: 2043524626836718842, guid: 576270822f95d1045a368dc63974df6b, type: 3}
+    - target: {fileID: 7557997257567496227, guid: ec9f947e7aab4ee4ea00e87d8ee4a4e1, type: 3}
+      propertyPath: m_cropTypes.Array.data[2]
+      value: 
+      objectReference: {fileID: 2043524626836718842, guid: 27c94459d2d1eb74297cedca8be338d4, type: 3}
+    - target: {fileID: 7557997257567496227, guid: ec9f947e7aab4ee4ea00e87d8ee4a4e1, type: 3}
+      propertyPath: m_cropTypes.Array.data[3]
+      value: 
+      objectReference: {fileID: 2043524626836718842, guid: f65df808464dba5469fb456eab4f728a, type: 3}
+    - target: {fileID: 7557997257567496227, guid: ec9f947e7aab4ee4ea00e87d8ee4a4e1, type: 3}
+      propertyPath: m_cropTypes.Array.data[4]
+      value: 
+      objectReference: {fileID: 2043524626836718842, guid: 81f1fc054f48f1f41ae3e29ec24446f1, type: 3}
+    - target: {fileID: 7557997257567496227, guid: ec9f947e7aab4ee4ea00e87d8ee4a4e1, type: 3}
+      propertyPath: m_cropTypes.Array.data[5]
+      value: 
+      objectReference: {fileID: 2043524626836718842, guid: 00370bee5038025419ab206e9acd5c2f, type: 3}
+    - target: {fileID: 7557997257567496227, guid: ec9f947e7aab4ee4ea00e87d8ee4a4e1, type: 3}
+      propertyPath: m_cropTypes.Array.data[6]
+      value: 
+      objectReference: {fileID: 2043524626836718842, guid: cc370ef760802054fbaa90805078c9d8, type: 3}
+    - target: {fileID: 7557997257567496227, guid: ec9f947e7aab4ee4ea00e87d8ee4a4e1, type: 3}
+      propertyPath: m_cropTypes.Array.data[7]
+      value: 
+      objectReference: {fileID: 2043524626836718842, guid: ce9a89cbc31e52c4baad9cab13f0b16b, type: 3}
+    - target: {fileID: 7557997257567496227, guid: ec9f947e7aab4ee4ea00e87d8ee4a4e1, type: 3}
+      propertyPath: m_cropTypes.Array.data[8]
+      value: 
+      objectReference: {fileID: 2043524626836718842, guid: 1c47d59c888d16c42aa33665872b4736, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ec9f947e7aab4ee4ea00e87d8ee4a4e1, type: 3}
