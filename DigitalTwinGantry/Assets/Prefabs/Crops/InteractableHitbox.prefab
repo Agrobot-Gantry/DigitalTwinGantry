@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6093889012142724663}
   - component: {fileID: 5990258141172442277}
   - component: {fileID: 4182902720038778270}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: InteractableHitbox
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -124,7 +124,7 @@ public class CropField : MonoBehaviour
 
 
 		// Reset agrobot transform
-		m_agrobotStart.position = new Vector3(m_field.bounds.min.x + (m_gantryWidth / 2), m_field.bounds.max.y, m_field.bounds.min.z);
+		m_agrobotStart.position = new Vector3(m_field.bounds.min.x + (m_gantryWidth / 2), m_field.bounds.max.y, m_field.bounds.min.z - (m_gantryWidth/2));
 		m_agrobot.transform.position = m_agrobotStart.position;
 		m_agrobot.transform.rotation = m_agrobotStart.rotation;
 	}
