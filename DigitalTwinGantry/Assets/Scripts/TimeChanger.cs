@@ -6,7 +6,6 @@ public class TimeChanger : MonoBehaviour
 {
     private static float m_timeScale = 1;
 
-    private static float m_deltaTime = 0;
     public static float DeltaTime {
         get => (Time.deltaTime * m_timeScale);
     }
