@@ -17,13 +17,16 @@ public class CropField : MonoBehaviour
 	[SerializeField] private GameObject m_path;
 
 	[Header("Crops")]
+	[SerializeField] private GameObject m_ground;
 	[SerializeField] private GameObject m_chunk;
 	[SerializeField, Range(0, Crop.TIME_PERIOD_COUNT - 1)] private int m_startingMonth;
 	[SerializeField] private GameObject[] m_cropTypes;
 
+	private GameObject m_groundMesh;
+
 	private Transform m_agrobotStart;
-	private float m_gantryWidth;
-	private float m_gantryWheelWidth;
+	private float m_gantryWidth = 3;
+	private float m_gantryWheelWidth = 0.5f;
 
 	private int m_currentMonth;
 
@@ -32,11 +35,13 @@ public class CropField : MonoBehaviour
 
 	private void Start()
 	{
-		m_agrobotStart = new GameObject("Agrobot Start Pos").transform;
-		m_agrobotStart.position = m_agrobot.transform.position;
-		m_agrobotStart.rotation = m_agrobot.transform.rotation;
-		m_gantryWidth = m_agrobot.GetGantryWidth();
-		m_gantryWheelWidth = m_agrobot.GetGantryWheelWidth();
+		if (m_agrobot != null) {
+			m_agrobotStart = new GameObject("Agrobot Start Pos").transform;
+			m_agrobotStart.position = m_agrobot.transform.position;
+			m_agrobotStart.rotation = m_agrobot.transform.rotation;
+			m_gantryWidth = m_agrobot.GetGantryWidth();
+			m_gantryWheelWidth = m_agrobot.GetGantryWheelWidth();
+		}
 
 		m_currentMonth = m_startingMonth;
 
@@ -58,8 +63,10 @@ public class CropField : MonoBehaviour
 		}
 
 		// Reset agrobot transform
-		m_agrobot.transform.position = m_agrobotStart.position;
-		m_agrobot.transform.rotation = m_agrobotStart.rotation;
+		if (m_agrobot != null) {
+			m_agrobot.transform.position = m_agrobotStart.position;
+			m_agrobot.transform.rotation = m_agrobotStart.rotation;
+		}
 	}
 
 	public void NextMonth()
@@ -122,11 +129,21 @@ public class CropField : MonoBehaviour
 			path.transform.localScale = new Vector3(m_gantryWheelWidth, 0.1f, fieldHeight);
 		}
 
-		m_agrobotStart.position = new Vector3(m_field.bounds.min.x + (m_gantryWidth / 2), m_field.bounds.max.y, m_field.bounds.min.z);
+		// Remove and create the ground
+		if (m_groundMesh != null)
+		{
+			Destroy(m_groundMesh);
+		}
+
+		m_groundMesh = Instantiate(m_ground, new Vector3(transform.position.x + m_field.center.x, transform.position.y, transform.position.z + m_field.center.z), Quaternion.Euler(0, 0, 0));
+		m_groundMesh.transform.localScale = new Vector3(m_field.size.x, 0.01f, m_field.size.z);
 
 		// Reset agrobot transform
-		m_agrobot.transform.position = m_agrobotStart.position;
-		m_agrobot.transform.rotation = m_agrobotStart.rotation;
+		if (m_agrobot != null) {
+			m_agrobotStart.position = new Vector3(m_field.bounds.min.x + (m_gantryWidth / 2), m_field.bounds.max.y, m_field.bounds.min.z);
+			m_agrobot.transform.position = m_agrobotStart.position;
+			m_agrobot.transform.rotation = m_agrobotStart.rotation;
+		}
 	}
 
 	public void SetChunksX(int chunks)
