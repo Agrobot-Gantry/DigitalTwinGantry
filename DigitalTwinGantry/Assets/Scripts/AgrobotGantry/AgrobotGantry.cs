@@ -45,18 +45,18 @@ public class AgrobotGantry : MonoBehaviour
         //moving
         if (MovementSpeed != 0.0f)
         {
-            transform.Translate(Vector3.forward * Time.deltaTime * MovementSpeed);
+            transform.Translate(Vector3.forward * TimeChanger.DeltaTime * MovementSpeed);
             isTurning = false;
         }
 
         //turning
         if (TurningSpeed != 0.0f)
         {
-            transform.Rotate(Vector3.up, Time.deltaTime * TurningSpeed);
+            transform.Rotate(Vector3.up, TimeChanger.DeltaTime * TurningSpeed);
             isTurning = true;
         }
 
-        m_currentBehaviour.Update(Time.deltaTime);
+        m_currentBehaviour.Update(TimeChanger.DeltaTime);
     }
 
     public void ShowCasing(bool showCasing)
