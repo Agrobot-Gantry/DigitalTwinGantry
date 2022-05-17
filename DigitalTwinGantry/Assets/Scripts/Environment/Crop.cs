@@ -139,4 +139,13 @@ public class Crop : MonoBehaviour
 			Array.Resize(ref m_timePeriods, TIME_PERIOD_COUNT);
 		}
 	}
+    private void OnTriggerStay(Collider other)
+    {
+		Debug.Log("Collision from crop");
+        if(other.tag == "path")
+        {
+			m_onHarvestCallback(this);
+			Destroy(gameObject);
+        }
+    }
 }
