@@ -61,8 +61,16 @@ MonoBehaviour:
   m_xChunks: 5
   m_yChunks: 5
   m_agrobot: {fileID: 0}
-  m_path: {fileID: 551736796732012965, guid: 47dad28dff80fe04782a40727301f8a3, type: 3}
+  m_path: {fileID: 3345911593946909174, guid: be38518abad797241beaf837bd6ec9ad, type: 3}
   m_chunk: {fileID: 3866838336186678800, guid: 7d4700a3209b2d54ea4633fd0866949d, type: 3}
-  m_startingMonth: 0
+  m_startingMonth: 5
   m_cropTypes:
+  - {fileID: 2043524626836718842, guid: 9acbd1565d2769445804dc60fc2007df, type: 3}
+  - {fileID: 2043524626836718842, guid: 576270822f95d1045a368dc63974df6b, type: 3}
   - {fileID: 2043524626836718842, guid: 27c94459d2d1eb74297cedca8be338d4, type: 3}
+  - {fileID: 2043524626836718842, guid: f65df808464dba5469fb456eab4f728a, type: 3}
+  - {fileID: 2043524626836718842, guid: 81f1fc054f48f1f41ae3e29ec24446f1, type: 3}
+  - {fileID: 2043524626836718842, guid: 00370bee5038025419ab206e9acd5c2f, type: 3}
+  - {fileID: 2043524626836718842, guid: cc370ef760802054fbaa90805078c9d8, type: 3}
+  - {fileID: 2043524626836718842, guid: ce9a89cbc31e52c4baad9cab13f0b16b, type: 3}
+  - {fileID: 2043524626836718842, guid: 1c47d59c888d16c42aa33665872b4736, type: 3}
