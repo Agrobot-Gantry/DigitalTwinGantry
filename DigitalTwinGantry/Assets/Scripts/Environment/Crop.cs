@@ -101,7 +101,7 @@ public class Crop : MonoBehaviour
 	}
 
 	/// <returns>the difference between two timeperiods</returns>
-	public int DistanceBetween(int timePeriod1, int timePeriod2)
+	public static int DistanceBetween(int timePeriod1, int timePeriod2)
 	{
 		int difference = timePeriod1 - timePeriod2;
 
@@ -120,7 +120,7 @@ public class Crop : MonoBehaviour
 		return difference;
 	}
 
-	public int CalculatTimePeriod(int timePeriod, int difference) {
+	public static int CalculatTimePeriod(int timePeriod, int difference) {
 		timePeriod += difference;
 		timePeriod = timePeriod % TIME_PERIOD_COUNT;
 

@@ -35,7 +35,8 @@ public class CropField : MonoBehaviour
 
 	private void Start()
 	{
-		if (m_agrobot != null) {
+		if (m_agrobot != null) 
+		{
 			m_agrobotStart = new GameObject("Agrobot Start Pos").transform;
 			m_agrobotStart.position = m_agrobot.transform.position;
 			m_agrobotStart.rotation = m_agrobot.transform.rotation;
@@ -63,7 +64,8 @@ public class CropField : MonoBehaviour
 		}
 
 		// Reset agrobot transform
-		if (m_agrobot != null) {
+		if (m_agrobot != null) 
+		{
 			m_agrobot.transform.position = m_agrobotStart.position;
 			m_agrobot.transform.rotation = m_agrobotStart.rotation;
 		}
@@ -71,14 +73,14 @@ public class CropField : MonoBehaviour
 
 	public void NextMonth()
 	{
-		m_currentMonth++;
+		m_currentMonth = Crop.CalculatTimePeriod(m_currentMonth, 1);
 		UpdateTimePeriod(m_currentMonth);
 	}
 
 	public void OnChunkEmpty(CropChunk chunk)
 	{
 		Crop crop = GetSowableCrop();
-		int offset = crop.DistanceBetween(m_currentMonth, crop.GetNearestSowingTimePeriod(m_currentMonth));
+		int offset = Crop.DistanceBetween(m_currentMonth, crop.GetNearestSowingTimePeriod(m_currentMonth));
 		
 		chunk.GenerateChunk(crop.gameObject, offset);
 	}
@@ -139,7 +141,8 @@ public class CropField : MonoBehaviour
 		m_groundMesh.transform.localScale = new Vector3(m_field.size.x, 0.01f, m_field.size.z);
 
 		// Reset agrobot transform
-		if (m_agrobot != null) {
+		if (m_agrobot != null) 
+		{
 			m_agrobotStart.position = new Vector3(m_field.bounds.min.x + (m_gantryWidth / 2), m_field.bounds.max.y, m_field.bounds.min.z);
 			m_agrobot.transform.position = m_agrobotStart.position;
 			m_agrobot.transform.rotation = m_agrobotStart.rotation;
@@ -189,15 +192,16 @@ public class CropField : MonoBehaviour
 			Crop crop1 = type1.GetComponent<Crop>();
 			Crop crop2 = type2.GetComponent<Crop>();
 			
-			return Mathf.Abs(crop1.DistanceBetween(m_currentMonth, crop1.GetNearestSowingTimePeriod(m_currentMonth))) - 
-				Mathf.Abs(crop2.DistanceBetween(m_currentMonth, crop2.GetNearestSowingTimePeriod(m_currentMonth)));
+			return Mathf.Abs(Crop.DistanceBetween(m_currentMonth, crop1.GetNearestSowingTimePeriod(m_currentMonth))) - 
+				Mathf.Abs(Crop.DistanceBetween(m_currentMonth, crop2.GetNearestSowingTimePeriod(m_currentMonth)));
 		});
 
 		//choose a random crop type that doesn't exceed the max sowing distance
 		int index = UnityEngine.Random.Range(0, m_cropTypes.Length); //pick a random crop type
-		while (index > 0) { //as long as we have other options left
+		while (index > 0) 
+		{ //as long as we have other options left
 			Crop crop = m_cropTypes[index].GetComponent<Crop>();
-			if (Mathf.Abs(crop.DistanceBetween(m_currentMonth, crop.GetNearestSowingTimePeriod(m_currentMonth))) <= MAX_SOWING_DISTANCE)
+			if (Mathf.Abs(Crop.DistanceBetween(m_currentMonth, crop.GetNearestSowingTimePeriod(m_currentMonth))) <= MAX_SOWING_DISTANCE)
 			{
 				return crop; //return this crop if it's within the max sowing distance
 			}
