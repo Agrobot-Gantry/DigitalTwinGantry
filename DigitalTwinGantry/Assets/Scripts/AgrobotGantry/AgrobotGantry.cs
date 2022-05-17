@@ -10,6 +10,7 @@ public class AgrobotGantry : MonoBehaviour
     public AgrobotEquipment Equipment { get { return m_equipment; } }
     private AgrobotEquipment m_equipment;
     private AgrobotBehaviour m_currentBehaviour;
+    public AgrobotBehaviour CurrentBehaviour { get => m_currentBehaviour; }
     private bool counterClockwise = false;
     private bool firsRowEnterOccured = false;
     private bool firsRowExitOccured = false;

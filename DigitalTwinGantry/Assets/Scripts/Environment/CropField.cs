@@ -29,6 +29,7 @@ public class CropField : MonoBehaviour
 	private float m_gantryWheelWidth = 0.5f;
 
 	private int m_currentMonth;
+	public int CurrentMonth { get => m_currentMonth; }
 
 	private List<GameObject> m_chunks;
 	private List<GameObject> m_paths;

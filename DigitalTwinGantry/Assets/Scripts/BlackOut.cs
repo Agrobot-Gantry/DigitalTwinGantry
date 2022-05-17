@@ -10,6 +10,10 @@ public class BlackOut : MonoBehaviour
     [SerializeField, Range(0, 1)] private float m_completeBlack;
     [SerializeField] private float m_fadeMultiplier;
 
+    [Header("Animation")]
+    [SerializeField] private float m_fadeInAnimationSpeed;
+    [SerializeField] private float m_fadeOutAnimationSpeed;
+
     private Material m_material;
     private SphereCollider m_collider;
     private float m_fadeDistance;
@@ -68,5 +72,31 @@ public class BlackOut : MonoBehaviour
 
     private void OnRenderImage(RenderTexture src, RenderTexture dest) {
         Graphics.Blit(src, dest, m_material);
+    }
+
+    public void Fade() {
+        StopAllCoroutines();
+        StartCoroutine(FadeRoutine());
+    }
+
+    private IEnumerator FadeRoutine() {
+        enabled = false;
+
+        float current = m_material.GetFloat("_Transparency");
+
+        for (float i = 0; i < m_fadeInAnimationSpeed; i += 0.01f) {
+            m_material.SetFloat("_Transparency", Mathf.Lerp(current, 1, i / m_fadeInAnimationSpeed));
+            yield return new WaitForSeconds(0.01f);
+        }
+
+        yield return new WaitForSeconds(m_fadeOutAnimationSpeed);
+
+        for (float i = 0; i < m_fadeOutAnimationSpeed; i += 0.01f) {
+            m_material.SetFloat("_Transparency", Mathf.Lerp(1, 0, i / m_fadeOutAnimationSpeed));
+            yield return new WaitForSeconds(0.01f);
+        }
+
+        m_material.SetFloat("_Transparency", 0);
+        enabled = true;
     }
 }
