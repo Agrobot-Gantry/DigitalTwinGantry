@@ -31,6 +31,5 @@ public class HarvestAction : AgrobotAction
 		}
 		m_targetInteractable.OnInteract(this);
 		Finish();
-		yield break;
 	}
 }

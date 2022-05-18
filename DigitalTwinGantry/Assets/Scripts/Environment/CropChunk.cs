@@ -11,7 +11,6 @@ public class CropChunk : MonoBehaviour
     private float ySize;
 
     private List<GameObject> m_crops;
-    private int m_totalHarvested;
     private Action<CropChunk> m_onCHunkEmpty;
 
     private int m_timePeriod;
@@ -36,7 +35,6 @@ public class CropChunk : MonoBehaviour
         }
 
         m_crops.Clear();
-        m_totalHarvested = 0;
 
 		// Generate the crops
 		for (float x = 0; x < xSize; x += sizeBetweenCrop)
@@ -65,9 +63,9 @@ public class CropChunk : MonoBehaviour
 
     public void OnCropRemoved(Crop crop)
     {
-        m_totalHarvested++;
+        m_crops.Remove(crop.gameObject);
 
-        if (m_totalHarvested >= m_crops.Count)
+        if (m_crops.Count <= 0)
         {
             m_onCHunkEmpty(this);
         }

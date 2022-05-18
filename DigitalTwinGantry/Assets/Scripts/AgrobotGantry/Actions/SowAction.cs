@@ -28,6 +28,5 @@ public class SowAction : AgrobotAction
 		}
 		m_targetInteractable.OnInteract(this);
 		Finish();
-		yield break;
 	}
 }

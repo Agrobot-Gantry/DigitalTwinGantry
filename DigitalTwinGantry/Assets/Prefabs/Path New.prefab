@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3345911593946909179}
   - component: {fileID: 3345911593946909176}
   - component: {fileID: 3345911593946909177}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Path New
   m_TagString: path
   m_Icon: {fileID: 0}
@@ -93,5 +93,5 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 1, y: 5, z: 1}
   m_Center: {x: 0, y: 0, z: 0}

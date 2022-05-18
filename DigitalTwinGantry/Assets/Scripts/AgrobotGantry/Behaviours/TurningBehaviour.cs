@@ -69,7 +69,6 @@ public class TurningBehaviour : AgrobotBehaviour
             }
             if (turnHalf == 2)
             {
-                Debug.Log("Going back to farming again");
                 m_gantry.SetBehaviour(new LaneFarmingBehaviour());
             }
         }
@@ -79,10 +78,5 @@ public class TurningBehaviour : AgrobotBehaviour
     private float CompareAngle(float angle1, float angle2)
     {
         return 180 - System.Math.Abs(System.Math.Abs(angle1 - angle2) - 180);
-    }
-
-    public override void Stop()
-    {
-        
     }
 }

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.Events;
 
 public class CropField : MonoBehaviour
 {
@@ -15,11 +16,15 @@ public class CropField : MonoBehaviour
 	[Header("Agrobot")]
 	[SerializeField] private AgrobotGantry m_agrobot;
 	[SerializeField] private GameObject m_path;
+	[SerializeField] private GameObject m_endZone;
 
 	[Header("Crops")]
 	[SerializeField] private GameObject m_chunk;
 	[SerializeField, Range(0, Crop.TIME_PERIOD_COUNT - 1)] private int m_startingMonth;
 	[SerializeField] private GameObject[] m_cropTypes;
+
+	[Header("Field change")]
+	[SerializeField] private UnityEvent m_onFieldChange;
 
 	private Transform m_agrobotStart;
 	private float m_gantryWidth;
@@ -47,6 +52,7 @@ public class CropField : MonoBehaviour
 
 	public void UpdateTimePeriod(int newTimePeriod)
 	{
+		m_onFieldChange.Invoke();
 		// Set new time period
 		newTimePeriod = Mathf.Clamp(newTimePeriod, 0, Crop.TIME_PERIOD_COUNT);
 		m_currentMonth = newTimePeriod;
@@ -66,6 +72,7 @@ public class CropField : MonoBehaviour
 	{
 		m_currentMonth++;
 		UpdateTimePeriod(m_currentMonth);
+		
 	}
 
 	public void OnChunkEmpty(CropChunk chunk)
@@ -113,20 +120,30 @@ public class CropField : MonoBehaviour
 			}
 		}
 
+
 		// Generate the driving paths
 		for (float x = m_field.bounds.min.x; x < m_field.bounds.max.x; x += m_gantryWidth)
 		{
 			GameObject path = Instantiate(m_path, new Vector3(x, transform.position.y, m_field.bounds.center.z), Quaternion.Euler(0, 0, 0));
 			m_paths.Add(path);
 
-			path.transform.localScale = new Vector3(m_gantryWheelWidth, 0.1f, fieldHeight);
+			path.transform.localScale = new Vector3(m_gantryWheelWidth, 0.1f, fieldHeight+m_gantryWidth);
 		}
 
-		m_agrobotStart.position = new Vector3(m_field.bounds.min.x + (m_gantryWidth / 2), m_field.bounds.max.y, m_field.bounds.min.z);
 
 		// Reset agrobot transform
+		m_agrobotStart.position = new Vector3(m_field.bounds.min.x + (m_gantryWidth / 2), m_field.bounds.max.y, m_field.bounds.min.z - (m_gantryWidth/2));
 		m_agrobot.transform.position = m_agrobotStart.position;
 		m_agrobot.transform.rotation = m_agrobotStart.rotation;
+
+		//generate end zone
+		GameObject endZone = Instantiate(m_endZone, new Vector3(m_field.bounds.max.x, transform.position.y, m_field.bounds.max.z), Quaternion.Euler(0, 0, 0));
+		endZone.transform.localScale = new Vector3(m_gantryWidth, 0.1f, 1);
+		//get endzone script and add unityevent to script
+		EndZone endZoneScript = endZone.GetComponent<EndZone>();
+		endZoneScript.setEvent(NextMonth);
+
+
 	}
 
 	public void SetChunksX(int chunks)

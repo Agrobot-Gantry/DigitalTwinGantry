@@ -87,6 +87,7 @@ public class AgrobotGantry : MonoBehaviour
     {
         if (other.tag == "path" && firsRowEnterOccured && !isTurning)
         {
+            Debug.Log("exit");
             firsRowExitOccured = true;
             SetBehaviour(new TurningBehaviour(counterClockwise, 1));
         }
@@ -97,6 +98,7 @@ public class AgrobotGantry : MonoBehaviour
     {
         if (other.tag == "path" && firsRowEnterOccured && firsRowExitOccured && !isTurning)
         {
+            Debug.Log("enter");
             SetBehaviour(new TurningBehaviour(counterClockwise, 2));
             counterClockwise = !counterClockwise;
             firsRowEnterOccured = false;
@@ -104,7 +106,15 @@ public class AgrobotGantry : MonoBehaviour
         }
         else if(other.tag == "path" && !isTurning)
         {
+            Debug.Log("first enter");
             firsRowEnterOccured = true;
+        }
+        else if(other.tag == "Finish")
+        {
+            Debug.Log("finish");
+            firsRowEnterOccured = false;
+            firsRowExitOccured = false;
+            SetBehaviour(new LaneFarmingBehaviour());
         }
        
     }

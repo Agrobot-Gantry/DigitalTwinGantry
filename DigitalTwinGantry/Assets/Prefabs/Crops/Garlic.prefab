@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7245942641262273434}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: 4_Ripened
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 8884446256103778012}
   - component: {fileID: 7870904020563546619}
   - component: {fileID: 1885811352996020592}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Stem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -122,7 +122,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3989916127992984235}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: 3_Growing
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -156,7 +156,7 @@ GameObject:
   - component: {fileID: 7324333439432568660}
   - component: {fileID: 1627479003808045650}
   - component: {fileID: 3610718537417051769}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Bulb
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -236,7 +236,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3859218208286368883}
   - component: {fileID: 8805726413765792360}
-  m_Layer: 0
+  - component: {fileID: 1863055429615576265}
+  m_Layer: 8
   m_Name: Garlic
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -298,6 +299,22 @@ MonoBehaviour:
     InteractableFlags: 0
   - Model: {fileID: 8745263093566478789}
     InteractableFlags: 0
+--- !u!54 &1863055429615576265
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2043524626836718842}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &2151080115826095850
 GameObject:
   m_ObjectHideFlags: 0
@@ -307,7 +324,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1837059920596484953}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: 5_Spoiled
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -341,7 +358,7 @@ GameObject:
   - component: {fileID: 4627755721903139701}
   - component: {fileID: 2285486036356031171}
   - component: {fileID: 6923743332286912084}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Stem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -422,7 +439,7 @@ GameObject:
   - component: {fileID: 2475868360442791315}
   - component: {fileID: 2080300355754275387}
   - component: {fileID: 1201661149766424873}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Stem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -503,7 +520,7 @@ GameObject:
   - component: {fileID: 4552641113415934333}
   - component: {fileID: 6515335787192731560}
   - component: {fileID: 4194076289691590936}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Bulb
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -584,7 +601,7 @@ GameObject:
   - component: {fileID: 7468741054800713671}
   - component: {fileID: 494014383371388380}
   - component: {fileID: 1142172654029920809}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Bulb
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -663,7 +680,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6042672353775625669}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: 1_Seed
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -695,7 +712,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7522342568231885422}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: 2_Seedling
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -729,7 +746,7 @@ GameObject:
   - component: {fileID: 3067148765901813347}
   - component: {fileID: 1031300878437552951}
   - component: {fileID: 9003344487016351240}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Stem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -810,7 +827,7 @@ GameObject:
   - component: {fileID: 4481699664285694180}
   - component: {fileID: 1632915896736357292}
   - component: {fileID: 7674780204700886274}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Stem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -891,7 +908,7 @@ GameObject:
   - component: {fileID: 5507875201045481281}
   - component: {fileID: 7163224228721561686}
   - component: {fileID: 8975035845527420563}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Bulb
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -970,7 +987,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2332819500159224963}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Models
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1008,7 +1025,7 @@ GameObject:
   - component: {fileID: 8786959131111494424}
   - component: {fileID: 5102476244014740379}
   - component: {fileID: 7655023199055710982}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Bulb
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1087,7 +1104,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8224272868610852382}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: 0_None
   m_TagString: Untagged
   m_Icon: {fileID: 0}

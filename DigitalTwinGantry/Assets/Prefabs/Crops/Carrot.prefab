@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2506462884918784779}
   - component: {fileID: 3566375252170704770}
   - component: {fileID: 2178399812912038769}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -91,7 +91,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7245942641262273434}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: 4_Ripened
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -122,7 +122,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3989916127992984235}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: 3_Growing
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -155,7 +155,7 @@ GameObject:
   - component: {fileID: 6082468915236356460}
   - component: {fileID: 7418325115305402843}
   - component: {fileID: 8105962674176494296}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -236,7 +236,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3859218208286368883}
   - component: {fileID: 8805726413765792360}
-  m_Layer: 0
+  - component: {fileID: 884702052100022928}
+  m_Layer: 8
   m_Name: Carrot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -298,6 +299,22 @@ MonoBehaviour:
     InteractableFlags: 0
   - Model: {fileID: 8745263093566478789}
     InteractableFlags: 0
+--- !u!54 &884702052100022928
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2043524626836718842}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &2151080115826095850
 GameObject:
   m_ObjectHideFlags: 0
@@ -307,7 +324,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1837059920596484953}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: 5_Spoiled
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -341,7 +358,7 @@ GameObject:
   - component: {fileID: 7432673092325543762}
   - component: {fileID: 8310873405351742237}
   - component: {fileID: 2129475841764308866}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -436,7 +453,7 @@ GameObject:
   - component: {fileID: 1678905027849962861}
   - component: {fileID: 7561476775718498761}
   - component: {fileID: 6410393355195177620}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -530,7 +547,7 @@ GameObject:
   - component: {fileID: 1078833798834268797}
   - component: {fileID: 8669530352848245446}
   - component: {fileID: 8214583549407935560}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -613,7 +630,7 @@ GameObject:
   - component: {fileID: 1593516048862142393}
   - component: {fileID: 8266369816533964506}
   - component: {fileID: 7788567481140786423}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -708,7 +725,7 @@ GameObject:
   - component: {fileID: 2352246186803559963}
   - component: {fileID: 1266613659764752443}
   - component: {fileID: 3393102933815483259}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -802,7 +819,7 @@ GameObject:
   - component: {fileID: 6968242867147862250}
   - component: {fileID: 3483974612221892067}
   - component: {fileID: 3340932572211985784}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -881,7 +898,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6042672353775625669}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: 1_Seed
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -912,7 +929,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7522342568231885422}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: 2_Seedling
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -945,7 +962,7 @@ GameObject:
   - component: {fileID: 1609595082794809718}
   - component: {fileID: 7628293681306802390}
   - component: {fileID: 7612438549859908684}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1025,7 +1042,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2332819500159224963}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Models
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1061,7 +1078,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8224272868610852382}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: 0_None
   m_TagString: Untagged
   m_Icon: {fileID: 0}
