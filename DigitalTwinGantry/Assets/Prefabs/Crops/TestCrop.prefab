@@ -19,7 +19,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &5658739134502723784
 Transform:
@@ -109,8 +109,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3902253178575c744861f1141461d57f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_interactableObject: {fileID: 0}
   m_flags: 1
-  m_callback:
+  m_interactionCallback:
     m_PersistentCalls:
       m_Calls: []
 --- !u!54 &4792575290010097737
@@ -143,7 +144,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &6991592008935815251
 Transform:

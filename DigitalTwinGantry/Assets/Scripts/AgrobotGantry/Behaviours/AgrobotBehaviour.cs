@@ -12,6 +12,7 @@ abstract public class AgrobotBehaviour
 {
     protected AgrobotGantry m_gantry;
     protected List<AgrobotAction> m_ongoingActions;
+    public List<AgrobotAction> OnGoingActions { get => m_ongoingActions; }
     protected AgrobotInteractable[] m_allInteractables;
 
     public AgrobotBehaviour()

@@ -19,29 +19,36 @@ public class CropField : MonoBehaviour
 	[SerializeField] private GameObject m_endZone;
 
 	[Header("Crops")]
+	[SerializeField] private GameObject m_ground;
 	[SerializeField] private GameObject m_chunk;
 	[SerializeField, Range(0, Crop.TIME_PERIOD_COUNT - 1)] private int m_startingMonth;
 	[SerializeField] private GameObject[] m_cropTypes;
 
 	[Header("Field change")]
 	[SerializeField] private UnityEvent m_onFieldChange;
+	
+	private GameObject m_groundMesh;
 
 	private Transform m_agrobotStart;
-	private float m_gantryWidth;
-	private float m_gantryWheelWidth;
+	private float m_gantryWidth = 3;
+	private float m_gantryWheelWidth = 0.5f;
 
 	private int m_currentMonth;
+	public int CurrentMonth { get => m_currentMonth; }
 
 	private List<GameObject> m_chunks;
 	private List<GameObject> m_paths;
 
 	private void Start()
 	{
-		m_agrobotStart = new GameObject("Agrobot Start Pos").transform;
-		m_agrobotStart.position = m_agrobot.transform.position;
-		m_agrobotStart.rotation = m_agrobot.transform.rotation;
-		m_gantryWidth = m_agrobot.GetGantryWidth();
-		m_gantryWheelWidth = m_agrobot.GetGantryWheelWidth();
+		if (m_agrobot != null) 
+		{
+			m_agrobotStart = new GameObject("Agrobot Start Pos").transform;
+			m_agrobotStart.position = m_agrobot.transform.position;
+			m_agrobotStart.rotation = m_agrobot.transform.rotation;
+			m_gantryWidth = m_agrobot.GetGantryWidth();
+			m_gantryWheelWidth = m_agrobot.GetGantryWheelWidth();
+		}
 
 		m_currentMonth = m_startingMonth;
 
@@ -64,13 +71,16 @@ public class CropField : MonoBehaviour
 		}
 
 		// Reset agrobot transform
-		m_agrobot.transform.position = m_agrobotStart.position;
-		m_agrobot.transform.rotation = m_agrobotStart.rotation;
+		if (m_agrobot != null) 
+		{
+			m_agrobot.transform.position = m_agrobotStart.position;
+			m_agrobot.transform.rotation = m_agrobotStart.rotation;
+		}
 	}
 
 	public void NextMonth()
 	{
-		m_currentMonth++;
+		m_currentMonth = Crop.CalculatTimePeriod(m_currentMonth, 1);
 		UpdateTimePeriod(m_currentMonth);
 		
 	}
@@ -78,7 +88,7 @@ public class CropField : MonoBehaviour
 	public void OnChunkEmpty(CropChunk chunk)
 	{
 		Crop crop = GetSowableCrop();
-		int offset = crop.DistanceBetween(m_currentMonth, crop.GetNearestSowingTimePeriod(m_currentMonth));
+		int offset = Crop.DistanceBetween(m_currentMonth, crop.GetNearestSowingTimePeriod(m_currentMonth));
 		
 		chunk.GenerateChunk(crop.gameObject, offset);
 	}
@@ -127,23 +137,33 @@ public class CropField : MonoBehaviour
 			GameObject path = Instantiate(m_path, new Vector3(x, transform.position.y, m_field.bounds.center.z), Quaternion.Euler(0, 0, 0));
 			m_paths.Add(path);
 
-			path.transform.localScale = new Vector3(m_gantryWheelWidth, 0.1f, fieldHeight+m_gantryWidth);
+			path.transform.localScale = new Vector3(m_gantryWheelWidth, 0.1f, fieldHeight + m_gantryWidth);
 		}
 
-
-		// Reset agrobot transform
-		m_agrobotStart.position = new Vector3(m_field.bounds.min.x + (m_gantryWidth / 2), m_field.bounds.max.y, m_field.bounds.min.z - (m_gantryWidth/2));
-		m_agrobot.transform.position = m_agrobotStart.position;
-		m_agrobot.transform.rotation = m_agrobotStart.rotation;
-
-		//generate end zone
+		// Generate end zone
 		GameObject endZone = Instantiate(m_endZone, new Vector3(m_field.bounds.max.x, transform.position.y, m_field.bounds.max.z), Quaternion.Euler(0, 0, 0));
 		endZone.transform.localScale = new Vector3(m_gantryWidth, 0.1f, 1);
-		//get endzone script and add unityevent to script
+		// Get endzone script and add unityevent to script
 		EndZone endZoneScript = endZone.GetComponent<EndZone>();
 		endZoneScript.setEvent(NextMonth);
 
 
+		// Remove and create the ground
+		if (m_groundMesh != null)
+		{
+			Destroy(m_groundMesh);
+		}
+
+		m_groundMesh = Instantiate(m_ground, new Vector3(transform.position.x + m_field.center.x, transform.position.y, transform.position.z + m_field.center.z), Quaternion.Euler(0, 0, 0));
+		m_groundMesh.transform.localScale = new Vector3(m_field.size.x, 0.01f, m_field.size.z);
+
+		// Reset agrobot transform
+		if (m_agrobot != null) 
+		{
+			m_agrobotStart.position = new Vector3(m_field.bounds.min.x + (m_gantryWidth / 2), m_field.bounds.max.y, m_field.bounds.min.z - (m_gantryWidth/2));
+			m_agrobot.transform.position = m_agrobotStart.position;
+			m_agrobot.transform.rotation = m_agrobotStart.rotation;
+		}
 	}
 
 	public void SetChunksX(int chunks)
@@ -189,15 +209,16 @@ public class CropField : MonoBehaviour
 			Crop crop1 = type1.GetComponent<Crop>();
 			Crop crop2 = type2.GetComponent<Crop>();
 			
-			return Mathf.Abs(crop1.DistanceBetween(m_currentMonth, crop1.GetNearestSowingTimePeriod(m_currentMonth))) - 
-				Mathf.Abs(crop2.DistanceBetween(m_currentMonth, crop2.GetNearestSowingTimePeriod(m_currentMonth)));
+			return Mathf.Abs(Crop.DistanceBetween(m_currentMonth, crop1.GetNearestSowingTimePeriod(m_currentMonth))) - 
+				Mathf.Abs(Crop.DistanceBetween(m_currentMonth, crop2.GetNearestSowingTimePeriod(m_currentMonth)));
 		});
 
 		//choose a random crop type that doesn't exceed the max sowing distance
 		int index = UnityEngine.Random.Range(0, m_cropTypes.Length); //pick a random crop type
-		while (index > 0) { //as long as we have other options left
+		while (index > 0) 
+		{ //as long as we have other options left
 			Crop crop = m_cropTypes[index].GetComponent<Crop>();
-			if (Mathf.Abs(crop.DistanceBetween(m_currentMonth, crop.GetNearestSowingTimePeriod(m_currentMonth))) <= MAX_SOWING_DISTANCE)
+			if (Mathf.Abs(Crop.DistanceBetween(m_currentMonth, crop.GetNearestSowingTimePeriod(m_currentMonth))) <= MAX_SOWING_DISTANCE)
 			{
 				return crop; //return this crop if it's within the max sowing distance
 			}

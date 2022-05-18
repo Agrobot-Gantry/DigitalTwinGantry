@@ -23,7 +23,7 @@ public class IrrigationAction : AgrobotAction
 			m_tool.GetToolObject().transform.position = Vector3.MoveTowards(
 				m_tool.GetToolObject().transform.position,
 				m_targetInteractable.transform.position,
-				Time.deltaTime);
+				TimeChanger.DeltaTime);
 			yield return null;
 		}
 		m_targetInteractable.OnInteract(this);
