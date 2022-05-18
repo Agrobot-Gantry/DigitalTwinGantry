@@ -11,10 +11,10 @@ public class AgrobotGantry : MonoBehaviour
     private AgrobotEquipment m_equipment;
     private AgrobotBehaviour m_currentBehaviour;
     public AgrobotBehaviour CurrentBehaviour { get => m_currentBehaviour; }
-    private bool counterClockwise = false;
-    private bool firsRowEnterOccured = false;
-    private bool firsRowExitOccured = false;
-    private bool isTurning;
+    private bool m_counterClockwise = false;
+    private bool m_firsRowEnterOccured = false;
+    private bool m_firsRowExitOccured = false;
+    private bool m_isTurning;
 
     [SerializeField]
     private AgrobotTool[] m_tools;
@@ -29,6 +29,15 @@ public class AgrobotGantry : MonoBehaviour
     /// Negative values will make it turn left.
     /// </summary>
     public float TurningSpeed { get; set; }
+
+    public void Reset()
+    {
+        m_isTurning = false;
+        m_counterClockwise = false;
+        m_firsRowEnterOccured = false;
+        m_firsRowExitOccured = false;
+        SetBehaviour(new LaneFarmingBehaviour());
+    }
 
     void Start()
     {
@@ -47,14 +56,14 @@ public class AgrobotGantry : MonoBehaviour
         if (MovementSpeed != 0.0f)
         {
             transform.Translate(Vector3.forward * TimeChanger.DeltaTime * MovementSpeed);
-            isTurning = false;
+            m_isTurning = false;
         }
 
         //turning
         if (TurningSpeed != 0.0f)
         {
             transform.Rotate(Vector3.up, TimeChanger.DeltaTime * TurningSpeed);
-            isTurning = true;
+            m_isTurning = true;
         }
 
         m_currentBehaviour.Update(TimeChanger.DeltaTime);
@@ -67,7 +76,11 @@ public class AgrobotGantry : MonoBehaviour
 
     public void SetBehaviour(AgrobotBehaviour behaviour)
     {
-        m_currentBehaviour.Stop();
+        if (m_currentBehaviour != null)
+        {
+            m_currentBehaviour.Stop();
+        }
+        
         m_currentBehaviour = behaviour;
         m_currentBehaviour.Start(this);
     }
@@ -86,37 +99,29 @@ public class AgrobotGantry : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.tag == "path" && firsRowEnterOccured && !isTurning)
+        if (other.tag == "path" && m_firsRowEnterOccured && !m_isTurning)
         {
             Debug.Log("exit");
-            firsRowExitOccured = true;
-            SetBehaviour(new TurningBehaviour(counterClockwise, 1));
+            m_firsRowExitOccured = true;
+            SetBehaviour(new TurningBehaviour(m_counterClockwise, 1));
         }
        
         
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "path" && firsRowEnterOccured && firsRowExitOccured && !isTurning)
+        if (other.tag == "path" && m_firsRowEnterOccured && m_firsRowExitOccured && !m_isTurning)
         {
             Debug.Log("enter");
-            SetBehaviour(new TurningBehaviour(counterClockwise, 2));
-            counterClockwise = !counterClockwise;
-            firsRowEnterOccured = false;
-            firsRowExitOccured = false;
+            SetBehaviour(new TurningBehaviour(m_counterClockwise, 2));
+            m_counterClockwise = !m_counterClockwise;
+            m_firsRowEnterOccured = false;
+            m_firsRowExitOccured = false;
         }
-        else if(other.tag == "path" && !isTurning)
+        else if(other.tag == "path" && !m_isTurning)
         {
             Debug.Log("first enter");
-            firsRowEnterOccured = true;
-        }
-        else if(other.tag == "Finish")
-        {
-            Debug.Log("finish");
-            firsRowEnterOccured = false;
-            firsRowExitOccured = false;
-            SetBehaviour(new LaneFarmingBehaviour());
-        }
-       
+            m_firsRowEnterOccured = true;
+        }       
     }
 }

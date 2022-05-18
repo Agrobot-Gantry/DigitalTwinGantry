@@ -5,10 +5,11 @@ using UnityEngine;
 
 public class CropChunk : MonoBehaviour
 {
-    [SerializeField] private float sizeBetweenCrop;
+    [SerializeField] private float m_sizeBetweenCrop;
+    [SerializeField] private float m_cropScale;
 
-    private float xSize;
-    private float ySize;
+    private float m_xSize;
+    private float m_ySize;
 
     private List<GameObject> m_crops;
     private Action<CropChunk> m_onCHunkEmpty;
@@ -18,8 +19,8 @@ public class CropChunk : MonoBehaviour
     public void Initialize(GameObject cropType, Vector2 chunkSize, int timePeriod, Action<CropChunk> onChunkEmpty)
     {
         m_crops = new List<GameObject>();
-        xSize = chunkSize.x;
-        ySize = chunkSize.y;
+        m_xSize = chunkSize.x;
+        m_ySize = chunkSize.y;
 
         m_timePeriod = timePeriod;
         m_onCHunkEmpty = onChunkEmpty;
@@ -37,12 +38,13 @@ public class CropChunk : MonoBehaviour
         m_crops.Clear();
 
 		// Generate the crops
-		for (float x = 0; x < xSize; x += sizeBetweenCrop)
+		for (float x = 0; x < m_xSize; x += m_sizeBetweenCrop)
 		{
-			for (float z = 0; z < ySize; z += sizeBetweenCrop)
+			for (float z = 0; z < m_ySize; z += m_sizeBetweenCrop)
 			{
 				GameObject cropObject = Instantiate(cropType, transform);
                 cropObject.transform.localPosition = new Vector3(x, transform.position.y, z);
+                cropObject.transform.localScale = new Vector3(m_cropScale, m_cropScale, m_cropScale);
 				m_crops.Add(cropObject);
 
                 Crop crop = cropObject.GetComponent<Crop>();

@@ -60,6 +60,7 @@ public class CropField : MonoBehaviour
 	public void UpdateTimePeriod(int newTimePeriod)
 	{
 		m_onFieldChange.Invoke();
+
 		// Set new time period
 		newTimePeriod = Mathf.Clamp(newTimePeriod, 0, Crop.TIME_PERIOD_COUNT);
 		m_currentMonth = newTimePeriod;
@@ -75,6 +76,7 @@ public class CropField : MonoBehaviour
 		{
 			m_agrobot.transform.position = m_agrobotStart.position;
 			m_agrobot.transform.rotation = m_agrobotStart.rotation;
+			m_agrobot.Reset();
 		}
 	}
 
@@ -82,7 +84,6 @@ public class CropField : MonoBehaviour
 	{
 		m_currentMonth = Crop.CalculatTimePeriod(m_currentMonth, 1);
 		UpdateTimePeriod(m_currentMonth);
-		
 	}
 
 	public void OnChunkEmpty(CropChunk chunk)
@@ -163,6 +164,7 @@ public class CropField : MonoBehaviour
 			m_agrobotStart.position = new Vector3(m_field.bounds.min.x + (m_gantryWidth / 2), m_field.bounds.max.y, m_field.bounds.min.z - (m_gantryWidth/2));
 			m_agrobot.transform.position = m_agrobotStart.position;
 			m_agrobot.transform.rotation = m_agrobotStart.rotation;
+			m_agrobot.Reset();
 		}
 	}
 

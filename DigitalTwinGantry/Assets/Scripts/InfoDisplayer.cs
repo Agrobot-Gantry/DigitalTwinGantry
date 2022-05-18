@@ -16,7 +16,7 @@ public class InfoDisplayer : MonoBehaviour
 
     private IEnumerator OnUpdate() {
         while (true) {
-            m_monthText.text = "Month: " + m_cropField.CurrentMonth;
+            m_monthText.text = "Month: " + (m_cropField.CurrentMonth + 1);
 
             string actionText = "Actions: ";
             foreach (AgrobotAction action in m_gantry.CurrentBehaviour.OnGoingActions)

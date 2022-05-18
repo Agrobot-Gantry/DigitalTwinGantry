@@ -1,4 +1,4 @@
-Shader "BlackOut"
+Shader "DigitalTwin/BlackOut"
 {
     Properties
     {

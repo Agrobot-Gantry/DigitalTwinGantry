@@ -43,4 +43,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d22a1469e604d8e499abd557b761e764, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sizeBetweenCrop: 1
+  m_sizeBetweenCrop: 0.5
+  m_cropScale: 0.7
