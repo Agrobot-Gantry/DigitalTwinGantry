@@ -23,7 +23,6 @@ public class BlackOut : MonoBehaviour
     private void Start() {
         m_inCollider = new List<Collider>();
 
-        // m_material = new Material(m_effect);
         m_material = GetComponent<Renderer>().material;
         m_collider = GetComponent<SphereCollider>();
         m_fadeDistance = m_collider.radius;
@@ -80,23 +79,25 @@ public class BlackOut : MonoBehaviour
     }
 
     private IEnumerator FadeRoutine() {
-        enabled = false;
+        if (m_material != null) {
+            enabled = false;
 
-        float current = m_material.GetFloat("_Transparency");
+            float current = m_material.GetFloat("_Transparency");
 
-        for (float i = 0; i < m_fadeInAnimationSpeed; i += 0.01f) {
-            m_material.SetFloat("_Transparency", Mathf.Lerp(current, 1, i / m_fadeInAnimationSpeed));
-            yield return new WaitForSeconds(0.01f);
+            for (float i = 0; i < m_fadeInAnimationSpeed; i += 0.01f) {
+                m_material.SetFloat("_Transparency", Mathf.Lerp(current, 1, i / m_fadeInAnimationSpeed));
+                yield return new WaitForSeconds(0.01f);
+            }
+
+            yield return new WaitForSeconds(m_fadeOutAnimationSpeed);
+
+            for (float i = 0; i < m_fadeOutAnimationSpeed; i += 0.01f) {
+                m_material.SetFloat("_Transparency", Mathf.Lerp(1, 0, i / m_fadeOutAnimationSpeed));
+                yield return new WaitForSeconds(0.01f);
+            }
+
+            m_material.SetFloat("_Transparency", 0);
+            enabled = true;
         }
-
-        yield return new WaitForSeconds(m_fadeOutAnimationSpeed);
-
-        for (float i = 0; i < m_fadeOutAnimationSpeed; i += 0.01f) {
-            m_material.SetFloat("_Transparency", Mathf.Lerp(1, 0, i / m_fadeOutAnimationSpeed));
-            yield return new WaitForSeconds(0.01f);
-        }
-
-        m_material.SetFloat("_Transparency", 0);
-        enabled = true;
     }
 }

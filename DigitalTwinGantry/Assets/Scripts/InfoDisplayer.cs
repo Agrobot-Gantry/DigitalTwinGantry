@@ -26,7 +26,7 @@ public class InfoDisplayer : MonoBehaviour
 
             m_actionText.text = actionText;
 
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(0.5f);
         }
     }
 }
