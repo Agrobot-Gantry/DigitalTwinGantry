@@ -23,6 +23,9 @@ public class CropField : MonoBehaviour
 	[SerializeField, Range(0, Crop.TIME_PERIOD_COUNT - 1)] private int m_startingMonth;
 	[SerializeField] private GameObject[] m_cropTypes;
 
+	[Header("Field change")]
+	[SerializeField] private UnityEvent m_onFieldChange;
+
 	private Transform m_agrobotStart;
 	private float m_gantryWidth;
 	private float m_gantryWheelWidth;
@@ -49,6 +52,7 @@ public class CropField : MonoBehaviour
 
 	public void UpdateTimePeriod(int newTimePeriod)
 	{
+		m_onFieldChange.Invoke();
 		// Set new time period
 		newTimePeriod = Mathf.Clamp(newTimePeriod, 0, Crop.TIME_PERIOD_COUNT);
 		m_currentMonth = newTimePeriod;
@@ -137,9 +141,7 @@ public class CropField : MonoBehaviour
 		endZone.transform.localScale = new Vector3(m_gantryWidth, 0.1f, 1);
 		//get endzone script and add unityevent to script
 		EndZone endZoneScript = endZone.GetComponent <EndZone>();
-		UnityEvent end = new UnityEvent();
-		end.AddListener(NextMonth);
-		endZoneScript.setEvent(end);
+		endZoneScript.setEvent(NextMonth);
 	}
 
 	public void SetChunksX(int chunks)

@@ -1,13 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class EndZone : MonoBehaviour
 {
-    private UnityEvent m_onTrigger;
+    private Action m_onTrigger;
 
-    public void setEvent(UnityEvent onTrigger)
+    public void setEvent(Action onTrigger)
     {
         m_onTrigger = onTrigger;
     }
