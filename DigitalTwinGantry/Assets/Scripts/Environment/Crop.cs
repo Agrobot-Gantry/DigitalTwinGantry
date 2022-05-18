@@ -143,8 +143,8 @@ public class Crop : MonoBehaviour
     {
         if(other.tag == "path")
         {
+			Destroy(this.gameObject);
 			m_onHarvestCallback(this);
-			Destroy(gameObject);
         }
     }
 }

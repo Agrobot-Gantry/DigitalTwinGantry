@@ -106,6 +106,10 @@ public class AgrobotGantry : MonoBehaviour
         {
             firsRowEnterOccured = true;
         }
+        else if(other.tag == "Finish")
+        {
+            SetBehaviour(new LaneFarmingBehaviour());
+        }
        
     }
 }

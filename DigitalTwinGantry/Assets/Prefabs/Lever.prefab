@@ -129,7 +129,6 @@ MonoBehaviour:
   m_grabbable: {fileID: 3829115989560492292}
   m_transformer: {fileID: 3829115989560492295}
   m_axis: 0
-  m_audio: {fileID: 0}
   m_onUpdate:
     m_PersistentCalls:
       m_Calls: []

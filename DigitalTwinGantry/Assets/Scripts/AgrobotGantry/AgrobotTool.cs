@@ -60,9 +60,22 @@ public class AgrobotTool : MonoBehaviour
     /// <param name="interactable">the interactable that was modified</param>
     public void InteractableModified(AgrobotInteractable interactable)
     {
-        if (!interactable.HasFlag(m_flag))
+
+        if (interactable == null)
         {
             m_reachables.Remove(interactable);
+        }
+        else if (!interactable.HasFlag(m_flag))
+        {
+            m_reachables.Remove(interactable);
+        }
+        for (int i = 0; i < m_reachables.Count; i++)
+        {
+            if(m_reachables[i] == null)
+            {
+                m_reachables.RemoveAt(i);
+                i--;
+            }
         }
     }
 

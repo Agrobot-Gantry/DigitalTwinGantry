@@ -36,8 +36,5 @@ public class LaneFarmingBehaviour : AgrobotBehaviour
         //TODO stop moving if there are no valid interactables left
     }
 
-    public override void Stop()
-    {
-        
-    }
+
 }

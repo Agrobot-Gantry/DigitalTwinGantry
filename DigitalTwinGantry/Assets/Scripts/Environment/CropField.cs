@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.Events;
 
 public class CropField : MonoBehaviour
 {
@@ -15,6 +16,7 @@ public class CropField : MonoBehaviour
 	[Header("Agrobot")]
 	[SerializeField] private AgrobotGantry m_agrobot;
 	[SerializeField] private GameObject m_path;
+	[SerializeField] private GameObject m_endZone;
 
 	[Header("Crops")]
 	[SerializeField] private GameObject m_chunk;
@@ -65,7 +67,9 @@ public class CropField : MonoBehaviour
 	public void NextMonth()
 	{
 		m_currentMonth++;
+		Debug.Log(m_currentMonth);
 		UpdateTimePeriod(m_currentMonth);
+		
 	}
 
 	public void OnChunkEmpty(CropChunk chunk)
@@ -127,6 +131,15 @@ public class CropField : MonoBehaviour
 		m_agrobotStart.position = new Vector3(m_field.bounds.min.x + (m_gantryWidth / 2), m_field.bounds.max.y, m_field.bounds.min.z - (m_gantryWidth/2));
 		m_agrobot.transform.position = m_agrobotStart.position;
 		m_agrobot.transform.rotation = m_agrobotStart.rotation;
+
+		//generate end zone
+		GameObject endZone = Instantiate(m_endZone, new Vector3(m_field.bounds.max.x, transform.position.y, m_field.bounds.max.z), Quaternion.Euler(0, 0, 0));
+		endZone.transform.localScale = new Vector3(m_gantryWidth, 0.1f, 1);
+		//get endzone script and add unityevent to script
+		EndZone endZoneScript = endZone.GetComponent <EndZone>();
+		UnityEvent end = new UnityEvent();
+		end.AddListener(NextMonth);
+		endZoneScript.setEvent(end);
 	}
 
 	public void SetChunksX(int chunks)

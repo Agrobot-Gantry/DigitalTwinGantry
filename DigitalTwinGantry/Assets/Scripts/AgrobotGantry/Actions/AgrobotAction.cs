@@ -42,9 +42,9 @@ abstract public class AgrobotAction
 	protected void Finish()
 	{
 		m_targetInteractable.ClearFlag(GetFlags());
+		m_targetInteractable.Busy = false;
 		//the flag may be cleared but tools only check flags on collision so we need to update them for this specific interactable
 		m_equipment.InteractableModified(m_targetInteractable);
-		m_targetInteractable.Busy = false;
 		m_callback(this);
 	}
 }
