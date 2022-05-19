@@ -74,16 +74,16 @@ public class CropField : MonoBehaviour
 		// Reset agrobot transform
 		if (m_agrobot != null) 
 		{
-			m_agrobot.transform.position = m_agrobotStart.position;
-			m_agrobot.transform.rotation = m_agrobotStart.rotation;
-			m_agrobot.Reset();
+			m_agrobot.Reset(m_agrobotStart.position, m_agrobotStart.rotation);
 		}
 	}
 
 	public void NextMonth()
 	{
+		Debug.Log(m_currentMonth);
 		m_currentMonth = Crop.CalculatTimePeriod(m_currentMonth, 1);
 		UpdateTimePeriod(m_currentMonth);
+		Debug.Log(m_currentMonth);
 	}
 
 	public void OnChunkEmpty(CropChunk chunk)
@@ -162,9 +162,7 @@ public class CropField : MonoBehaviour
 		if (m_agrobot != null) 
 		{
 			m_agrobotStart.position = new Vector3(m_field.bounds.min.x + (m_gantryWidth / 2), m_field.bounds.max.y, m_field.bounds.min.z - (m_gantryWidth/2));
-			m_agrobot.transform.position = m_agrobotStart.position;
-			m_agrobot.transform.rotation = m_agrobotStart.rotation;
-			m_agrobot.Reset();
+			m_agrobot.Reset(m_agrobotStart.position, m_agrobotStart.rotation);
 		}
 	}
 
@@ -182,6 +180,28 @@ public class CropField : MonoBehaviour
 		OnValidate();
 
 		GenerateChunks();
+	}
+
+	public void SetFieldType(int type)
+    {
+		m_onFieldChange.Invoke();
+        switch (type)
+        {
+			case 0:
+				SetChunksY(1);
+				SetChunksX(1);
+				break;
+			case 1:
+				SetChunksY(1);
+				SetChunksX(10);
+				break;
+			case 2:
+				SetChunksY(10);
+				SetChunksX(10);
+				break;
+		}
+		m_agrobot.Reset(m_agrobotStart.position,m_agrobotStart.rotation);
+
 	}
 
 	private Crop GetStartingCrop()
