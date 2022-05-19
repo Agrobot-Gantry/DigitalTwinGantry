@@ -9,11 +9,6 @@ using UnityEngine;
 public class Crop : MonoBehaviour
 {
 	/// <summary>
-	/// The amount of time periods that every croptype has.
-	/// </summary>
-	public const int TIME_PERIOD_COUNT = 12;
-
-	/// <summary>
 	/// The crop will be removed when its current time period equals this flag.
 	/// </summary>
 	private const InteractableFlag INSTANTLY_REMOVE_CROP_FLAG = InteractableFlag.NONE;
@@ -26,13 +21,6 @@ public class Crop : MonoBehaviour
 	private Action<Crop> m_onHarvestCallback;
 	private TimePeriod m_currentTimePeriod;
 	private int m_timePeriodOffset; //offset the current crop timeperiod from the real timeperiod received in UpdateTimePeriod(int newTimePeriod)
-
-	[System.Serializable]
-	public struct TimePeriod
-	{
-		public GameObject Model;
-		public InteractableFlag InteractableFlags;
-	}
 
 	public void Initialize(int currentTimePeriod, int timePeriodOffset, Action<Crop> onHarvestCallback)
 	{
@@ -51,7 +39,7 @@ public class Crop : MonoBehaviour
 	public void UpdateTimePeriod(int newTimePeriod)
 	{
 		m_currentTimePeriod.Model.SetActive(false);
-		m_currentTimePeriod = m_timePeriods[CalculatTimePeriod(newTimePeriod, m_timePeriodOffset)];
+		m_currentTimePeriod = m_timePeriods[TimePeriod.PeriodIfTimeChanged(newTimePeriod, m_timePeriodOffset)];
 		m_currentTimePeriod.Model.SetActive(true);
 
 		m_interactable.SetFlags(m_currentTimePeriod.InteractableFlags);
@@ -89,7 +77,7 @@ public class Crop : MonoBehaviour
 	{
 		//find all time periods with the sowing flag
 		List<int> sowingTimePeriods = new List<int>();
-		for (int i = 0; i < TIME_PERIOD_COUNT; i++)
+		for (int i = 0; i < TimePeriod.TIME_PERIOD_COUNT; i++)
 		{
 			if (m_timePeriods[i].InteractableFlags.HasFlag(InteractableFlag.SOW))
 			{
@@ -101,7 +89,7 @@ public class Crop : MonoBehaviour
 		int nearestIndex = int.MaxValue;
 		foreach (int index in sowingTimePeriods)
 		{
-			if (Mathf.Abs(DistanceBetween(comparedTimePeriod, index)) < Mathf.Abs(DistanceBetween(comparedTimePeriod, nearestIndex)))
+			if (Mathf.Abs(TimePeriod.Distance(comparedTimePeriod, index)) < Mathf.Abs(TimePeriod.Distance(comparedTimePeriod, nearestIndex)))
 			{
 				nearestIndex = index;
 			}
@@ -109,59 +97,12 @@ public class Crop : MonoBehaviour
 		return nearestIndex;
 	}
 
-	/// <summary>
-	/// Returns the difference in timeperiods from one timeperiod to another. This distance will be a value from -(TIME_PERIOD_COUNT / 2) 
-	/// through (TIME_PERIOD_COUNT / 2) with regard for timeperiods looping between TIME_PERIOD_COUNT and 0.
-	/// </summary>
-	/// <returns>the time difference from fromTimePeriod to toTimePeriod</returns>
-	public static int DistanceBetween(int fromTimePeriod, int toTimePeriod) //Distance
-	{
-		int difference = fromTimePeriod - toTimePeriod;
-
-		if (difference > TIME_PERIOD_COUNT / 2)
-		{
-			difference = TIME_PERIOD_COUNT - difference;
-		}
-		else if (difference < -TIME_PERIOD_COUNT / 2)
-		{
-			difference = TIME_PERIOD_COUNT + difference;
-			difference = -difference;
-		}
-		else
-		{
-			difference = -difference;
-		}
-
-		return difference;
-	}
-
-	/// <summary>
-	/// Returns what the timeperiod would be if time changed by a certain amount of timeperiods.
-	/// When the timeperiod goes over TIME_PERIOD_COUNT it loops to 0 and continues counting.
-	/// If the timeperiod goes under 0 it loops to TIME_PERIOD_COUNT and continues counting.
-	/// </summary>
-	/// <param name="timePeriod">the timeperiod to start from</param>
-	/// <param name="timeChange">by how many timeperiods time should change(can be negative)</param>
-	/// <returns>what timePeriod would be if time advanced by timeChange timeperiods</returns>
-	public static int CalculatTimePeriod(int timePeriod, int timeChange)//PeriodIfTimeChanged
-	{
-		timePeriod += timeChange;
-		timePeriod = timePeriod % TIME_PERIOD_COUNT;
-
-		if (timePeriod < 0)
-		{
-			timePeriod += TIME_PERIOD_COUNT;
-		}
-
-		return timePeriod;
-	}
-
 	private void OnValidate()
 	{
-		if (m_timePeriods.Length != TIME_PERIOD_COUNT)
+		if (m_timePeriods.Length != TimePeriod.TIME_PERIOD_COUNT)
 		{
-			Debug.LogWarning("Each crop must have exactly " + TIME_PERIOD_COUNT + " time periods!");
-			Array.Resize(ref m_timePeriods, TIME_PERIOD_COUNT);
+			Debug.LogWarning("Each crop must have exactly " + TimePeriod.TIME_PERIOD_COUNT + " time periods!");
+			Array.Resize(ref m_timePeriods, TimePeriod.TIME_PERIOD_COUNT);
 		}
 	}
 	private void OnTriggerEnter(Collider other)

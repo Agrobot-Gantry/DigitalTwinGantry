@@ -24,7 +24,7 @@ public class CropField : MonoBehaviour
 	[Header("Crops")]
 	[SerializeField] private GameObject m_ground;
 	[SerializeField] private GameObject m_chunk;
-	[SerializeField, Range(0, Crop.TIME_PERIOD_COUNT - 1)] private int m_startingMonth;
+	[SerializeField, Range(0, TimePeriod.TIME_PERIOD_COUNT - 1)] private int m_startingMonth;
 	[SerializeField] private GameObject[] m_cropTypes;
 
 	[Header("Field change")]
@@ -69,7 +69,7 @@ public class CropField : MonoBehaviour
 		m_onFieldChange.Invoke();
 
 		// Set new time period
-		newTimePeriod = Mathf.Clamp(newTimePeriod, 0, Crop.TIME_PERIOD_COUNT);
+		newTimePeriod = Mathf.Clamp(newTimePeriod, 0, TimePeriod.TIME_PERIOD_COUNT);
 		m_currentMonth = newTimePeriod;
 
 		// Update all chunks
@@ -92,7 +92,7 @@ public class CropField : MonoBehaviour
 	/// </summary>
 	public void NextMonth()
 	{
-		m_currentMonth = Crop.CalculatTimePeriod(m_currentMonth, 1);
+		m_currentMonth = TimePeriod.PeriodIfTimeChanged(m_currentMonth, 1);
 		UpdateTimePeriod(m_currentMonth);
 	}
 
@@ -103,7 +103,7 @@ public class CropField : MonoBehaviour
 	public void OnChunkEmpty(CropChunk chunk)
 	{
 		Crop crop = GetSowableCrop();
-		int offset = Crop.DistanceBetween(m_currentMonth, crop.GetNearestSowingTimePeriod(m_currentMonth));
+		int offset = TimePeriod.Distance(m_currentMonth, crop.GetNearestSowingTimePeriod(m_currentMonth));
 		
 		chunk.GenerateChunk(crop.gameObject, offset);
 	}
@@ -237,8 +237,8 @@ public class CropField : MonoBehaviour
 			Crop crop1 = type1.GetComponent<Crop>();
 			Crop crop2 = type2.GetComponent<Crop>();
 			
-			return Mathf.Abs(Crop.DistanceBetween(m_currentMonth, crop1.GetNearestSowingTimePeriod(m_currentMonth))) - 
-				Mathf.Abs(Crop.DistanceBetween(m_currentMonth, crop2.GetNearestSowingTimePeriod(m_currentMonth)));
+			return Mathf.Abs(TimePeriod.Distance(m_currentMonth, crop1.GetNearestSowingTimePeriod(m_currentMonth))) - 
+				Mathf.Abs(TimePeriod.Distance(m_currentMonth, crop2.GetNearestSowingTimePeriod(m_currentMonth)));
 		});
 
 		//choose a random crop type that doesn't exceed the max sowing distance
@@ -246,7 +246,7 @@ public class CropField : MonoBehaviour
 		while (index > 0) 
 		{ //as long as we have other options left
 			Crop crop = m_cropTypes[index].GetComponent<Crop>();
-			if (Mathf.Abs(Crop.DistanceBetween(m_currentMonth, crop.GetNearestSowingTimePeriod(m_currentMonth))) <= MAX_SOWING_DISTANCE)
+			if (Mathf.Abs(TimePeriod.Distance(m_currentMonth, crop.GetNearestSowingTimePeriod(m_currentMonth))) <= MAX_SOWING_DISTANCE)
 			{
 				return crop; //return this crop if it's within the max sowing distance
 			}
