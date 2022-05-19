@@ -11,7 +11,7 @@ public class AgrobotTurnZone : MonoBehaviour
         AgrobotGantry gantry = other.gameObject.GetComponent<AgrobotGantry>();
         if (gantry != null)
         {
-            gantry.SetBehaviour(new TurningBehaviour(counterClockwise));
+            gantry.SetBehaviour(new TurningBehaviour(counterClockwise,0));
         }
     }
 }

@@ -10,6 +10,11 @@ public class AgrobotGantry : MonoBehaviour
     public AgrobotEquipment Equipment { get { return m_equipment; } }
     private AgrobotEquipment m_equipment;
     private AgrobotBehaviour m_currentBehaviour;
+    public AgrobotBehaviour CurrentBehaviour { get => m_currentBehaviour; }
+    private bool m_counterClockwise = false;
+    private bool m_firsRowEnterOccured = false;
+    private bool m_firsRowExitOccured = false;
+    private bool m_isTurning;
 
     [SerializeField]
     private AgrobotTool[] m_tools;
@@ -24,6 +29,15 @@ public class AgrobotGantry : MonoBehaviour
     /// Negative values will make it turn left.
     /// </summary>
     public float TurningSpeed { get; set; }
+
+    public void Reset()
+    {
+        m_isTurning = false;
+        m_counterClockwise = false;
+        m_firsRowEnterOccured = false;
+        m_firsRowExitOccured = false;
+        SetBehaviour(new LaneFarmingBehaviour());
+    }
 
     void Start()
     {
@@ -41,16 +55,18 @@ public class AgrobotGantry : MonoBehaviour
         //moving
         if (MovementSpeed != 0.0f)
         {
-            transform.Translate(Vector3.forward * Time.deltaTime * MovementSpeed);
+            transform.Translate(Vector3.forward * TimeChanger.DeltaTime * MovementSpeed);
+            m_isTurning = false;
         }
 
         //turning
         if (TurningSpeed != 0.0f)
         {
-            transform.Rotate(Vector3.up, Time.deltaTime * TurningSpeed);
+            transform.Rotate(Vector3.up, TimeChanger.DeltaTime * TurningSpeed);
+            m_isTurning = true;
         }
 
-        m_currentBehaviour.Update(Time.deltaTime);
+        m_currentBehaviour.Update(TimeChanger.DeltaTime);
     }
 
     public void ShowCasing(bool showCasing)
@@ -60,7 +76,11 @@ public class AgrobotGantry : MonoBehaviour
 
     public void SetBehaviour(AgrobotBehaviour behaviour)
     {
-        m_currentBehaviour.Stop();
+        if (m_currentBehaviour != null)
+        {
+            m_currentBehaviour.Stop();
+        }
+        
         m_currentBehaviour = behaviour;
         m_currentBehaviour.Start(this);
     }
@@ -68,12 +88,40 @@ public class AgrobotGantry : MonoBehaviour
     /// <returns>the total width of the gantry (including the wheels) in meters</returns>
     public float GetGantryWidth()
     {
-        return 4.0f; //TODO implement
+        return 3.0f;
     }
 
     /// <returns>the width of the wheels</returns>
     public float GetGantryWheelWidth()
     {
-        return -1.0f; //TODO implement
+        return 0.5f;
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.tag == "path" && m_firsRowEnterOccured && !m_isTurning)
+        {
+            Debug.Log("exit");
+            m_firsRowExitOccured = true;
+            SetBehaviour(new TurningBehaviour(m_counterClockwise, 1));
+        }
+       
+        
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "path" && m_firsRowEnterOccured && m_firsRowExitOccured && !m_isTurning)
+        {
+            Debug.Log("enter");
+            SetBehaviour(new TurningBehaviour(m_counterClockwise, 2));
+            m_counterClockwise = !m_counterClockwise;
+            m_firsRowEnterOccured = false;
+            m_firsRowExitOccured = false;
+        }
+        else if(other.tag == "path" && !m_isTurning)
+        {
+            Debug.Log("first enter");
+            m_firsRowEnterOccured = true;
+        }       
     }
 }
