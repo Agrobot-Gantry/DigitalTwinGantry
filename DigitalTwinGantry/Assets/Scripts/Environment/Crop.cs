@@ -13,6 +13,11 @@ public class Crop : MonoBehaviour
 	/// </summary>
 	public const int TIME_PERIOD_COUNT = 12;
 
+	/// <summary>
+	/// The crop will be removed when its current time period equals this flag.
+	/// </summary>
+	private const InteractableFlag INSTANTLY_REMOVE_CROP_FLAG = InteractableFlag.NONE;
+
 	[SerializeField] private AgrobotInteractable m_interactable;
 	[SerializeField] private GameObject m_postSowingModel;
 	[SerializeField] private TimePeriod[] m_timePeriods;
@@ -51,6 +56,11 @@ public class Crop : MonoBehaviour
 		m_currentTimePeriod.Model.SetActive(true);
 
 		m_interactable.SetFlags(m_currentTimePeriod.InteractableFlags);
+
+		if(m_currentTimePeriod.InteractableFlags == INSTANTLY_REMOVE_CROP_FLAG)
+		{
+			m_onHarvestCallback(this); //chunk will create new crops to be sown
+		}
 	}
 
 	public void OnInteract(AgrobotAction action)
