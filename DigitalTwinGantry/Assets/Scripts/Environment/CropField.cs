@@ -208,7 +208,6 @@ public class CropField : MonoBehaviour
 				m_xChunks = 10;
 				break;
 		}
-		OnValidate();
 		GenerateChunks();
 	}
 
@@ -272,6 +271,5 @@ public class CropField : MonoBehaviour
 	{
 		m_xChunks = Mathf.Max(m_xChunks, 0);
 		m_yChunks = Mathf.Max(m_yChunks, 0);
-		UpdateTimePeriod(CurrentMonth);
 	}
 }
