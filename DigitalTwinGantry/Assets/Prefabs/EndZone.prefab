@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8099217109530833343}
   - component: {fileID: 4024011169406627992}
   - component: {fileID: 793972435805619284}
+  - component: {fileID: 8536431276247188441}
   m_Layer: 6
   m_Name: EndZone
   m_TagString: Finish
@@ -108,3 +109,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3c62e42b7c728d44831c87d2ea781e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8536431276247188441
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9082467766312943773}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5295820d38a37874bad27cac10d2ef35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_showWhenRunning: 0
