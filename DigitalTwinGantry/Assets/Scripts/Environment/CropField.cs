@@ -28,7 +28,7 @@ public class CropField : MonoBehaviour
 	[SerializeField] private GameObject[] m_cropTypes;
 
 	[Header("Field change")]
-	[SerializeField] private UnityEvent m_onFieldChange;
+	[SerializeField] private UnityEvent m_onTimeChange;
 	
 	private GameObject m_groundMesh;
 
@@ -66,7 +66,7 @@ public class CropField : MonoBehaviour
 	/// </summary>
 	public void UpdateTimePeriod(int newTimePeriod)
 	{
-		m_onFieldChange.Invoke();
+		m_onTimeChange.Invoke();
 
 		// Set new time period
 		newTimePeriod = Mathf.Clamp(newTimePeriod, 0, TimePeriod.TIME_PERIOD_COUNT);
@@ -112,7 +112,7 @@ public class CropField : MonoBehaviour
 		}
 
 		Crop crop = GetSowableCrop();
-		int offset = TimePeriod.Distance(m_currentMonth, crop.GetNearestSowingTimePeriod(m_currentMonth));
+		int offset = TimePeriod.Distance(m_currentMonth, crop.GetNearestTimePeriod(m_currentMonth, InteractableFlag.SOW));
 		
 		chunk.GenerateChunk(crop.gameObject, offset);
 	}
@@ -121,7 +121,7 @@ public class CropField : MonoBehaviour
 	/// Destroys all existing chunks and driving paths and regenerates them. Creates a new end zone at the end of the driving route.
 	/// Also resets the agrobot and moves it back to the start position.
 	/// </summary>
-	private void GenerateChunks()
+	private void GenerateChunks(Crop cropType = null)
 	{
 		// Remove all previous chunks and paths
 		for (int i = 0; i < m_chunks.Count; i++)
@@ -152,7 +152,14 @@ public class CropField : MonoBehaviour
 					new Vector3(x * chunkWidth, 0, z * chunkHeight), Quaternion.Euler(0, 0, 0));
 
 				CropChunk chunk = chunkObject.GetComponent<CropChunk>();
-				chunk.Initialize(GetStartingCrop().gameObject, new Vector2(chunkWidth, chunkHeight), m_currentMonth, OnChunkEmpty);
+
+				Crop crop = cropType;
+				if (crop == null)
+				{
+					crop = GetStartingCrop();
+				}
+
+				chunk.Initialize(crop.gameObject, new Vector2(chunkWidth, chunkHeight), m_currentMonth, OnChunkEmpty);
 
 				m_chunks.Add(chunkObject);
 			}
@@ -211,6 +218,30 @@ public class CropField : MonoBehaviour
 		GenerateChunks();
 	}
 
+	public void GenerateFieldWithAction(InteractableFlag action)
+	{
+		Crop closest = m_cropTypes[0].GetComponent<Crop>();
+		int closestTime = closest.GetNearestTimePeriod(m_currentMonth, action);
+		int closestDifference = Mathf.Abs(TimePeriod.Distance(m_currentMonth, closestTime));
+
+		for (int i = 1; i < m_cropTypes.Length; i++)
+		{
+			Crop crop = m_cropTypes[i].GetComponent<Crop>();
+			int time = crop.GetNearestTimePeriod(m_currentMonth, action);
+			int difference = Mathf.Abs(TimePeriod.Distance(m_currentMonth, time));
+
+			if (difference < closestDifference)
+			{
+				closest = crop;
+				closestTime = time;
+				closestDifference = difference;
+			}
+		}
+
+		UpdateTimePeriod(closestTime);
+		GenerateChunks(closest);
+	}
+
 	/// <summary>
 	/// Returns a random crop that has at least one interactable flag during the current timeperiod.
 	/// If there is no crop type that satisfies this condition this will return a random crop type.
@@ -246,8 +277,8 @@ public class CropField : MonoBehaviour
 			Crop crop1 = type1.GetComponent<Crop>();
 			Crop crop2 = type2.GetComponent<Crop>();
 			
-			return Mathf.Abs(TimePeriod.Distance(m_currentMonth, crop1.GetNearestSowingTimePeriod(m_currentMonth))) - 
-				Mathf.Abs(TimePeriod.Distance(m_currentMonth, crop2.GetNearestSowingTimePeriod(m_currentMonth)));
+			return Mathf.Abs(TimePeriod.Distance(m_currentMonth, crop1.GetNearestTimePeriod(m_currentMonth, InteractableFlag.SOW))) - 
+				Mathf.Abs(TimePeriod.Distance(m_currentMonth, crop2.GetNearestTimePeriod(m_currentMonth, InteractableFlag.SOW)));
 		});
 
 		//choose a random crop type that doesn't exceed the max sowing distance
@@ -255,7 +286,7 @@ public class CropField : MonoBehaviour
 		while (index > 0) 
 		{ //as long as we have other options left
 			Crop crop = m_cropTypes[index].GetComponent<Crop>();
-			if (Mathf.Abs(TimePeriod.Distance(m_currentMonth, crop.GetNearestSowingTimePeriod(m_currentMonth))) <= MAX_SOWING_DISTANCE)
+			if (Mathf.Abs(TimePeriod.Distance(m_currentMonth, crop.GetNearestTimePeriod(m_currentMonth, InteractableFlag.SOW))) <= MAX_SOWING_DISTANCE)
 			{
 				return crop; //return this crop if it's within the max sowing distance
 			}
@@ -270,5 +301,6 @@ public class CropField : MonoBehaviour
 	{
 		m_xChunks = Mathf.Max(m_xChunks, 0);
 		m_yChunks = Mathf.Max(m_yChunks, 0);
+		
 	}
 }
