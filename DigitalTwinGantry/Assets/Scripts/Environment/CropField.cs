@@ -44,6 +44,8 @@ public class CropField : MonoBehaviour
 	private List<GameObject> m_chunks;
 	private List<GameObject> m_paths;
 
+	private GameObject endZone;
+
 	private void Start()
 	{
 		if (m_agrobot != null) 
@@ -143,9 +145,12 @@ public class CropField : MonoBehaviour
 
 			path.transform.localScale = new Vector3(m_gantryWheelWidth, 0.1f, fieldHeight + m_gantryWidth);
 		}
-
+		if(endZone != null)
+        {
+			Destroy(endZone);
+        }
 		// Generate end zone
-		GameObject endZone = Instantiate(m_endZone, new Vector3(m_field.bounds.max.x, transform.position.y, m_field.bounds.max.z), Quaternion.Euler(0, 0, 0));
+		endZone = Instantiate(m_endZone, new Vector3(m_field.bounds.max.x, transform.position.y, m_field.bounds.max.z), Quaternion.Euler(0, 0, 0));
 		endZone.transform.localScale = new Vector3(m_gantryWidth, 0.1f, 1);
 		// Get endzone script and add unityevent to script
 		EndZone endZoneScript = endZone.GetComponent<EndZone>();
@@ -267,5 +272,6 @@ public class CropField : MonoBehaviour
 	{
 		m_xChunks = Mathf.Max(m_xChunks, 0);
 		m_yChunks = Mathf.Max(m_yChunks, 0);
+		UpdateTimePeriod(CurrentMonth);
 	}
 }
