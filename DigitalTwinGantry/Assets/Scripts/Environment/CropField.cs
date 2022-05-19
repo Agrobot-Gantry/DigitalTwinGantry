@@ -98,10 +98,20 @@ public class CropField : MonoBehaviour
 
 	/// <summary>
 	/// Decides a new crop type for the empty chunk and regenerates the chunk.
+	/// Chunks with no crops to regenerate will not be regenerated.
 	/// </summary>
 	/// <param name="chunk">the chunk that is empty</param>
-	public void OnChunkEmpty(CropChunk chunk)
+	/// <param name="regenerateChunk">wether the empty chunk should regenerate</param>
+	public void OnChunkEmpty(CropChunk chunk, bool regenerateChunk)
 	{
+		if (!regenerateChunk)
+		{
+			m_chunks.Remove(chunk.gameObject); //doesn't need to be updated anymore
+			Destroy(chunk.gameObject);
+			Debug.Log("chunk removed");
+			return;
+		}
+
 		Crop crop = GetSowableCrop();
 		int offset = TimePeriod.Distance(m_currentMonth, crop.GetNearestSowingTimePeriod(m_currentMonth));
 		

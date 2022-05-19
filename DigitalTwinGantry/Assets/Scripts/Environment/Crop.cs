@@ -18,11 +18,11 @@ public class Crop : MonoBehaviour
 	[SerializeField] private TimePeriod[] m_timePeriods;
 	public TimePeriod[] TimePeriods { get { return m_timePeriods; } }
 
-	private Action<Crop> m_onHarvestCallback;
+	private Action<Crop, bool> m_onHarvestCallback;
 	private TimePeriod m_currentTimePeriod;
 	private int m_timePeriodOffset; //offset the current crop timeperiod from the real timeperiod received in UpdateTimePeriod(int newTimePeriod)
 
-	public void Initialize(int currentTimePeriod, int timePeriodOffset, Action<Crop> onHarvestCallback)
+	public void Initialize(int currentTimePeriod, int timePeriodOffset, Action<Crop, bool> onHarvestCallback)
 	{
 		m_onHarvestCallback = onHarvestCallback;
 		m_timePeriodOffset = timePeriodOffset;
@@ -46,7 +46,7 @@ public class Crop : MonoBehaviour
 
 		if (m_currentTimePeriod.InteractableFlags == INSTANTLY_REMOVE_CROP_FLAG)
 		{
-			m_onHarvestCallback(this); //chunk will create new crops to be sown
+			m_onHarvestCallback(this, true); //chunk will create new crops to be sown
 		}
 	}
 
@@ -62,7 +62,7 @@ public class Crop : MonoBehaviour
 		if (action.GetFlags().HasFlag(InteractableFlag.HARVEST))
 		{
 			m_currentTimePeriod.Model.SetActive(false);
-			m_onHarvestCallback(this);
+			m_onHarvestCallback(this, true);
 		}
 	}
 
@@ -110,7 +110,7 @@ public class Crop : MonoBehaviour
 		if (other.tag == "path")
 		{
 			Destroy(this.gameObject);
-			m_onHarvestCallback(this);
+			m_onHarvestCallback(this, false);
 		}
 	}
 }
