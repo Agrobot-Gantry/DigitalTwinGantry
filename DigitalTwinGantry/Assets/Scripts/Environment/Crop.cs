@@ -21,12 +21,11 @@ public class Crop : MonoBehaviour
 	[SerializeField] private AgrobotInteractable m_interactable;
 	[SerializeField] private GameObject m_postSowingModel;
 	[SerializeField] private TimePeriod[] m_timePeriods;
-	public TimePeriod[] TimePeriods {get {return m_timePeriods;}}
+	public TimePeriod[] TimePeriods { get { return m_timePeriods; } }
 
 	private Action<Crop> m_onHarvestCallback;
 	private TimePeriod m_currentTimePeriod;
 	private int m_timePeriodOffset; //offset the current crop timeperiod from the real timeperiod received in UpdateTimePeriod(int newTimePeriod)
-	//chunks might decide to grow a crop a little earlier or later after the previous was harvested
 
 	[System.Serializable]
 	public struct TimePeriod
@@ -57,7 +56,7 @@ public class Crop : MonoBehaviour
 
 		m_interactable.SetFlags(m_currentTimePeriod.InteractableFlags);
 
-		if(m_currentTimePeriod.InteractableFlags == INSTANTLY_REMOVE_CROP_FLAG)
+		if (m_currentTimePeriod.InteractableFlags == INSTANTLY_REMOVE_CROP_FLAG)
 		{
 			m_onHarvestCallback(this); //chunk will create new crops to be sown
 		}
@@ -110,19 +109,25 @@ public class Crop : MonoBehaviour
 		return nearestIndex;
 	}
 
-	/// <returns>the difference between two timeperiods</returns>
-	public static int DistanceBetween(int timePeriod1, int timePeriod2)
+	/// <summary>
+	/// Returns the difference in timeperiods from one timeperiod to another. This distance will be a value from -(TIME_PERIOD_COUNT / 2) 
+	/// through (TIME_PERIOD_COUNT / 2) with regard for timeperiods looping between TIME_PERIOD_COUNT and 0.
+	/// </summary>
+	/// <returns>the time difference from fromTimePeriod to toTimePeriod</returns>
+	public static int DistanceBetween(int fromTimePeriod, int toTimePeriod) //Distance
 	{
-		int difference = timePeriod1 - timePeriod2;
+		int difference = fromTimePeriod - toTimePeriod;
 
 		if (difference > TIME_PERIOD_COUNT / 2)
 		{
 			difference = TIME_PERIOD_COUNT - difference;
-		} else if (difference < -TIME_PERIOD_COUNT / 2) 
+		}
+		else if (difference < -TIME_PERIOD_COUNT / 2)
 		{
 			difference = TIME_PERIOD_COUNT + difference;
 			difference = -difference;
-		} else
+		}
+		else
 		{
 			difference = -difference;
 		}
@@ -130,11 +135,21 @@ public class Crop : MonoBehaviour
 		return difference;
 	}
 
-	public static int CalculatTimePeriod(int timePeriod, int difference) {
-		timePeriod += difference;
+	/// <summary>
+	/// Returns what the timeperiod would be if time changed by a certain amount of timeperiods.
+	/// When the timeperiod goes over TIME_PERIOD_COUNT it loops to 0 and continues counting.
+	/// If the timeperiod goes under 0 it loops to TIME_PERIOD_COUNT and continues counting.
+	/// </summary>
+	/// <param name="timePeriod">the timeperiod to start from</param>
+	/// <param name="timeChange">by how many timeperiods time should change(can be negative)</param>
+	/// <returns>what timePeriod would be if time advanced by timeChange timeperiods</returns>
+	public static int CalculatTimePeriod(int timePeriod, int timeChange)//PeriodIfTimeChanged
+	{
+		timePeriod += timeChange;
 		timePeriod = timePeriod % TIME_PERIOD_COUNT;
 
-		if (timePeriod < 0) {
+		if (timePeriod < 0)
+		{
 			timePeriod += TIME_PERIOD_COUNT;
 		}
 
@@ -149,12 +164,12 @@ public class Crop : MonoBehaviour
 			Array.Resize(ref m_timePeriods, TIME_PERIOD_COUNT);
 		}
 	}
-    private void OnTriggerEnter(Collider other)
-    {
-        if(other.tag == "path")
-        {
+	private void OnTriggerEnter(Collider other)
+	{
+		if (other.tag == "path")
+		{
 			Destroy(this.gameObject);
 			m_onHarvestCallback(this);
-        }
-    }
+		}
+	}
 }
