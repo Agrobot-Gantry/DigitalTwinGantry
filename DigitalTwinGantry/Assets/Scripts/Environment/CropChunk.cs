@@ -12,11 +12,12 @@ public class CropChunk : MonoBehaviour
     private float m_ySize;
 
     private List<GameObject> m_crops;
-    private Action<CropChunk> m_onCHunkEmpty;
+    private Action<CropChunk, bool> m_onCHunkEmpty;
 
     private int m_timePeriod;
+    private bool m_regenerateChunk = false;
 
-    public void Initialize(GameObject cropType, Vector2 chunkSize, int timePeriod, Action<CropChunk> onChunkEmpty)
+    public void Initialize(GameObject cropType, Vector2 chunkSize, int timePeriod, Action<CropChunk, bool> onChunkEmpty)
     {
         m_crops = new List<GameObject>();
         m_xSize = chunkSize.x;
@@ -63,13 +64,24 @@ public class CropChunk : MonoBehaviour
         }
     }
 
-    public void OnCropRemoved(Crop crop)
+    /// <summary>
+    /// Removes the crop from the chunk and calls back to the cropfield if all crops have been removed.
+    /// If there are no crops to regenerate the chunk will not regenerate either.
+    /// </summary>
+    /// <param name="crop">the crop that was removed</param>
+    /// <param name="regenerateCrop">wether the removed crop should be regenerated when the chunk gets regenerated</param>
+    public void OnCropRemoved(Crop crop, bool regenerateCrop)
     {
         m_crops.Remove(crop.gameObject);
 
+        if (regenerateCrop) //if one or more crops need to be regenered the chunk needs to be regenerated too
+		{
+            m_regenerateChunk = true;
+		}
+
         if (m_crops.Count <= 0)
         {
-            m_onCHunkEmpty(this);
+            m_onCHunkEmpty(this, m_regenerateChunk);
         }
     }
 }
