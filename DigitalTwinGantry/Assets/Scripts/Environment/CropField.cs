@@ -108,7 +108,6 @@ public class CropField : MonoBehaviour
 		{
 			m_chunks.Remove(chunk.gameObject); //doesn't need to be updated anymore
 			Destroy(chunk.gameObject);
-			Debug.Log("chunk removed");
 			return;
 		}
 
