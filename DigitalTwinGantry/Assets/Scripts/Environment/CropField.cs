@@ -6,6 +6,9 @@ using UnityEngine.Events;
 
 public class CropField : MonoBehaviour
 {
+	/// <summary>
+	/// The maximum time period difference that new crops can be sown from their nearest normal sowing period.
+	/// </summary>
 	private const int MAX_SOWING_DISTANCE = 3;
 
 	[Header("Sizes")]
@@ -57,6 +60,10 @@ public class CropField : MonoBehaviour
 		GenerateChunks();
 	}
 
+	/// <summary>
+	/// Calls the On Field Change (m_onFieldChange) callback. Then updates all chunks and their crops to be in the new timeperiod.
+	/// And Resets the agrobot and moves it back to the start position.
+	/// </summary>
 	public void UpdateTimePeriod(int newTimePeriod)
 	{
 		m_onFieldChange.Invoke();
@@ -80,12 +87,19 @@ public class CropField : MonoBehaviour
 		}
 	}
 
+	/// <summary>
+	/// Advances the current timeperiod by 1 and updates the field.
+	/// </summary>
 	public void NextMonth()
 	{
 		m_currentMonth = Crop.CalculatTimePeriod(m_currentMonth, 1);
 		UpdateTimePeriod(m_currentMonth);
 	}
 
+	/// <summary>
+	/// Decides a new crop type for the empty chunk and regenerates the chunk.
+	/// </summary>
+	/// <param name="chunk">the chunk that is empty</param>
 	public void OnChunkEmpty(CropChunk chunk)
 	{
 		Crop crop = GetSowableCrop();
@@ -94,6 +108,10 @@ public class CropField : MonoBehaviour
 		chunk.GenerateChunk(crop.gameObject, offset);
 	}
 
+	/// <summary>
+	/// Destroys all existing chunks and driving paths and regenerates them. Creates a new end zone at the end of the driving route.
+	/// Also resets the agrobot and moves it back to the start position.
+	/// </summary>
 	private void GenerateChunks()
 	{
 		// Remove all previous chunks and paths
@@ -184,6 +202,10 @@ public class CropField : MonoBehaviour
 		GenerateChunks();
 	}
 
+	/// <summary>
+	/// Returns a random crop that has at least one interactable flag during the current timeperiod.
+	/// If there is no crop type that satisfies this condition this will return a random crop type.
+	/// </summary>
 	private Crop GetStartingCrop()
 	{
 		List<Crop> possibleCrops = new List<Crop>();
@@ -203,6 +225,10 @@ public class CropField : MonoBehaviour
 		return m_cropTypes[UnityEngine.Random.Range(0, m_cropTypes.Length)].GetComponent<Crop>();
 	}
 
+	/// <summary>
+	/// Returns a random crop type where the nearest normal sowing timeperiod is not more than MAX_SOWING_DISTANCE from the current timeperiod.
+	/// If there is no crop type that satisfies this condition this will return the crop type with a sowing timeperiod closest to the current timeperiod.
+	/// </summary>
 	private Crop GetSowableCrop()
 	{
 		//sort the crop types based on how far away their normal sowing period is from the current timeperiod
