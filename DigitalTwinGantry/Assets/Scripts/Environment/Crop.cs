@@ -9,28 +9,20 @@ using UnityEngine;
 public class Crop : MonoBehaviour
 {
 	/// <summary>
-	/// The amount of time periods that every croptype has.
+	/// The crop will be removed when its current time period equals this flag.
 	/// </summary>
-	public const int TIME_PERIOD_COUNT = 12;
+	private const InteractableFlag INSTANTLY_REMOVE_CROP_FLAG = InteractableFlag.NONE;
 
 	[SerializeField] private AgrobotInteractable m_interactable;
 	[SerializeField] private GameObject m_postSowingModel;
 	[SerializeField] private TimePeriod[] m_timePeriods;
-	public TimePeriod[] TimePeriods {get {return m_timePeriods;}}
+	public TimePeriod[] TimePeriods { get { return m_timePeriods; } }
 
-	private Action<Crop> m_onHarvestCallback;
+	private Action<Crop, bool> m_onHarvestCallback;
 	private TimePeriod m_currentTimePeriod;
 	private int m_timePeriodOffset; //offset the current crop timeperiod from the real timeperiod received in UpdateTimePeriod(int newTimePeriod)
-	//chunks might decide to grow a crop a little earlier or later after the previous was harvested
 
-	[System.Serializable]
-	public struct TimePeriod
-	{
-		public GameObject Model;
-		public InteractableFlag InteractableFlags;
-	}
-
-	public void Initialize(int currentTimePeriod, int timePeriodOffset, Action<Crop> onHarvestCallback)
+	public void Initialize(int currentTimePeriod, int timePeriodOffset, Action<Crop, bool> onHarvestCallback)
 	{
 		m_onHarvestCallback = onHarvestCallback;
 		m_timePeriodOffset = timePeriodOffset;
@@ -47,10 +39,15 @@ public class Crop : MonoBehaviour
 	public void UpdateTimePeriod(int newTimePeriod)
 	{
 		m_currentTimePeriod.Model.SetActive(false);
-		m_currentTimePeriod = m_timePeriods[CalculatTimePeriod(newTimePeriod, m_timePeriodOffset)];
+		m_currentTimePeriod = m_timePeriods[TimePeriod.PeriodIfTimeChanged(newTimePeriod, m_timePeriodOffset)];
 		m_currentTimePeriod.Model.SetActive(true);
 
 		m_interactable.SetFlags(m_currentTimePeriod.InteractableFlags);
+
+		if (m_currentTimePeriod.InteractableFlags == INSTANTLY_REMOVE_CROP_FLAG)
+		{
+			m_onHarvestCallback(this, true); //chunk will create new crops to be sown
+		}
 	}
 
 	public void OnInteract(AgrobotAction action)
@@ -65,7 +62,7 @@ public class Crop : MonoBehaviour
 		if (action.GetFlags().HasFlag(InteractableFlag.HARVEST))
 		{
 			m_currentTimePeriod.Model.SetActive(false);
-			m_onHarvestCallback(this);
+			m_onHarvestCallback(this, true);
 		}
 	}
 
@@ -80,7 +77,7 @@ public class Crop : MonoBehaviour
 	{
 		//find all time periods with the sowing flag
 		List<int> sowingTimePeriods = new List<int>();
-		for (int i = 0; i < TIME_PERIOD_COUNT; i++)
+		for (int i = 0; i < TimePeriod.TIME_PERIOD_COUNT; i++)
 		{
 			if (m_timePeriods[i].InteractableFlags.HasFlag(InteractableFlag.SOW))
 			{
@@ -92,7 +89,7 @@ public class Crop : MonoBehaviour
 		int nearestIndex = int.MaxValue;
 		foreach (int index in sowingTimePeriods)
 		{
-			if (Mathf.Abs(DistanceBetween(comparedTimePeriod, index)) < Mathf.Abs(DistanceBetween(comparedTimePeriod, nearestIndex)))
+			if (Mathf.Abs(TimePeriod.Distance(comparedTimePeriod, index)) < Mathf.Abs(TimePeriod.Distance(comparedTimePeriod, nearestIndex)))
 			{
 				nearestIndex = index;
 			}
@@ -100,51 +97,20 @@ public class Crop : MonoBehaviour
 		return nearestIndex;
 	}
 
-	/// <returns>the difference between two timeperiods</returns>
-	public static int DistanceBetween(int timePeriod1, int timePeriod2)
-	{
-		int difference = timePeriod1 - timePeriod2;
-
-		if (difference > TIME_PERIOD_COUNT / 2)
-		{
-			difference = TIME_PERIOD_COUNT - difference;
-		} else if (difference < -TIME_PERIOD_COUNT / 2) 
-		{
-			difference = TIME_PERIOD_COUNT + difference;
-			difference = -difference;
-		} else
-		{
-			difference = -difference;
-		}
-
-		return difference;
-	}
-
-	public static int CalculatTimePeriod(int timePeriod, int difference) {
-		timePeriod += difference;
-		timePeriod = timePeriod % TIME_PERIOD_COUNT;
-
-		if (timePeriod < 0) {
-			timePeriod += TIME_PERIOD_COUNT;
-		}
-
-		return timePeriod;
-	}
-
 	private void OnValidate()
 	{
-		if (m_timePeriods.Length != TIME_PERIOD_COUNT)
+		if (m_timePeriods.Length != TimePeriod.TIME_PERIOD_COUNT)
 		{
-			Debug.LogWarning("Each crop must have exactly " + TIME_PERIOD_COUNT + " time periods!");
-			Array.Resize(ref m_timePeriods, TIME_PERIOD_COUNT);
+			Debug.LogWarning("Each crop must have exactly " + TimePeriod.TIME_PERIOD_COUNT + " time periods!");
+			Array.Resize(ref m_timePeriods, TimePeriod.TIME_PERIOD_COUNT);
 		}
 	}
-    private void OnTriggerEnter(Collider other)
-    {
-        if(other.tag == "path")
-        {
+	private void OnTriggerEnter(Collider other)
+	{
+		if (other.tag == "path")
+		{
 			Destroy(this.gameObject);
-			m_onHarvestCallback(this);
-        }
-    }
+			m_onHarvestCallback(this, false);
+		}
+	}
 }
