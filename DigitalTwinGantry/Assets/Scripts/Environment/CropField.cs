@@ -8,6 +8,11 @@ public class CropField : MonoBehaviour
 {
 	private const int MAX_SOWING_DISTANCE = 3;
 
+	[Range(0, 2)]
+	public int fieldTypeSlider;
+
+	private int fieldType;
+
 	[Header("Sizes")]
 	[SerializeField] private BoxCollider m_field;
 	[SerializeField] private int m_xChunks;
@@ -80,10 +85,8 @@ public class CropField : MonoBehaviour
 
 	public void NextMonth()
 	{
-		Debug.Log(m_currentMonth);
 		m_currentMonth = Crop.CalculatTimePeriod(m_currentMonth, 1);
 		UpdateTimePeriod(m_currentMonth);
-		Debug.Log(m_currentMonth);
 	}
 
 	public void OnChunkEmpty(CropChunk chunk)
@@ -161,7 +164,7 @@ public class CropField : MonoBehaviour
 		// Reset agrobot transform
 		if (m_agrobot != null) 
 		{
-			m_agrobotStart.position = new Vector3(m_field.bounds.min.x + (m_gantryWidth / 2), m_field.bounds.max.y, m_field.bounds.min.z - (m_gantryWidth/2));
+			m_agrobotStart.position = new Vector3(m_field.bounds.min.x + (m_gantryWidth / 2), m_field.bounds.max.y, m_field.bounds.min.z - (m_gantryWidth));
 			m_agrobot.Reset(m_agrobotStart.position, m_agrobotStart.rotation);
 		}
 	}
@@ -185,26 +188,35 @@ public class CropField : MonoBehaviour
 	public void SetFieldType(int type)
     {
 		m_onFieldChange.Invoke();
-        switch (type)
+		switch (type)
         {
 			case 0:
-				SetChunksY(1);
-				SetChunksX(1);
+				m_yChunks = 1;
+				m_xChunks = 1;
 				break;
 			case 1:
-				SetChunksY(1);
-				SetChunksX(10);
+				m_yChunks = 1;
+				m_xChunks = 10;
 				break;
 			case 2:
-				SetChunksY(10);
-				SetChunksX(10);
+				m_yChunks = 10;
+				m_xChunks = 10;
 				break;
 		}
-		m_agrobot.Reset(m_agrobotStart.position,m_agrobotStart.rotation);
-
+		OnValidate();
+		GenerateChunks();
 	}
 
-	private Crop GetStartingCrop()
+    private void Update()
+    {
+		if(fieldType != fieldTypeSlider)
+        {
+			fieldType = fieldTypeSlider;
+			SetFieldType(fieldTypeSlider);
+        }
+	}
+
+    private Crop GetStartingCrop()
 	{
 		List<Crop> possibleCrops = new List<Crop>();
 		foreach (GameObject cropObject in m_cropTypes)
