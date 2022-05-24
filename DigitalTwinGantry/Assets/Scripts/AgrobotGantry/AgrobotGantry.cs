@@ -38,6 +38,10 @@ public class AgrobotGantry : MonoBehaviour
         m_counterClockwise = false;
         m_firsRowEnterOccured = false;
         m_firsRowExitOccured = false;
+        foreach(AgrobotTool tool in m_tools)
+        {
+            tool.NewField();
+        }
         SetBehaviour(new LaneFarmingBehaviour());
 
     }
