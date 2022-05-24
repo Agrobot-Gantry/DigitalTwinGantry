@@ -73,9 +73,10 @@ public class CropField : MonoBehaviour
 		m_currentMonth = newTimePeriod;
 
 		// Update all chunks
-		for (int i = 0; i < m_chunks.Count; i++)
+		List<GameObject> copiedChunks = new List<GameObject>(m_chunks); //iterate through a copy because entries in the original might be deleted
+		for (int i = 0; i < copiedChunks.Count; i++)
 		{
-			m_chunks[i].GetComponent<CropChunk>().UpdateTimePeriod(m_currentMonth);
+			copiedChunks[i].GetComponent<CropChunk>().UpdateTimePeriod(m_currentMonth);
 		}
 
 		// Reset agrobot transform
