@@ -44,18 +44,18 @@ public class SliderMeter : MonoBehaviour
             }
         }
 
-        CalculateCurrentSection();
+        CalculateCurrentSection(true);
     }
 
     private void WhenGrabbableUpdated(GrabbableArgs args) {
-        CalculateCurrentSection();
+        CalculateCurrentSection(false);
 
         // if (args.GrabbableEvent == GrabbableEvent.Remove) {
         //     Debug.Log(CurrentSection);
         // }
     }
 
-    private void CalculateCurrentSection() {
+    private void CalculateCurrentSection(bool isReset) {
         float smallestDistance = 1000;
 
         int previousSection = m_currentSection;
@@ -71,7 +71,7 @@ public class SliderMeter : MonoBehaviour
 
         // Debug.Log(m_currentSection);
 
-        if (previousSection != m_currentSection) {
+        if (previousSection != m_currentSection && !isReset) {
             m_audio?.Play();
             m_onSelectionChanged.Invoke(CurrentSection);
         }

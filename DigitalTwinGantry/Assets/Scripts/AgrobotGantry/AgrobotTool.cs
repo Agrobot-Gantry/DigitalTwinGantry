@@ -35,7 +35,10 @@ public class AgrobotTool : MonoBehaviour
     }
     public void NewField()
     {
-        m_reachables.Clear();
+        if (m_reachables != null)
+        {
+            m_reachables.Clear();
+        }
     }
 
     void Update()
