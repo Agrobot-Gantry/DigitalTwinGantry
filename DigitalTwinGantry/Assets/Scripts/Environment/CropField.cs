@@ -178,7 +178,7 @@ public class CropField : MonoBehaviour
 			Destroy(endZone);
         }
 		// Generate end zone
-		endZone = Instantiate(m_endZone, new Vector3(m_field.bounds.max.x, transform.position.y, m_field.bounds.max.z), Quaternion.Euler(0, 0, 0));
+		endZone = Instantiate(m_endZone, new Vector3(m_field.bounds.max.x, transform.position.y, m_field.bounds.max.z + m_agrobot.GetGantryWidth()), Quaternion.Euler(0, 0, 0));
 		endZone.transform.localScale = new Vector3(m_gantryWidth, 0.1f, 1);
 		// Get endzone script and add unityevent to script
 		EndZone endZoneScript = endZone.GetComponent<EndZone>();
@@ -192,7 +192,7 @@ public class CropField : MonoBehaviour
 		}
 
 		m_groundMesh = Instantiate(m_ground, new Vector3(transform.position.x + m_field.center.x, transform.position.y, transform.position.z + m_field.center.z), Quaternion.Euler(0, 0, 0));
-		m_groundMesh.transform.localScale = new Vector3(m_field.size.x, 0.01f, m_field.size.z);
+		m_groundMesh.transform.localScale = new Vector3(m_field.size.x *1.1f, 0.01f, m_field.size.z *1.1f);
 
 		// Reset agrobot transform
 		if (m_agrobot != null) 
