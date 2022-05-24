@@ -28,7 +28,7 @@ public class CropField : MonoBehaviour
 	[SerializeField] private GameObject[] m_cropTypes;
 
 	[Header("Field change")]
-	[SerializeField] private UnityEvent m_onTimeChange;
+	[SerializeField] private UnityEvent m_onChange;
 	
 	private GameObject m_groundMesh;
 
@@ -66,7 +66,7 @@ public class CropField : MonoBehaviour
 	/// </summary>
 	public void UpdateTimePeriod(int newTimePeriod)
 	{
-		m_onTimeChange.Invoke();
+		m_onChange.Invoke();
 
 		// Set new time period
 		newTimePeriod = Mathf.Clamp(newTimePeriod, 0, TimePeriod.TIME_PERIOD_COUNT);
@@ -123,6 +123,8 @@ public class CropField : MonoBehaviour
 	/// </summary>
 	private void GenerateChunks(Crop cropType = null)
 	{
+		m_onChange.Invoke();
+
 		// Remove all previous chunks and paths
 		for (int i = 0; i < m_chunks.Count; i++)
 		{
@@ -216,6 +218,18 @@ public class CropField : MonoBehaviour
 		OnValidate();
 
 		GenerateChunks();
+	}
+
+	public void GenerateFieldWithAction(int action)
+	{
+		switch (action)
+		{
+			case 0: GenerateFieldWithAction(InteractableFlag.HARVEST); break;
+			case 1: GenerateFieldWithAction(InteractableFlag.SOW); break;
+			case 2: GenerateFieldWithAction(InteractableFlag.WATER); break;
+			case 3: GenerateFieldWithAction(InteractableFlag.UPROOT); break;
+			default: Debug.LogError("Given action " + action + " to generate a field does not reflect any Action yet!"); break;
+		}
 	}
 
 	public void GenerateFieldWithAction(InteractableFlag action)
