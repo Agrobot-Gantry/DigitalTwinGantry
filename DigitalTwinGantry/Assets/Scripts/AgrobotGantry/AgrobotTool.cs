@@ -33,6 +33,10 @@ public class AgrobotTool : MonoBehaviour
         //check if the tool has exactly one flag set
         Assert.IsTrue(AgrobotInteractable.FlagCount(m_flag) == 1);
     }
+    public void NewField()
+    {
+        m_reachables.Clear();
+    }
 
     void Update()
     {

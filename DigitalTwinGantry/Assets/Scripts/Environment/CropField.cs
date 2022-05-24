@@ -11,6 +11,11 @@ public class CropField : MonoBehaviour
 	/// </summary>
 	private const int MAX_SOWING_DISTANCE = 3;
 
+	[Range(0, 2)]
+	public int fieldTypeSlider;
+
+	private int fieldType;
+
 	[Header("Sizes")]
 	[SerializeField] private BoxCollider m_field;
 	[SerializeField] private int m_xChunks;
@@ -41,6 +46,8 @@ public class CropField : MonoBehaviour
 
 	private List<GameObject> m_chunks;
 	private List<GameObject> m_paths;
+
+	private GameObject endZone;
 
 	private void Start()
 	{
@@ -82,9 +89,7 @@ public class CropField : MonoBehaviour
 		// Reset agrobot transform
 		if (m_agrobot != null) 
 		{
-			m_agrobot.transform.position = m_agrobotStart.position;
-			m_agrobot.transform.rotation = m_agrobotStart.rotation;
-			m_agrobot.Reset();
+			m_agrobot.Reset(m_agrobotStart.position, m_agrobotStart.rotation);
 		}
 	}
 
@@ -168,9 +173,12 @@ public class CropField : MonoBehaviour
 
 			path.transform.localScale = new Vector3(m_gantryWheelWidth, 0.1f, fieldHeight + m_gantryWidth);
 		}
-
+		if(endZone != null)
+        {
+			Destroy(endZone);
+        }
 		// Generate end zone
-		GameObject endZone = Instantiate(m_endZone, new Vector3(m_field.bounds.max.x, transform.position.y, m_field.bounds.max.z), Quaternion.Euler(0, 0, 0));
+		endZone = Instantiate(m_endZone, new Vector3(m_field.bounds.max.x, transform.position.y, m_field.bounds.max.z), Quaternion.Euler(0, 0, 0));
 		endZone.transform.localScale = new Vector3(m_gantryWidth, 0.1f, 1);
 		// Get endzone script and add unityevent to script
 		EndZone endZoneScript = endZone.GetComponent<EndZone>();
@@ -189,10 +197,8 @@ public class CropField : MonoBehaviour
 		// Reset agrobot transform
 		if (m_agrobot != null) 
 		{
-			m_agrobotStart.position = new Vector3(m_field.bounds.min.x + (m_gantryWidth / 2), m_field.bounds.max.y, m_field.bounds.min.z - (m_gantryWidth/2));
-			m_agrobot.transform.position = m_agrobotStart.position;
-			m_agrobot.transform.rotation = m_agrobotStart.rotation;
-			m_agrobot.Reset();
+			m_agrobotStart.position = new Vector3(m_field.bounds.min.x + (m_gantryWidth / 2), m_field.bounds.max.y, m_field.bounds.min.z - (m_gantryWidth));
+			m_agrobot.Reset(m_agrobotStart.position, m_agrobotStart.rotation);
 		}
 	}
 
@@ -209,6 +215,27 @@ public class CropField : MonoBehaviour
 		m_yChunks = chunks;
 		OnValidate();
 
+		GenerateChunks();
+	}
+
+	public void SetFieldType(int type)
+    {
+		m_onFieldChange.Invoke();
+		switch (type)
+        {
+			case 0:
+				m_yChunks = 1;
+				m_xChunks = 1;
+				break;
+			case 1:
+				m_yChunks = 1;
+				m_xChunks = 10;
+				break;
+			case 2:
+				m_yChunks = 10;
+				m_xChunks = 10;
+				break;
+		}
 		GenerateChunks();
 	}
 

@@ -18,16 +18,19 @@ public class UprootAction : AgrobotAction
 
 	public override IEnumerator Start()
 	{
-		while (Vector3.Distance(m_tool.GetToolObject().transform.position, m_targetInteractable.transform.position) > 0.1f)
+		while (m_targetInteractable != null && Vector3.Distance(m_tool.GetToolObject().transform.position, m_targetInteractable.transform.position) > 0.1f)
+			{
+				m_tool.GetToolObject().transform.position = Vector3.MoveTowards(
+					m_tool.GetToolObject().transform.position,
+					m_targetInteractable.transform.position,
+					TimeChanger.DeltaTime);
+				yield return null;
+			}
+		if (m_targetInteractable != null)
 		{
-			m_tool.GetToolObject().transform.position = Vector3.MoveTowards(
-				m_tool.GetToolObject().transform.position,
-				m_targetInteractable.transform.position,
-				TimeChanger.DeltaTime);
-			yield return null;
+			m_targetInteractable.OnInteract(this);
 		}
-		m_targetInteractable.OnInteract(this);
+		else Debug.Log("TargetInteractable is null");
 		Finish();
-		yield break;
 	}
 }
