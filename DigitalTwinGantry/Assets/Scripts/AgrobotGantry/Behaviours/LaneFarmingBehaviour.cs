@@ -22,7 +22,7 @@ public class LaneFarmingBehaviour : AgrobotBehaviour
     {
         if (m_ongoingActions.Count == 0)
         {
-            m_gantry.MovementSpeed = 1.0f; //keep driving
+            m_gantry.MovementSpeed = AgrobotDefinitions.Instance.MovementSpeed; //keep driving
             if (this.m_gantry.Equipment.GetReachables().Length > 0) //check reach
             {
                 AgrobotAction[] actions = m_gantry.Equipment.GetReachables()[0].GetActions(this, m_gantry.Equipment); //for now we just assume there's just one in reach

@@ -16,7 +16,7 @@ public class TurningBehaviour : AgrobotBehaviour
 
     public TurningBehaviour(bool counterClockwise, int turnHalf) : base()
     {
-        m_turningSpeed = 10.0f;
+        m_turningSpeed = 1;
         this.turnHalf = turnHalf;
         if (counterClockwise)
         {
@@ -32,11 +32,11 @@ public class TurningBehaviour : AgrobotBehaviour
         if (turnHalf == 1)
         {
             m_gantry.MovementSpeed = 0.0f;
-            m_gantry.TurningSpeed = m_turningSpeed;
+            m_gantry.TurningSpeed = AgrobotDefinitions.Instance.TurningSpeed * m_turningSpeed;
         }
         else if (turnHalf == 2)
         {
-            m_gantry.MovementSpeed = 1.0f;
+            m_gantry.MovementSpeed = AgrobotDefinitions.Instance.MovementSpeed;
             m_gantry.TurningSpeed = 0.0f;
         }
         m_startRotation = m_gantry.transform.rotation.eulerAngles.y;
@@ -50,7 +50,7 @@ public class TurningBehaviour : AgrobotBehaviour
         if (turnHalf == 2 && Vector3.Distance(m_gantry.transform.position, m_startPosition) >= (m_gantry.GetGantryWidth()/2)+(m_gantry.GetGantryWheelWidth() * 1.5))
         {
             m_gantry.MovementSpeed = 0.0f;
-            m_gantry.TurningSpeed = m_turningSpeed;
+            m_gantry.TurningSpeed = AgrobotDefinitions.Instance.TurningSpeed * m_turningSpeed;
         }
         //check if the rotation is more then 90 degrees
         if (CompareAngle(m_startRotation, m_gantry.transform.rotation.eulerAngles.y) >= m_rotationTarget - m_rotationMargin)
@@ -64,7 +64,7 @@ public class TurningBehaviour : AgrobotBehaviour
             //if its the first half of the turn just go forward, if its the second half go back to farming
             if (turnHalf == 1)
             {
-                m_gantry.MovementSpeed = 1.0f;
+                m_gantry.MovementSpeed = AgrobotDefinitions.Instance.MovementSpeed;
                 m_gantry.TurningSpeed = 0.0f;
             }
             if (turnHalf == 2)
