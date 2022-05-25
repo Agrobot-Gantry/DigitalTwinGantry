@@ -8,6 +8,8 @@ using UnityEngine;
 
 class RosCommandListener : MonoBehaviour
 {
+	private static readonly string TRANSLATION_FILE_NAME = "RosTranslationTable";
+
 	private AgrobotGantry m_gantry;
 	private RosListeningBehaviour m_behaviour;
 	private Dictionary<string, Dictionary<string, MethodInfo>> m_translationTable; //<topic, <message, command>>
@@ -34,7 +36,13 @@ class RosCommandListener : MonoBehaviour
 		m_translationTable = new Dictionary<string, Dictionary<string, MethodInfo>>();
 
 		//load json
-		TextAsset textAsset = Resources.Load<TextAsset>("RosTranslationTable");
+		TextAsset textAsset = Resources.Load<TextAsset>(TRANSLATION_FILE_NAME);
+		if (textAsset == null)
+		{
+			Debug.LogError("Could not find ROS translation file located at Assets/Resources/" + TRANSLATION_FILE_NAME
+				+ "\nROS listening will be disabled");
+			return;
+		}
 		TranslationEntry[] entries = JsonUtility.FromJson<Translations>(textAsset.text).entries;
 
 		//fill dictionary
@@ -45,20 +53,25 @@ class RosCommandListener : MonoBehaviour
 				m_translationTable.Add(entry.topic, new Dictionary<string, MethodInfo>());
 			}
 			m_translationTable[entry.topic].Add(entry.message, m_behaviour.GetType().GetMethod(entry.command));
+			if (m_translationTable[entry.topic][entry.message] == null)
+			{
+				Debug.LogError("Could not find " + m_behaviour.GetType().Name + " method that matches command named " + entry.command
+					+ "\nROS listening will be disabled"
+					+ "\nPlease check Assets/Resources/" + TRANSLATION_FILE_NAME);
+				return;
+			}
 		}
-
-		//TODO check every methodinfo
 
 		//create a subscriber for each unique topic
 		foreach (string topic in m_translationTable.Keys)
 		{
 			GantryCommandSubscriber subscriber = gameObject.AddComponent<GantryCommandSubscriber>();
 			subscriber.Topic = topic;
-			subscriber.Callback = OnCommandReceived;
+			subscriber.Callback = OnMessageReceived;
 		}
 	}
 
-	public void OnCommandReceived(string topic, string command)
+	public void OnMessageReceived(string topic, string message)
 	{
 		if (m_gantry.CurrentBehaviour == null)
 		{
@@ -69,6 +82,6 @@ class RosCommandListener : MonoBehaviour
 			m_gantry.SetBehaviour(m_behaviour);
 		}
 
-		m_translationTable[topic][command].Invoke(m_behaviour, null);
+		m_translationTable[topic][message].Invoke(m_behaviour, null);
 	}
 }
