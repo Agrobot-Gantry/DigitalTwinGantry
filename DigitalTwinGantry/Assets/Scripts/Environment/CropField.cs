@@ -11,11 +11,6 @@ public class CropField : MonoBehaviour
 	/// </summary>
 	private const int MAX_SOWING_DISTANCE = 3;
 
-	[Range(0, 2)]
-	public int fieldTypeSlider;
-
-	private int fieldType;
-
 	[Header("Sizes")]
 	[SerializeField] private BoxCollider m_field;
 	[SerializeField] private int m_xChunks;
@@ -23,8 +18,8 @@ public class CropField : MonoBehaviour
 	
 	[Header("Agrobot")]
 	[SerializeField] private AgrobotGantry m_agrobot;
-	[SerializeField] private GameObject m_path;
-	[SerializeField] private GameObject m_endZone;
+	[SerializeField] private GameObject m_pathPrefab;
+	[SerializeField] private GameObject m_endZonePrefab;
 
 	[Header("Crops")]
 	[SerializeField] private GameObject m_ground;
@@ -47,7 +42,9 @@ public class CropField : MonoBehaviour
 	private List<GameObject> m_chunks;
 	private List<GameObject> m_paths;
 
-	private GameObject endZone;
+	private GameObject m_endZone;
+
+	private int m_fieldType;
 
 	private void Start()
 	{
@@ -64,6 +61,9 @@ public class CropField : MonoBehaviour
 
 		m_chunks = new List<GameObject>();
 		m_paths = new List<GameObject>();
+		
+		m_fieldType = 2;
+
 		GenerateChunks();
 	}
 
@@ -118,16 +118,41 @@ public class CropField : MonoBehaviour
 		}
 
 		Crop crop = GetSowableCrop();
+		switch (m_fieldType)
+		{
+			case 0:
+			case 1:
+				crop = chunk.CropType.GetComponent<Crop>();
+				break;
+			case 2:
+			default:
+				break;
+		}
+
 		int offset = TimePeriod.Distance(m_currentMonth, crop.GetNearestTimePeriod(m_currentMonth, InteractableFlag.SOW));
 		
 		chunk.GenerateChunk(crop.gameObject, offset);
+	}
+
+	private void GenerateChunks(Crop cropType)
+	{
+		Crop[,] crops = new Crop[m_xChunks, m_yChunks];
+		for (int x = 0; x < m_xChunks; x++)
+		{
+			for (int z = 0; z < m_yChunks; z++)
+			{
+				crops[x, z] = cropType;
+			}
+		}
+
+		GenerateChunks(crops);
 	}
 
 	/// <summary>
 	/// Destroys all existing chunks and driving paths and regenerates them. Creates a new end zone at the end of the driving route.
 	/// Also resets the agrobot and moves it back to the start position.
 	/// </summary>
-	private void GenerateChunks(Crop cropType = null)
+	private void GenerateChunks(Crop[,] cropTypes = null)
 	{
 		m_onChange.Invoke();
 
@@ -161,8 +186,12 @@ public class CropField : MonoBehaviour
 
 				CropChunk chunk = chunkObject.GetComponent<CropChunk>();
 
-				Crop crop = cropType;
-				if (crop == null)
+				Crop crop;
+
+				if (cropTypes != null && x < cropTypes.GetLength(0) && z < cropTypes.GetLength(1))
+				{
+					crop = cropTypes[x, z];
+				} else
 				{
 					crop = GetStartingCrop();
 				}
@@ -177,22 +206,22 @@ public class CropField : MonoBehaviour
 		// Generate the driving paths
 		for (float x = m_field.bounds.min.x; x < m_field.bounds.max.x; x += m_gantryWidth)
 		{
-			GameObject path = Instantiate(m_path, new Vector3(x, transform.position.y, m_field.bounds.center.z), Quaternion.Euler(0, 0, 0));
+			GameObject path = Instantiate(m_pathPrefab, new Vector3(x, transform.position.y, m_field.bounds.center.z), Quaternion.Euler(0, 0, 0));
 			m_paths.Add(path);
 
 			path.transform.localScale = new Vector3(m_gantryWheelWidth, 0.1f, fieldHeight + m_gantryWidth);
 		}
         
         // Generate end zone
-		if(endZone != null)
+		if(m_endZone != null)
         {
-			Destroy(endZone);
+			Destroy(m_endZone);
         }
         
-		endZone = Instantiate(m_endZone, new Vector3(m_field.bounds.max.x, transform.position.y, m_field.bounds.max.z + m_agrobot.GetGantryWidth()), Quaternion.Euler(0, 0, 0));
-		endZone.transform.localScale = new Vector3(m_gantryWidth, 0.1f, 1);
+		m_endZone = Instantiate(m_endZonePrefab, new Vector3(m_field.bounds.max.x, transform.position.y, m_field.bounds.max.z + m_agrobot.GetGantryWidth()), Quaternion.Euler(0, 0, 0));
+		m_endZone.transform.localScale = new Vector3(m_gantryWidth, 0.1f, 1);
 		// Get endzone script and add unityevent to script
-		EndZone endZoneScript = endZone.GetComponent<EndZone>();
+		EndZone endZoneScript = m_endZone.GetComponent<EndZone>();
 		endZoneScript.setEvent(NextMonth);
 
 		// Remove and create the ground
@@ -231,22 +260,31 @@ public class CropField : MonoBehaviour
 	public void SetFieldType(int type)
     {
 		switch (type)
-        {
+		{
 			case 0:
-				m_yChunks = 1;
-				m_xChunks = 1;
+				GenerateChunks(GetStartingCrop());
 				break;
 			case 1:
-				m_yChunks = 1;
-				m_xChunks = 10;
+				Crop[,] crops = new Crop[m_xChunks, m_yChunks];
+				for (int x = 0; x < m_xChunks; x++)
+				{
+					Crop crop = GetStartingCrop();	
+					for (int z = 0; z < m_yChunks; z++)
+					{
+						crops[x, z] = crop;
+					}
+				}
+
+				GenerateChunks(crops);
 				break;
 			case 2:
-				m_yChunks = 10;
-				m_xChunks = 10;
+				GenerateChunks();
 				break;
+			default:
+				return;
 		}
-		
-		GenerateChunks();
+
+		m_fieldType = type;
 	}
 
 	public void GenerateFieldWithAction(int action)
