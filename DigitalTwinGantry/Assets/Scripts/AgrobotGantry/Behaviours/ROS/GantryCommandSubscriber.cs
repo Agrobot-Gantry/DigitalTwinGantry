@@ -1,10 +1,9 @@
 ﻿using RosSharp.RosBridgeClient;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
+/// <summary>
+/// Listens for strings on the set topic. Received messages will be received in the callback(topic, message).
+/// </summary>
 class GantryCommandSubscriber : UnitySubscriber<RosSharp.RosBridgeClient.MessageTypes.Std.String>
 {
 	public Action<string, string> Callback { get; set; }

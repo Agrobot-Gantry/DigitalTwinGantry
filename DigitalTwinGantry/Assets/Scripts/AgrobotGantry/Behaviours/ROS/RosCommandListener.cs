@@ -1,20 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
+/// <summary>
+/// Listens for ROS messages as specified in the ROS translation JSON file.
+/// When a message is received this will change the gantry behaviour to RosListeningBehaviour if it is not already.
+/// Received messages are used to call methods on the RosListeningBehaviour.
+/// </summary>
 class RosCommandListener : MonoBehaviour
 {
 	private static readonly string TRANSLATION_FILE_NAME = "RosTranslationTable";
+	//TODO reset gantry on disconnect/timeout
 
 	private AgrobotGantry m_gantry;
 	private RosListeningBehaviour m_behaviour;
 	private Dictionary<string, Dictionary<string, MethodInfo>> m_translationTable; //<topic, <message, command>>
 
-	//classes for reading the json
+	//classes for reading the ROS translation JSON
 	[System.Serializable]
 	public class Translations
 	{
