@@ -27,6 +27,7 @@ public class AgrobotTool : MonoBehaviour
 
     public bool goingTooFast { get { return m_goingTooFast; } }
     private bool m_goingTooFast;
+    public bool busy = false;
 
     void Start()
     {
@@ -57,7 +58,6 @@ public class AgrobotTool : MonoBehaviour
     {
         if (interactable.HasFlag(m_flag))
         {
-            Debug.Log("add interactable");
             m_reachables.Add(interactable);
         }
     }

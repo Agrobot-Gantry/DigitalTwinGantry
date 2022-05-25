@@ -36,9 +36,10 @@ public class AgrobotEquipment
     {
         foreach (AgrobotTool tool in m_tools)
         {
-            if (tool.GetFlag() == flag)
+            if (tool.GetFlag() == flag && !tool.busy)
             {
                 return tool;
+
             }
         }
         return null;
