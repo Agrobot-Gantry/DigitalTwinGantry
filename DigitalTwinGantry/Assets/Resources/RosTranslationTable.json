@@ -1,0 +1,14 @@
+{
+   "entries":[
+      {
+         "topic":"/scrimblo",
+         "message":"w",
+         "command":"Forward"
+      },
+      {
+         "topic":"/scrimblo",
+         "message":"s",
+         "command":"Backward"
+      }
+   ]
+}
