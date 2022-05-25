@@ -134,6 +134,14 @@ public class CropField : MonoBehaviour
 		chunk.GenerateChunk(crop.gameObject, offset);
 	}
 
+	/// <summary>
+	/// Helper method to call <see cref="GenerateChunks(Crop[,] cropTypes)" />
+	/// to be able to generate the chunks with 1 type of crop
+	///
+	/// Destroys all existing chunks and driving paths and regenerates them. Creates a new end zone at the end of the driving route.
+	/// Also resets the agrobot and moves it back to the start position.
+	/// </summary>
+	/// <param name="cropType">The crop the field needs to be generated with</param>
 	private void GenerateChunks(Crop cropType)
 	{
 		Crop[,] crops = new Crop[m_xChunks, m_yChunks];
@@ -152,6 +160,7 @@ public class CropField : MonoBehaviour
 	/// Destroys all existing chunks and driving paths and regenerates them. Creates a new end zone at the end of the driving route.
 	/// Also resets the agrobot and moves it back to the start position.
 	/// </summary>
+	/// <param name="cropTypes">Which crop to which chunk needs to be added</param>
 	private void GenerateChunks(Crop[,] cropTypes = null)
 	{
 		m_onChange.Invoke();
@@ -257,6 +266,10 @@ public class CropField : MonoBehaviour
 		GenerateChunks();
 	}
 
+	/// <summary>
+	/// This method will create a crop field with the given field type (Monoculture, Pixel cropping or Strip cultivation)
+	/// </summary>
+	/// <param name="type">The field type that needs to be generated</param>
 	public void SetFieldType(int type)
     {
 		switch (type)
@@ -299,6 +312,11 @@ public class CropField : MonoBehaviour
 		}
 	}
 
+	/// <summary>
+	/// Generates a crop field where all the crops need the given action.
+	/// This method will automatically change the time period. 
+	/// </summary>
+	/// <param name="action">the action the agrobot will have to perform on all the crops in the generated field</param>
 	public void GenerateFieldWithAction(InteractableFlag action)
 	{
 		Crop closest = m_cropTypes[0].GetComponent<Crop>();
