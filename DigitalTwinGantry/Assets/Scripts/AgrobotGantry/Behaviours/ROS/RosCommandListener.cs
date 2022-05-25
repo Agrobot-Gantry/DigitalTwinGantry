@@ -10,8 +10,9 @@ class RosCommandListener : MonoBehaviour
 {
 	private AgrobotGantry m_gantry;
 	private RosListeningBehaviour m_behaviour;
-	private Dictionary<string, Dictionary<string, MethodInfo>> m_translationTable; //<topic, <message, action>>
+	private Dictionary<string, Dictionary<string, MethodInfo>> m_translationTable; //<topic, <message, command>>
 
+	//classes for reading the json
 	[System.Serializable]
 	public class Translations
 	{
@@ -28,11 +29,15 @@ class RosCommandListener : MonoBehaviour
 
 	void Start()
 	{
+		m_gantry = GetComponent<AgrobotGantry>();
 		m_behaviour = new RosListeningBehaviour();
-
 		m_translationTable = new Dictionary<string, Dictionary<string, MethodInfo>>();
+
+		//load json
 		TextAsset textAsset = Resources.Load<TextAsset>("RosTranslationTable");
 		TranslationEntry[] entries = JsonUtility.FromJson<Translations>(textAsset.text).entries;
+
+		//fill dictionary
 		foreach (TranslationEntry entry in entries)
 		{
 			if (!m_translationTable.ContainsKey(entry.topic))
@@ -42,15 +47,26 @@ class RosCommandListener : MonoBehaviour
 			m_translationTable[entry.topic].Add(entry.message, m_behaviour.GetType().GetMethod(entry.command));
 		}
 
-		//TODO create subscriber for each unique dictionary topic
-		OnCommandReceived("/scrimblo", "w");
+		//TODO check every methodinfo
+
+		//create a subscriber for each unique topic
+		foreach (string topic in m_translationTable.Keys)
+		{
+			GantryCommandSubscriber subscriber = gameObject.AddComponent<GantryCommandSubscriber>();
+			subscriber.Topic = topic;
+			subscriber.Callback = OnCommandReceived;
+		}
 	}
 
 	public void OnCommandReceived(string topic, string command)
 	{
-		//if (m_gantry.CurrentBehaviour.GetType() != typeof(RosListeningBehaviour))
+		if (m_gantry.CurrentBehaviour == null)
 		{
-			//m_gantry.SetBehaviour(m_behaviour);
+			return;
+		}
+		if (m_gantry.CurrentBehaviour.GetType() != typeof(RosListeningBehaviour))
+		{
+			m_gantry.SetBehaviour(m_behaviour);
 		}
 
 		m_translationTable[topic][command].Invoke(m_behaviour, null);

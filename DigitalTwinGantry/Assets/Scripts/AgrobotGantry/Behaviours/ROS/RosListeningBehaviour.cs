@@ -22,8 +22,18 @@ class RosListeningBehaviour : AgrobotBehaviour
 		Debug.Log("called forward");
 	}
 
+	public void Backward()
+	{
+		Debug.Log("called backward");
+	}
+
 	public void ForwardAtSpeed(float speed)
 	{
 
+	}
+
+	public void ResetGantry()
+	{
+		//TODO reset gantry and go to a normal behaviour
 	}
 }

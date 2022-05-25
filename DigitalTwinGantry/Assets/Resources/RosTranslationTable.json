@@ -9,6 +9,16 @@
          "topic":"/scrimblo",
          "message":"s",
          "command":"Backward"
+      },
+      {
+         "topic":"/bimblo",
+         "message":"w",
+         "command":"Forward"
+      },
+      {
+         "topic":"/bimblo",
+         "message":"s",
+         "command":"Backward"
       }
    ]
 }
