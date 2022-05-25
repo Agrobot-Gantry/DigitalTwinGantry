@@ -23,7 +23,7 @@ public class UprootAction : AgrobotAction
 				m_tool.GetToolObject().transform.position = Vector3.MoveTowards(
 					m_tool.GetToolObject().transform.position,
 					m_targetInteractable.transform.position,
-					TimeChanger.DeltaTime);
+					AgrobotDefinitions.Instance.EquipmentSpeed * TimeChanger.DeltaTime);
 				yield return null;
 			}
 		if (m_targetInteractable != null)
