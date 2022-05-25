@@ -201,6 +201,7 @@ GameObject:
   - component: {fileID: 8026312815964508148}
   - component: {fileID: 329504548137172329}
   - component: {fileID: 5028963120777009891}
+  - component: {fileID: 9015218649464677156}
   - component: {fileID: 4693249330679280201}
   - component: {fileID: 459802136821148171}
   m_Layer: 0
@@ -261,6 +262,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a68616de364d24c4ebfdfdad927683f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &9015218649464677156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3119885546648364450}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff98778ae051cfd40a6e4effdf851ebd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SecondsTimeout: 10
+  Serializer: 0
+  protocol: 0
+  RosBridgeServerUrl: ws://192.168.0.1:9090
 --- !u!54 &4693249330679280201
 Rigidbody:
   m_ObjectHideFlags: 0

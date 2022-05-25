@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using RosSharp.RosBridgeClient;
+using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
 
@@ -10,11 +11,11 @@ using UnityEngine;
 class RosCommandListener : MonoBehaviour
 {
 	private static readonly string TRANSLATION_FILE_NAME = "RosTranslationTable";
-	//TODO reset gantry on disconnect/timeout
 
 	private AgrobotGantry m_gantry;
 	private RosListeningBehaviour m_behaviour;
 	private Dictionary<string, Dictionary<string, MethodInfo>> m_translationTable; //<topic, <message, command>>
+	private RosConnector m_rosConnector;
 
 	//classes for reading the ROS translation JSON
 	[System.Serializable]
@@ -36,6 +37,7 @@ class RosCommandListener : MonoBehaviour
 		m_gantry = GetComponent<AgrobotGantry>();
 		m_behaviour = new RosListeningBehaviour();
 		m_translationTable = new Dictionary<string, Dictionary<string, MethodInfo>>();
+		m_rosConnector = GetComponent<RosConnector>(); //TODO reset gantry on disconnect/timeout
 
 		//load json
 		TextAsset textAsset = Resources.Load<TextAsset>(TRANSLATION_FILE_NAME);
