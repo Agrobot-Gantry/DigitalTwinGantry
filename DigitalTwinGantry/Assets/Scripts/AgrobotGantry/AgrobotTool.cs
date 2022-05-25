@@ -43,6 +43,7 @@ public class AgrobotTool : MonoBehaviour
         {
             m_reachables.Clear();
         }
+        this.busy = false;
     }
 
     void Update()
