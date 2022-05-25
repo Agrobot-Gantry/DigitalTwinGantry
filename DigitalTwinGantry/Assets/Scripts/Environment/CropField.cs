@@ -120,11 +120,11 @@ public class CropField : MonoBehaviour
 		Crop crop = GetSowableCrop();
 		switch (m_fieldType)
 		{
-			case 0:
-			case 1:
+			case 0: // Monoculture
+			case 2: // Strip cultivation
 				crop = chunk.CropType.GetComponent<Crop>();
 				break;
-			case 2:
+			case 1: // Pixel cropping
 			default:
 				break;
 		}
@@ -261,10 +261,10 @@ public class CropField : MonoBehaviour
     {
 		switch (type)
 		{
-			case 0:
+			case 0: // Monoculture
 				GenerateChunks(GetStartingCrop());
 				break;
-			case 1:
+			case 2: // Strip cultivation
 				Crop[,] crops = new Crop[m_xChunks, m_yChunks];
 				for (int x = 0; x < m_xChunks; x++)
 				{
@@ -277,7 +277,7 @@ public class CropField : MonoBehaviour
 
 				GenerateChunks(crops);
 				break;
-			case 2:
+			case 1: // Pixel cropping
 				GenerateChunks();
 				break;
 			default:
