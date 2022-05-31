@@ -41,15 +41,6 @@ public class InKinematicSegment : MonoBehaviour
         transform.position = target + direction;
     }
 
-    // public void CalculateEndPos()
-    // {
-    //     // float dx = transform.lossyScale.y * Mathf.Sin(Mathf.Deg2Rad * transform.eulerAngles.z) * Mathf.Cos(Mathf.Deg2Rad * transform.eulerAngles.y);
-    //     float dy = transform.lossyScale.y * Mathf.Cos(Mathf.Deg2Rad * transform.eulerAngles.z);
-    //     // float dz = transform.lossyScale.y * Mathf.Sin(Mathf.Deg2Rad * transform.eulerAngles.z) * Mathf.Sin(Mathf.Deg2Rad * transform.eulerAngles.y);
-    //
-    //     EndPos = new Vector3(transform.position.x, transform.position.y - dy, transform.position.z);
-    // }
-
     public static Vector3 GetAngle(Vector3 from, Vector3 to)
     {
         float rotX = Mathf.Rad2Deg * Mathf.Atan2(to.z - from.z, to.y - from.y);
