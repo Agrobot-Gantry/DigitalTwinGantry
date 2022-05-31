@@ -277,6 +277,9 @@ public class CropField : MonoBehaviour
 			case 0: // Monoculture
 				GenerateChunks(GetStartingCrop());
 				break;
+			case 1: // Pixel cropping
+				GenerateChunks();
+				break;
 			case 2: // Strip cultivation
 				Crop[,] crops = new Crop[m_xChunks, m_yChunks];
 				for (int x = 0; x < m_xChunks; x++)
@@ -287,11 +290,7 @@ public class CropField : MonoBehaviour
 						crops[x, z] = crop;
 					}
 				}
-
 				GenerateChunks(crops);
-				break;
-			case 1: // Pixel cropping
-				GenerateChunks();
 				break;
 			default:
 				return;
@@ -305,8 +304,8 @@ public class CropField : MonoBehaviour
 		switch (action)
 		{
 			case 0: GenerateFieldWithAction(InteractableFlag.HARVEST); break;
-			case 1: GenerateFieldWithAction(InteractableFlag.SOW); break;
-			case 2: GenerateFieldWithAction(InteractableFlag.WATER); break;
+			case 1: GenerateFieldWithAction(InteractableFlag.WATER); break;
+			case 2: GenerateFieldWithAction(InteractableFlag.SOW); break;
 			case 3: GenerateFieldWithAction(InteractableFlag.UPROOT); break;
 			default: Debug.LogError("Given action " + action + " to generate a field does not reflect any Action yet!"); break;
 		}
