@@ -152,9 +152,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85ee6c9312669f54f97028997a510480, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  point: {x: 0, y: -1, z: 0}
   m_segmentPrefab: {fileID: 5424179032253296501, guid: 3263b9031ab8651458325609b1c4f179, type: 3}
-  m_totalSegments: 2
+  point: {x: 0, y: -1, z: 0}
+  m_isAttached: 1
+  m_totalSegments: 4
 --- !u!4 &747310000
 Transform:
   m_ObjectHideFlags: 0
