@@ -1,4 +1,5 @@
 ﻿using RosSharp.RosBridgeClient;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
@@ -37,7 +38,9 @@ class RosCommandListener : MonoBehaviour
 		m_gantry = GetComponent<AgrobotGantry>();
 		m_behaviour = new RosListeningBehaviour();
 		m_translationTable = new Dictionary<string, Dictionary<string, MethodInfo>>();
-		m_rosConnector = GetComponent<RosConnector>(); //TODO reset gantry on disconnect/timeout
+
+		m_rosConnector = GetComponent<RosConnector>();
+		m_rosConnector.RosSocket.protocol.OnClosed += OnRosClosed;
 
 		//load json
 		TextAsset textAsset = Resources.Load<TextAsset>(TRANSLATION_FILE_NAME);
@@ -75,6 +78,10 @@ class RosCommandListener : MonoBehaviour
 		}
 	}
 
+	/// <summary>
+	/// Gets called by the GantryCommandSubscribers when they receive a message.
+	/// Messages are ignored unless the current gantry behaviour is RosListeningBehaviour.
+	/// </summary>
 	public void OnMessageReceived(string topic, string message)
 	{
 		if (m_gantry.CurrentBehaviour == null)
@@ -83,9 +90,39 @@ class RosCommandListener : MonoBehaviour
 		}
 		if (m_gantry.CurrentBehaviour.GetType() != typeof(RosListeningBehaviour))
 		{
-			m_gantry.SetBehaviour(m_behaviour);
+			return;
 		}
 
 		m_translationTable[topic][message].Invoke(m_behaviour, null);
+	}
+
+	public void ToggleListening()
+	{
+		if (m_gantry.CurrentBehaviour.GetType() != typeof(RosListeningBehaviour))
+		{
+			StartListening();
+		}
+		else
+		{
+			StopListening();
+		}
+	}
+
+	private void StartListening()
+	{
+		Debug.Log("started listening");
+		m_gantry.SetBehaviour(m_behaviour);
+	}
+
+	private void StopListening()
+	{
+		Debug.Log("stopped listening");
+		m_gantry.SetBehaviour(new LaneFarmingBehaviour());
+	}
+
+	private void OnRosClosed(object sender, EventArgs e)
+	{
+		Debug.LogWarning("ROS connection closed, listening will be disabled");
+		StopListening();
 	}
 }
