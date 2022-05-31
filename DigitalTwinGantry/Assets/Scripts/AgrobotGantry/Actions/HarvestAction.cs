@@ -20,15 +20,21 @@ public class HarvestAction : AgrobotAction
 	}
 
 	public override IEnumerator Start()
-	{
-		while (m_targetInteractable != null && Vector3.Distance(m_tool.GetToolObject().transform.position, m_targetInteractable.transform.position) > 0.1f)
-		{
-			m_tool.GetToolObject().transform.position = Vector3.MoveTowards(
-				m_tool.GetToolObject().transform.position,
-				m_targetInteractable.transform.position,
-				AgrobotDefinitions.Instance.EquipmentSpeed * TimeChanger.DeltaTime);
-			yield return null;
-		}
+    {
+        InKinematicArm arm = m_tool.GetToolObject().GetComponent<InKinematicArm>();
+		arm.ResetReach();
+
+        yield return arm.ReachForPointSmooth(m_targetInteractable.transform.position, 0.1f, AgrobotDefinitions.Instance.EquipmentSpeed);
+
+        // while (m_targetInteractable != null && Vector3.Distance(m_tool.GetToolObject().transform.position, m_targetInteractable.transform.position) > 0.1f)
+		// {
+		// 	m_tool.GetToolObject().transform.position = Vector3.MoveTowards(
+		// 		m_tool.GetToolObject().transform.position,
+		// 		m_targetInteractable.transform.position,
+		// 		AgrobotDefinitions.Instance.EquipmentSpeed * TimeChanger.DeltaTime);
+		// 	yield return null;
+		// }
+
 		if (m_targetInteractable != null)
 		{
 			m_targetInteractable.OnInteract(this);

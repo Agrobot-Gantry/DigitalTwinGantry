@@ -6998,6 +6998,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8346812135250956221, guid: 5ee66826a45982545836570c77dd2f34, type: 3}
+      propertyPath: reachPoint.y
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8346812135250956221, guid: 5ee66826a45982545836570c77dd2f34, type: 3}
+      propertyPath: m_reachPoint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8346812135250956221, guid: 5ee66826a45982545836570c77dd2f34, type: 3}
+      propertyPath: m_reachPoint.y
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8346812135250956221, guid: 5ee66826a45982545836570c77dd2f34, type: 3}
+      propertyPath: m_reachPoint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8346812135250956221, guid: 5ee66826a45982545836570c77dd2f34, type: 3}
+      propertyPath: m_totalSegments
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 8351482929988249268, guid: 5ee66826a45982545836570c77dd2f34, type: 3}
       propertyPath: m_RootOrder
       value: 9

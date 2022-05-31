@@ -206,6 +206,11 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &1571281878 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2244568717649012945, guid: ac0184e53519d98419bfbad3d72c44ce, type: 3}
+  m_PrefabInstance: {fileID: 2244568718395269985}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2031812967
 GameObject:
   m_ObjectHideFlags: 0
@@ -306,6 +311,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2244568717649012942, guid: ac0184e53519d98419bfbad3d72c44ce, type: 3}
+      propertyPath: m_basePoint
+      value: 
+      objectReference: {fileID: 1571281878}
+    - target: {fileID: 2244568717649012942, guid: ac0184e53519d98419bfbad3d72c44ce, type: 3}
+      propertyPath: m_isAttached
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2244568717649012942, guid: ac0184e53519d98419bfbad3d72c44ce, type: 3}
+      propertyPath: m_reachPoint.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2244568717649012942, guid: ac0184e53519d98419bfbad3d72c44ce, type: 3}
+      propertyPath: m_reachPoint.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2244568717649012942, guid: ac0184e53519d98419bfbad3d72c44ce, type: 3}
+      propertyPath: m_totalSegments
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 2244568717649012943, guid: ac0184e53519d98419bfbad3d72c44ce, type: 3}
       propertyPath: m_Name
       value: AgrobotArm
