@@ -28,10 +28,10 @@ public class InKinematicArm : MonoBehaviour
         ReachForPoint(m_currentReachPoint);
     }
 
-    private void Update()
-    {
-        ReachForPoint(transform.position + m_reachPoint);
-    }
+    // private void Update()
+    // {
+    //     ReachForPoint(transform.position + m_reachPoint);
+    // }
 
     public void ResetReach()
     {
