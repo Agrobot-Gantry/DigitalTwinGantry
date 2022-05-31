@@ -54,15 +54,10 @@ abstract public class AgrobotBehaviour
     /// <param name="action">the AgrobotAction to start</param>
     /// <returns>true if the action could be started</returns>
     protected bool StartAction(AgrobotAction action)
-    {        
-        if (action.TargetInteractable.Busy)
+    {
+        if (action.TargetInteractable.Busy || !action.TargetInteractable)
         {
             Debug.LogWarning("tried to start an action on an interactable that was already busy");
-            return false;
-        }
-        if(action.TargetInteractable == null)
-        {
-            Debug.LogWarning("tried to start an action on an interactable that is null");
             return false;
         }
         action.TargetInteractable.Busy = true;

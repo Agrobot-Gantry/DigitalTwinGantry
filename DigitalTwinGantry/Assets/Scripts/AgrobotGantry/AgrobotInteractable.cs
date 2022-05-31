@@ -42,32 +42,58 @@ public class AgrobotInteractable : MonoBehaviour
 	/// <param name="behaviour">the behaviour trying to start an action targeting this interactable</param>
 	/// <param name="equipment">the equipment of the agrobot running the behaviour</param>
 	/// <returns>an array of appropriate AgrobotActions targeting this interactable</returns>
-	public AgrobotAction[] GetActions(AgrobotBehaviour behaviour, AgrobotEquipment equipment)
+	public AgrobotAction GetAction(AgrobotBehaviour behaviour, AgrobotEquipment equipment)
 	{
-		int index = 0;
-		AgrobotAction[] actions = new AgrobotAction[FlagCount(m_flags)];
+		AgrobotAction action = null;
 		if (this.HasFlag(InteractableFlag.HARVEST))
 		{
-			actions[index] = new HarvestAction(this, behaviour, equipment);
-			index++;
+			AgrobotTool tool = equipment.GetTool(InteractableFlag.HARVEST);
+			if (tool != null) action = new HarvestAction(this, behaviour, equipment);
+		}
+		else if (this.HasFlag(InteractableFlag.SOW))
+		{
+			AgrobotTool tool = equipment.GetTool(InteractableFlag.SOW);
+			if (tool != null) action = new SowAction(this, behaviour, equipment);
+		}
+		else if (this.HasFlag(InteractableFlag.WATER))
+		{
+			AgrobotTool tool = equipment.GetTool(InteractableFlag.WATER);
+			if (tool != null) action = new IrrigationAction(this, behaviour, equipment);
+		}
+		else if (this.HasFlag(InteractableFlag.UPROOT))
+		{
+			AgrobotTool tool = equipment.GetTool(InteractableFlag.UPROOT);
+			if (tool != null) action = new UprootAction(this, behaviour, equipment);
+		}
+		return action;
+	}
+
+	/*public AgrobotAction GetAction(AgrobotBehaviour behaviour, AgrobotEquipment equipment)
+    {
+		AgrobotAction[] action = new AgrobotAction[FlagCount(m_flags)];
+		if (this.HasFlag(InteractableFlag.HARVEST))
+		{
+			action = new HarvestAction(this, behaviour, equipment);
 		}
 		if (this.HasFlag(InteractableFlag.SOW))
 		{
-			actions[index] = new SowAction(this, behaviour, equipment);
-			index++;
+			action = new SowAction(this, behaviour, equipment);
 		}
 		if (this.HasFlag(InteractableFlag.WATER))
 		{
-			actions[index] = new IrrigationAction(this, behaviour, equipment);
-			index++;
+			action = new IrrigationAction(this, behaviour, equipment);
 		}
 		if (this.HasFlag(InteractableFlag.UPROOT))
 		{
-			actions[index] = new UprootAction(this, behaviour, equipment);
-			index++;
+			action = new UprootAction(this, behaviour, equipment);
 		}
-		return actions;
-	}
+		AgrobotTool tool = equipment.GetTool(InteractableFlag.HARVEST);
+		if (tool == null)
+        {
+			return null;
+        }
+		return ;
+    }*/
 
 	public void OnInteract(AgrobotAction action)
 	{
