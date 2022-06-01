@@ -20,7 +20,8 @@ public class UprootAction : AgrobotAction
 	{
 		while (m_targetInteractable != null && Vector3.Distance(m_tool.GetToolObject().transform.position, m_targetInteractable.transform.position) > 0.1f)
 			{
-				m_tool.GetToolObject().transform.position = Vector3.MoveTowards(
+			m_tool.busy = true;
+			m_tool.GetToolObject().transform.position = Vector3.MoveTowards(
 					m_tool.GetToolObject().transform.position,
 					m_targetInteractable.transform.position,
 					AgrobotDefinitions.Instance.EquipmentSpeed * TimeChanger.DeltaTime);
@@ -31,6 +32,7 @@ public class UprootAction : AgrobotAction
 			m_targetInteractable.OnInteract(this);
 		}
 		else Debug.Log("TargetInteractable is null");
+		m_tool.busy = false;
 		Finish();
 	}
 }

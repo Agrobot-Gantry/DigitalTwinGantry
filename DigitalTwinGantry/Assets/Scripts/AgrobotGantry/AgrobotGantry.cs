@@ -18,6 +18,7 @@ public class AgrobotGantry : MonoBehaviour
 
     [SerializeField]
     private AgrobotTool[] m_tools;
+    public AgrobotTool[] tools { get => m_tools; }
 
     /// <summary>
     /// Forward-facing movement speed in meters per second. Setting this to a positive value will make the gantry move forwards. 

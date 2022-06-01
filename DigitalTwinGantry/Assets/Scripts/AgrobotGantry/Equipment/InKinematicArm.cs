@@ -33,24 +33,24 @@ public class InKinematicArm : MonoBehaviour
     //     ReachForPoint(transform.position + m_reachPoint);
     // }
 
-    public void ResetReach()
+    public void ReturnToBase(float speed)
     {
-        m_currentReachPoint = m_segments[m_segments.Count - 1].EndPos;
+        StartCoroutine(ReachForPointSmooth(m_basePoint.position, 0.5f, speed));
     }
 
     public IEnumerator ReachForPointSmooth(Vector3 point, float minDistance, float speed)
     {
-        ResetReach();
         while (Vector3.Distance(m_currentReachPoint, point) > minDistance)
         {
+            ResetReach();
             m_currentReachPoint = Vector3.MoveTowards(m_currentReachPoint, point, speed * TimeChanger.DeltaTime);
-            m_currentReachPoint = Vector3.Lerp(m_currentReachPoint, point, speed * TimeChanger.DeltaTime);
+            // m_currentReachPoint = Vector3.Lerp(m_currentReachPoint, point, speed * TimeChanger.DeltaTime);
 
             ReachForPoint(m_currentReachPoint);
 
             yield return null;
         }
-
+        
         // Weer terug gaan naar basis positie
     }
 
@@ -74,5 +74,10 @@ public class InKinematicArm : MonoBehaviour
         {
             m_segments[i].gameObject.transform.position = m_segments[i - 1].EndPos;
         }
+    }
+
+    private void ResetReach()
+    {
+        m_currentReachPoint = m_segments[m_segments.Count - 1].EndPos;
     }
 }

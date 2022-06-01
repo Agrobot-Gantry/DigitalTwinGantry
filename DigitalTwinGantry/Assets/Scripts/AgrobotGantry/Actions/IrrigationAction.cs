@@ -20,6 +20,7 @@ public class IrrigationAction : AgrobotAction
 	{
 		while (m_targetInteractable != null && Vector3.Distance(m_tool.GetToolObject().transform.position, m_targetInteractable.transform.position) > 0.1f)
 		{
+			m_tool.busy = true;
 			m_tool.GetToolObject().transform.position = Vector3.MoveTowards(
 				m_tool.GetToolObject().transform.position,
 				m_targetInteractable.transform.position,
@@ -29,9 +30,10 @@ public class IrrigationAction : AgrobotAction
 		if (m_targetInteractable != null)
 		{
 			m_targetInteractable.OnInteract(this);
-			Finish();
+			// Finish();
 		}
 		else Debug.Log("TargetInteractable is null");
+		m_tool.busy = false;
 		Finish();
 	}
 }
