@@ -36,6 +36,7 @@ public class InKinematicSegment : MonoBehaviour
         transform.rotation = Quaternion.Euler(transform.eulerAngles.x, Mathf.Rad2Deg * -yRotation, angle.z);
 
         direction.Normalize();
+        direction *= transform.lossyScale.y;
         direction = -direction;
 
         transform.position = target + direction;

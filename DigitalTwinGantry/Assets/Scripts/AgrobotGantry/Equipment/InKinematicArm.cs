@@ -40,10 +40,11 @@ public class InKinematicArm : MonoBehaviour
 
     public IEnumerator ReachForPointSmooth(Vector3 point, float minDistance, float speed)
     {
+        ResetReach();
         while (Vector3.Distance(m_currentReachPoint, point) > minDistance)
         {
             m_currentReachPoint = Vector3.MoveTowards(m_currentReachPoint, point, speed * TimeChanger.DeltaTime);
-            // m_currentReachPoint = Vector3.Lerp(m_currentReachPoint, point, speed * TimeChanger.DeltaTime);
+            m_currentReachPoint = Vector3.Lerp(m_currentReachPoint, point, speed * TimeChanger.DeltaTime);
 
             ReachForPoint(m_currentReachPoint);
 

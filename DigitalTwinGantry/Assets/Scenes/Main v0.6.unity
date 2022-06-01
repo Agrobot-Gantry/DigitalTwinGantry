@@ -6998,6 +6998,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8346812135250956194, guid: 5ee66826a45982545836570c77dd2f34, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8346812135250956194, guid: 5ee66826a45982545836570c77dd2f34, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8346812135250956194, guid: 5ee66826a45982545836570c77dd2f34, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8346812135250956221, guid: 5ee66826a45982545836570c77dd2f34, type: 3}
       propertyPath: reachPoint.y
       value: -1
@@ -12462,7 +12474,7 @@ PrefabInstance:
       objectReference: {fileID: 9082467766312943773, guid: 3d833e3e3a2315d4cae5815d8ac84c3a, type: 3}
     - target: {fileID: 7557997257567496227, guid: ec9f947e7aab4ee4ea00e87d8ee4a4e1, type: 3}
       propertyPath: m_startingMonth
-      value: 6
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 7557997257567496227, guid: ec9f947e7aab4ee4ea00e87d8ee4a4e1, type: 3}
       propertyPath: m_cropTypes.Array.data[1]
