@@ -8,6 +8,7 @@ using UnityEngine;
 /// Listens for ROS messages as specified in the ROS translation JSON file.
 /// When a message is received this will change the gantry behaviour to RosListeningBehaviour if it is not already.
 /// Received messages are used to call methods on the RosListeningBehaviour.
+/// The ROS app to connect with should be running before the application starts.
 /// </summary>
 class RosCommandListener : MonoBehaviour
 {
@@ -84,12 +85,14 @@ class RosCommandListener : MonoBehaviour
 	/// </summary>
 	public void OnMessageReceived(string topic, string message)
 	{
+		Debug.Log(topic + "\n" + message);
 		if (m_gantry.CurrentBehaviour == null)
 		{
 			return;
 		}
 		if (m_gantry.CurrentBehaviour.GetType() != typeof(RosListeningBehaviour))
 		{
+			StartListening();//
 			return;
 		}
 
@@ -117,7 +120,10 @@ class RosCommandListener : MonoBehaviour
 	private void StopListening()
 	{
 		Debug.Log("stopped listening");
-		m_gantry.SetBehaviour(new LaneFarmingBehaviour());
+		if (m_gantry.CurrentBehaviour.GetType() == typeof(RosListeningBehaviour))
+		{
+			m_gantry.SetBehaviour(new LaneFarmingBehaviour());
+		}
 	}
 
 	private void OnRosClosed(object sender, EventArgs e)
