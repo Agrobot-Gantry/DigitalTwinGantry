@@ -42,7 +42,7 @@ public class InKinematicSegment : MonoBehaviour
         transform.position = target + direction;
     }
 
-    public static Vector3 GetAngle(Vector3 from, Vector3 to)
+    private static Vector3 GetAngle(Vector3 from, Vector3 to)
     {
         float rotX = Mathf.Rad2Deg * Mathf.Atan2(to.z - from.z, to.y - from.y);
         float rotY = Mathf.Rad2Deg * Mathf.Atan2(to.z - from.z, to.x - from.x);

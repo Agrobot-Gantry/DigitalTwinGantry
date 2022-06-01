@@ -20,8 +20,6 @@ public class HarvestAction : AgrobotAction
 
 	public override IEnumerator Start()
     {
-		Debug.Log("Start");
-
         m_tool.busy = true;
 
 		Vector3 target = new Vector3(m_targetInteractable.transform.position.x,
@@ -29,41 +27,21 @@ public class HarvestAction : AgrobotAction
 		
 		while (m_targetInteractable != null && Vector3.Distance(m_tool.GetToolObject().transform.position, target) > 0.1f)
 	    {
-            m_tool.GetToolObject().transform.position = Vector3.MoveTowards(
+            target = new Vector3(m_targetInteractable.transform.position.x,
+                m_tool.GetToolObject().transform.position.y, m_tool.GetToolObject().transform.position.z);
+
+			m_tool.GetToolObject().transform.position = Vector3.MoveTowards(
 		    m_tool.GetToolObject().transform.position, target,
 		    AgrobotDefinitions.Instance.EquipmentSpeed * TimeChanger.DeltaTime);
-		    yield return null;
+
+            yield return null;
 	    }
   
         InKinematicArm arm = m_tool.GetToolObject().GetComponent<InKinematicArm>();
-		yield return arm.ReachForPointSmooth(m_targetInteractable.transform.position, 0.1f, AgrobotDefinitions.Instance.EquipmentSpeed);
-		arm.ReturnToBase(AgrobotDefinitions.Instance.EquipmentSpeed * 2);
+		yield return arm.ReachForPointSmooth(m_targetInteractable.transform, 0.1f, AgrobotDefinitions.Instance.EquipmentSpeed);
+		arm.ReturnToBase(AgrobotDefinitions.Instance.EquipmentSpeed * 1.5f);
 
-        Debug.Log("Stop");
-
-		//
-		//       Debug.Log("ended");
-		//
-		//       if (m_targetInteractable != null)
-		//       {
-		//           Debug.Log("on interact");
-		//           m_targetInteractable.OnInteract(this);
-		//       }
-		//       else Debug.Log("TargetInteractable is null");
-		//
-		//       m_tool.busy = false;
-		//       Finish();
-
-		// while (m_targetInteractable != null && Vector3.Distance(m_tool.GetToolObject().transform.position, m_targetInteractable.transform.position) > 0.1f)
-		// {
-		//     m_tool.busy = true;
-		//     m_tool.GetToolObject().transform.position = Vector3.MoveTowards(
-		//         m_tool.GetToolObject().transform.position,
-		//         m_targetInteractable.transform.position,
-		//         AgrobotDefinitions.Instance.EquipmentSpeed * TimeChanger.DeltaTime);
-		//     yield return null;
-		// }
-		if (m_targetInteractable != null)
+        if (m_targetInteractable != null)
         {
             m_targetInteractable.OnInteract(this);
         }

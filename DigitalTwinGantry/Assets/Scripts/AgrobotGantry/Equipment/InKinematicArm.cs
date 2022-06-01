@@ -26,6 +26,7 @@ public class InKinematicArm : MonoBehaviour
 
         m_currentReachPoint = transform.position + m_reachPoint;
         ReachForPoint(m_currentReachPoint);
+        ReturnToBase(1000);
     }
 
     // private void Update()
@@ -35,23 +36,22 @@ public class InKinematicArm : MonoBehaviour
 
     public void ReturnToBase(float speed)
     {
-        StartCoroutine(ReachForPointSmooth(m_basePoint.position, 0.5f, speed));
+        StartCoroutine(ReachForPointSmooth(m_basePoint, 0.5f, speed));
     }
 
-    public IEnumerator ReachForPointSmooth(Vector3 point, float minDistance, float speed)
+    public IEnumerator ReachForPointSmooth(Transform point, float minDistance, float speed)
     {
-        while (Vector3.Distance(m_currentReachPoint, point) > minDistance)
+        ResetReach();
+
+        while (Vector3.Distance(m_currentReachPoint, point.position) > minDistance)
         {
-            ResetReach();
-            m_currentReachPoint = Vector3.MoveTowards(m_currentReachPoint, point, speed * TimeChanger.DeltaTime);
+            m_currentReachPoint = Vector3.MoveTowards(m_currentReachPoint, point.position, speed * TimeChanger.DeltaTime);
             // m_currentReachPoint = Vector3.Lerp(m_currentReachPoint, point, speed * TimeChanger.DeltaTime);
 
             ReachForPoint(m_currentReachPoint);
 
             yield return null;
         }
-        
-        // Weer terug gaan naar basis positie
     }
 
     public void ReachForPoint(Vector3 point)
