@@ -1,6 +1,5 @@
 ﻿using RosSharp.RosBridgeClient;
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
@@ -99,7 +98,6 @@ class RosCommandListener : MonoBehaviour
 	/// </summary>
 	private void HandleMessage(string topic, string message)
 	{
-		Debug.Log("handling message...");//
 		if (m_gantry.CurrentBehaviour == null)
 		{
 			return;
@@ -107,9 +105,8 @@ class RosCommandListener : MonoBehaviour
 		if (m_gantry.CurrentBehaviour.GetType() != typeof(RosListeningBehaviour))
 		{
 			StartListening();//
-			return;
+							 //return;
 		}
-		Debug.Log("processing message...");//
 		if (m_translationTable.ContainsKey(topic))
 		{
 			if (m_translationTable[topic].ContainsKey(message))
@@ -117,7 +114,10 @@ class RosCommandListener : MonoBehaviour
 				m_translationTable[topic][message].Invoke(m_behaviour, null);
 			}
 		}
-		Debug.Log("done invoking");//
+		if (message == "stop")//TODO remove after button is added
+		{
+			StopListening();
+		}
 	}
 
 	public void ToggleListening()
