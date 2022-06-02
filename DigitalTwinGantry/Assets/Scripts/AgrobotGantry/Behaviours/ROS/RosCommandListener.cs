@@ -109,7 +109,7 @@ class RosCommandListener : MonoBehaviour
 			StartListening();//
 			return;
 		}
-		Debug.Log("processing message...");
+		Debug.Log("processing message...");//
 		if (m_translationTable.ContainsKey(topic))
 		{
 			if (m_translationTable[topic].ContainsKey(message))
@@ -117,7 +117,7 @@ class RosCommandListener : MonoBehaviour
 				m_translationTable[topic][message].Invoke(m_behaviour, null);
 			}
 		}
-		Debug.Log("done invoking");
+		Debug.Log("done invoking");//
 	}
 
 	public void ToggleListening()
@@ -150,6 +150,6 @@ class RosCommandListener : MonoBehaviour
 	private void OnRosClosed(object sender, EventArgs e)
 	{
 		Debug.LogWarning("ROS connection closed, listening will be disabled");
-		StopListening();//TODO this should happen on the main thread too
+		m_actionQueuer.QueueAction(() => StopListening());
 	}
 }

@@ -6,17 +6,17 @@
          "command":"Forward"
       },
       {
-         "topic":"/scrimblo",
-         "message":"s",
+         "topic":"/gantry",
+         "message":"backward",
          "command":"Backward"
       },
       {
-         "topic":"/bimblo",
+         "topic":"/servo",
          "message":"w",
          "command":"Forward"
       },
       {
-         "topic":"/bimblo",
+         "topic":"/servo",
          "message":"s",
          "command":"Backward"
       }
