@@ -18,7 +18,7 @@ class RosCommandListener : MonoBehaviour
 	private AgrobotGantry m_gantry;
 	private RosListeningBehaviour m_behaviour;
 	private Dictionary<string, Dictionary<string, MethodInfo>> m_translationTable; //<topic, <message, command>>
-	private ConcurrentQueue<(string, string)> m_messageQueue; //<(topic, message)>
+	private MainThreadActionQueuer m_actionQueuer;
 
 	//classes for reading the ROS translation JSON
 	[System.Serializable]
@@ -40,7 +40,7 @@ class RosCommandListener : MonoBehaviour
 		m_gantry = GetComponent<AgrobotGantry>();
 		m_behaviour = new RosListeningBehaviour();
 		m_translationTable = new Dictionary<string, Dictionary<string, MethodInfo>>();
-		m_messageQueue = new ConcurrentQueue<(string, string)>();
+		m_actionQueuer = GetComponent<MainThreadActionQueuer>();
 
 		GetComponent<RosConnector>().RosSocket.protocol.OnClosed += OnRosClosed;
 
@@ -88,28 +88,12 @@ class RosCommandListener : MonoBehaviour
 	{
 		//everything in this thread will not log exceptions and fail silently
 		Debug.Log("received: " + topic + " " + message);
-		m_messageQueue.Enqueue((topic, message));
+		m_actionQueuer.QueueAction(() => HandleMessage(topic, message));
 	}
 
-	void Update()
-	{
-		if (!m_messageQueue.IsEmpty)
-		{
-			HandleMessage(); //handle the messages on the main thread
-		}
-	}
-
-	private void HandleMessage()
+	private void HandleMessage(string topic, string message)
 	{
 		Debug.Log("handling message...");//
-		if (!m_messageQueue.TryDequeue(out (string, string) entry))
-		{
-			Debug.Log("could not dequeue!");//
-			return;
-		}
-
-		string topic = entry.Item1;
-		string message = entry.Item2;
 		if (m_gantry.CurrentBehaviour == null)
 		{
 			return;
@@ -161,6 +145,6 @@ class RosCommandListener : MonoBehaviour
 	{
 		Debug.LogWarning("ROS connection closed, listening will be disabled");
 		StopListening();//TODO this should happen on the main thread too
-		//TODO seperate script for the async to main thread
+		//TODO debuglogger
 	}
 }
