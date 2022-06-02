@@ -8,6 +8,9 @@ public class CropChunk : MonoBehaviour
     [SerializeField] private float m_sizeBetweenCrop;
     [SerializeField] private float m_cropScale;
 
+    private GameObject m_cropType;
+    public GameObject CropType { get => m_cropType; }
+
     private float m_xSize;
     private float m_ySize;
 
@@ -26,6 +29,7 @@ public class CropChunk : MonoBehaviour
         m_timePeriod = timePeriod;
         m_onCHunkEmpty = onChunkEmpty;
 
+        m_cropType = cropType;
         GenerateChunk(cropType, 0);
     }
 
@@ -58,9 +62,10 @@ public class CropChunk : MonoBehaviour
     {
         m_timePeriod = timePeriod;
 
-        for (int i = 0; i < m_crops.Count; i++)
+        List<GameObject> copiedCrops = new List<GameObject>(m_crops); //iterate through a copy because entries in the original might be deleted
+        for (int i = 0; i < copiedCrops.Count; i++)
         {
-            m_crops[i].GetComponent<Crop>().UpdateTimePeriod(timePeriod);
+            copiedCrops[i].GetComponent<Crop>().UpdateTimePeriod(timePeriod);
         }
     }
 

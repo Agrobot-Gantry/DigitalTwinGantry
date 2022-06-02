@@ -67,27 +67,27 @@ public class Crop : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Returns the index of a timeperiod that has the SOW interactable flag. 
-	/// If there are multiple timeperiods with the SOW flag this will return the one closest to the parameter.
-	/// If there are no timeperiods with the SOW flag this will return int.MaxValue.
+	/// Returns the index of a timeperiod that has the specified interactable flag. 
+	/// If there are multiple timeperiods with the flag this will return the one closest to the parameter.
+	/// If there are no timeperiods with the flag this will return int.MaxValue.
 	/// </summary>
 	/// <param name="comparedTimePeriod">the timeperiod the returned value should be closest to</param>
-	/// <returns>the index of a timeperiod that has the SOW interactable flag</returns>
-	public int GetNearestSowingTimePeriod(int comparedTimePeriod)
+	/// <returns>the index of a timeperiod that has the specified interactable flag</returns>
+	public int GetNearestTimePeriod(int comparedTimePeriod, InteractableFlag flag)
 	{
-		//find all time periods with the sowing flag
-		List<int> sowingTimePeriods = new List<int>();
+		//find all time periods with the specified flag
+		List<int> timePeriods = new List<int>();
 		for (int i = 0; i < TimePeriod.TIME_PERIOD_COUNT; i++)
 		{
-			if (m_timePeriods[i].InteractableFlags.HasFlag(InteractableFlag.SOW))
+			if (m_timePeriods[i].InteractableFlags.HasFlag(flag))
 			{
-				sowingTimePeriods.Add(i);
+				timePeriods.Add(i);
 			}
 		}
 
 		//find the one nearest to the parameter timeperiod
 		int nearestIndex = int.MaxValue;
-		foreach (int index in sowingTimePeriods)
+		foreach (int index in timePeriods)
 		{
 			if (Mathf.Abs(TimePeriod.Distance(comparedTimePeriod, index)) < Mathf.Abs(TimePeriod.Distance(comparedTimePeriod, nearestIndex)))
 			{

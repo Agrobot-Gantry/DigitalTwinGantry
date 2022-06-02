@@ -39,10 +39,13 @@ abstract public class AgrobotAction
 	/// Clears the flags (only the ones relevant to this action) of the target interactable and lets the equipment account for this change.
 	/// Then it tells the behaviour that this action is finished. Subclasses should call this function when the Start() coroutine is finished.
 	/// </summary>
-	protected void Finish()
+	public void Finish()
 	{
-		m_targetInteractable.ClearFlag(GetFlags());
-		m_targetInteractable.Busy = false;
+		if (m_targetInteractable != null)
+		{
+			m_targetInteractable.ClearFlag(GetFlags());
+			m_targetInteractable.Busy = false;
+		}
 		//the flag may be cleared but tools only check flags on collision so we need to update them for this specific interactable
 		m_equipment.InteractableModified(m_targetInteractable);
 		m_callback(this);

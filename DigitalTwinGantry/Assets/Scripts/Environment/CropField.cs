@@ -18,8 +18,8 @@ public class CropField : MonoBehaviour
 	
 	[Header("Agrobot")]
 	[SerializeField] private AgrobotGantry m_agrobot;
-	[SerializeField] private GameObject m_path;
-	[SerializeField] private GameObject m_endZone;
+	[SerializeField] private GameObject m_pathPrefab;
+	[SerializeField] private GameObject m_endZonePrefab;
 
 	[Header("Crops")]
 	[SerializeField] private GameObject m_ground;
@@ -28,7 +28,7 @@ public class CropField : MonoBehaviour
 	[SerializeField] private GameObject[] m_cropTypes;
 
 	[Header("Field change")]
-	[SerializeField] private UnityEvent m_onFieldChange;
+	[SerializeField] private UnityEvent m_onChange;
 	
 	private GameObject m_groundMesh;
 
@@ -41,6 +41,10 @@ public class CropField : MonoBehaviour
 
 	private List<GameObject> m_chunks;
 	private List<GameObject> m_paths;
+
+	private GameObject m_endZone;
+
+	private int m_fieldType;
 
 	private void Start()
 	{
@@ -57,6 +61,9 @@ public class CropField : MonoBehaviour
 
 		m_chunks = new List<GameObject>();
 		m_paths = new List<GameObject>();
+		
+		m_fieldType = 2;
+
 		GenerateChunks();
 	}
 
@@ -66,24 +73,23 @@ public class CropField : MonoBehaviour
 	/// </summary>
 	public void UpdateTimePeriod(int newTimePeriod)
 	{
-		m_onFieldChange.Invoke();
+		m_onChange.Invoke();
 
 		// Set new time period
 		newTimePeriod = Mathf.Clamp(newTimePeriod, 0, TimePeriod.TIME_PERIOD_COUNT);
 		m_currentMonth = newTimePeriod;
 
 		// Update all chunks
-		for (int i = 0; i < m_chunks.Count; i++)
+		List<GameObject> copiedChunks = new List<GameObject>(m_chunks); //iterate through a copy because entries in the original might be deleted
+		for (int i = 0; i < copiedChunks.Count; i++)
 		{
-			m_chunks[i].GetComponent<CropChunk>().UpdateTimePeriod(m_currentMonth);
+			copiedChunks[i].GetComponent<CropChunk>().UpdateTimePeriod(m_currentMonth);
 		}
 
 		// Reset agrobot transform
 		if (m_agrobot != null) 
 		{
-			m_agrobot.transform.position = m_agrobotStart.position;
-			m_agrobot.transform.rotation = m_agrobotStart.rotation;
-			m_agrobot.Reset();
+			m_agrobot.Reset(m_agrobotStart.position, m_agrobotStart.rotation);
 		}
 	}
 
@@ -112,17 +118,53 @@ public class CropField : MonoBehaviour
 		}
 
 		Crop crop = GetSowableCrop();
-		int offset = TimePeriod.Distance(m_currentMonth, crop.GetNearestSowingTimePeriod(m_currentMonth));
+		switch (m_fieldType)
+		{
+			case 0: // Monoculture
+			case 2: // Strip cultivation
+				crop = chunk.CropType.GetComponent<Crop>();
+				break;
+			case 1: // Pixel cropping
+			default:
+				break;
+		}
+
+		int offset = TimePeriod.Distance(m_currentMonth, crop.GetNearestTimePeriod(m_currentMonth, InteractableFlag.SOW));
 		
 		chunk.GenerateChunk(crop.gameObject, offset);
+	}
+
+	/// <summary>
+	/// Helper method to call <see cref="GenerateChunks(Crop[,] cropTypes)" />
+	/// to be able to generate the chunks with 1 type of crop
+	///
+	/// Destroys all existing chunks and driving paths and regenerates them. Creates a new end zone at the end of the driving route.
+	/// Also resets the agrobot and moves it back to the start position.
+	/// </summary>
+	/// <param name="cropType">The crop the field needs to be generated with</param>
+	private void GenerateChunks(Crop cropType)
+	{
+		Crop[,] crops = new Crop[m_xChunks, m_yChunks];
+		for (int x = 0; x < m_xChunks; x++)
+		{
+			for (int z = 0; z < m_yChunks; z++)
+			{
+				crops[x, z] = cropType;
+			}
+		}
+
+		GenerateChunks(crops);
 	}
 
 	/// <summary>
 	/// Destroys all existing chunks and driving paths and regenerates them. Creates a new end zone at the end of the driving route.
 	/// Also resets the agrobot and moves it back to the start position.
 	/// </summary>
-	private void GenerateChunks()
+	/// <param name="cropTypes">Which crop to which chunk needs to be added</param>
+	private void GenerateChunks(Crop[,] cropTypes = null)
 	{
+		m_onChange.Invoke();
+
 		// Remove all previous chunks and paths
 		for (int i = 0; i < m_chunks.Count; i++)
 		{
@@ -152,7 +194,18 @@ public class CropField : MonoBehaviour
 					new Vector3(x * chunkWidth, 0, z * chunkHeight), Quaternion.Euler(0, 0, 0));
 
 				CropChunk chunk = chunkObject.GetComponent<CropChunk>();
-				chunk.Initialize(GetStartingCrop().gameObject, new Vector2(chunkWidth, chunkHeight), m_currentMonth, OnChunkEmpty);
+
+				Crop crop;
+
+				if (cropTypes != null && x < cropTypes.GetLength(0) && z < cropTypes.GetLength(1))
+				{
+					crop = cropTypes[x, z];
+				} else
+				{
+					crop = GetStartingCrop();
+				}
+
+				chunk.Initialize(crop.gameObject, new Vector2(chunkWidth, chunkHeight), m_currentMonth, OnChunkEmpty);
 
 				m_chunks.Add(chunkObject);
 			}
@@ -162,19 +215,23 @@ public class CropField : MonoBehaviour
 		// Generate the driving paths
 		for (float x = m_field.bounds.min.x; x < m_field.bounds.max.x; x += m_gantryWidth)
 		{
-			GameObject path = Instantiate(m_path, new Vector3(x, transform.position.y, m_field.bounds.center.z), Quaternion.Euler(0, 0, 0));
+			GameObject path = Instantiate(m_pathPrefab, new Vector3(x, transform.position.y, m_field.bounds.center.z), Quaternion.Euler(0, 0, 0));
 			m_paths.Add(path);
 
 			path.transform.localScale = new Vector3(m_gantryWheelWidth, 0.1f, fieldHeight + m_gantryWidth);
 		}
-
-		// Generate end zone
-		GameObject endZone = Instantiate(m_endZone, new Vector3(m_field.bounds.max.x, transform.position.y, m_field.bounds.max.z), Quaternion.Euler(0, 0, 0));
-		endZone.transform.localScale = new Vector3(m_gantryWidth, 0.1f, 1);
+        
+        // Generate end zone
+		if(m_endZone != null)
+        {
+			Destroy(m_endZone);
+        }
+        
+		m_endZone = Instantiate(m_endZonePrefab, new Vector3(m_field.bounds.max.x, transform.position.y, m_field.bounds.max.z + m_agrobot.GetGantryWidth()), Quaternion.Euler(0, 0, 0));
+		m_endZone.transform.localScale = new Vector3(m_gantryWidth, 0.1f, 1);
 		// Get endzone script and add unityevent to script
-		EndZone endZoneScript = endZone.GetComponent<EndZone>();
+		EndZone endZoneScript = m_endZone.GetComponent<EndZone>();
 		endZoneScript.setEvent(NextMonth);
-
 
 		// Remove and create the ground
 		if (m_groundMesh != null)
@@ -183,15 +240,13 @@ public class CropField : MonoBehaviour
 		}
 
 		m_groundMesh = Instantiate(m_ground, new Vector3(transform.position.x + m_field.center.x, transform.position.y, transform.position.z + m_field.center.z), Quaternion.Euler(0, 0, 0));
-		m_groundMesh.transform.localScale = new Vector3(m_field.size.x, 0.01f, m_field.size.z);
+		m_groundMesh.transform.localScale = new Vector3(m_field.size.x *1.1f, 0.01f, m_field.size.z *1.1f);
 
 		// Reset agrobot transform
 		if (m_agrobot != null) 
 		{
-			m_agrobotStart.position = new Vector3(m_field.bounds.min.x + (m_gantryWidth / 2), m_field.bounds.max.y, m_field.bounds.min.z - (m_gantryWidth/2));
-			m_agrobot.transform.position = m_agrobotStart.position;
-			m_agrobot.transform.rotation = m_agrobotStart.rotation;
-			m_agrobot.Reset();
+			m_agrobotStart.position = new Vector3(m_field.bounds.min.x + (m_gantryWidth / 2), m_field.bounds.max.y, m_field.bounds.min.z - (m_gantryWidth));
+			m_agrobot.Reset(m_agrobotStart.position, m_agrobotStart.rotation);
 		}
 	}
 
@@ -209,6 +264,81 @@ public class CropField : MonoBehaviour
 		OnValidate();
 
 		GenerateChunks();
+	}
+
+	/// <summary>
+	/// This method will create a crop field with the given field type (Monoculture, Pixel cropping or Strip cultivation)
+	/// </summary>
+	/// <param name="type">The field type that needs to be generated</param>
+	public void SetFieldType(int type)
+    {
+		switch (type)
+		{
+			case 0: // Monoculture
+				GenerateChunks(GetStartingCrop());
+				break;
+			case 2: // Strip cultivation
+				Crop[,] crops = new Crop[m_xChunks, m_yChunks];
+				for (int x = 0; x < m_xChunks; x++)
+				{
+					Crop crop = GetStartingCrop();	
+					for (int z = 0; z < m_yChunks; z++)
+					{
+						crops[x, z] = crop;
+					}
+				}
+
+				GenerateChunks(crops);
+				break;
+			case 1: // Pixel cropping
+				GenerateChunks();
+				break;
+			default:
+				return;
+		}
+
+		m_fieldType = type;
+	}
+
+	public void GenerateFieldWithAction(int action)
+	{
+		switch (action)
+		{
+			case 0: GenerateFieldWithAction(InteractableFlag.HARVEST); break;
+			case 1: GenerateFieldWithAction(InteractableFlag.SOW); break;
+			case 2: GenerateFieldWithAction(InteractableFlag.WATER); break;
+			case 3: GenerateFieldWithAction(InteractableFlag.UPROOT); break;
+			default: Debug.LogError("Given action " + action + " to generate a field does not reflect any Action yet!"); break;
+		}
+	}
+
+	/// <summary>
+	/// Generates a crop field where all the crops need the given action.
+	/// This method will automatically change the time period. 
+	/// </summary>
+	/// <param name="action">the action the agrobot will have to perform on all the crops in the generated field</param>
+	public void GenerateFieldWithAction(InteractableFlag action)
+	{
+		Crop closest = m_cropTypes[0].GetComponent<Crop>();
+		int closestTime = closest.GetNearestTimePeriod(m_currentMonth, action);
+		int closestDifference = Mathf.Abs(TimePeriod.Distance(m_currentMonth, closestTime));
+
+		for (int i = 1; i < m_cropTypes.Length; i++)
+		{
+			Crop crop = m_cropTypes[i].GetComponent<Crop>();
+			int time = crop.GetNearestTimePeriod(m_currentMonth, action);
+			int difference = Mathf.Abs(TimePeriod.Distance(m_currentMonth, time));
+
+			if (difference < closestDifference)
+			{
+				closest = crop;
+				closestTime = time;
+				closestDifference = difference;
+			}
+		}
+
+		UpdateTimePeriod(closestTime);
+		GenerateChunks(closest);
 	}
 
 	/// <summary>
@@ -246,8 +376,8 @@ public class CropField : MonoBehaviour
 			Crop crop1 = type1.GetComponent<Crop>();
 			Crop crop2 = type2.GetComponent<Crop>();
 			
-			return Mathf.Abs(TimePeriod.Distance(m_currentMonth, crop1.GetNearestSowingTimePeriod(m_currentMonth))) - 
-				Mathf.Abs(TimePeriod.Distance(m_currentMonth, crop2.GetNearestSowingTimePeriod(m_currentMonth)));
+			return Mathf.Abs(TimePeriod.Distance(m_currentMonth, crop1.GetNearestTimePeriod(m_currentMonth, InteractableFlag.SOW))) - 
+				Mathf.Abs(TimePeriod.Distance(m_currentMonth, crop2.GetNearestTimePeriod(m_currentMonth, InteractableFlag.SOW)));
 		});
 
 		//choose a random crop type that doesn't exceed the max sowing distance
@@ -255,7 +385,7 @@ public class CropField : MonoBehaviour
 		while (index > 0) 
 		{ //as long as we have other options left
 			Crop crop = m_cropTypes[index].GetComponent<Crop>();
-			if (Mathf.Abs(TimePeriod.Distance(m_currentMonth, crop.GetNearestSowingTimePeriod(m_currentMonth))) <= MAX_SOWING_DISTANCE)
+			if (Mathf.Abs(TimePeriod.Distance(m_currentMonth, crop.GetNearestTimePeriod(m_currentMonth, InteractableFlag.SOW))) <= MAX_SOWING_DISTANCE)
 			{
 				return crop; //return this crop if it's within the max sowing distance
 			}

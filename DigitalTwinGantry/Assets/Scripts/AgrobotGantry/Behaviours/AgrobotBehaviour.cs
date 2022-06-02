@@ -28,7 +28,7 @@ abstract public class AgrobotBehaviour
 
     abstract public void Update(float deltaTime);
 
-    public void Stop()
+    public virtual void Stop()
     {
        m_gantry.StopAllCoroutines();
     }
@@ -54,8 +54,8 @@ abstract public class AgrobotBehaviour
     /// <param name="action">the AgrobotAction to start</param>
     /// <returns>true if the action could be started</returns>
     protected bool StartAction(AgrobotAction action)
-    {        
-        if (action.TargetInteractable == null || action.TargetInteractable.Busy)
+    {
+        if (action.TargetInteractable.Busy || !action.TargetInteractable)
         {
             Debug.LogWarning("tried to start an action on an interactable that was already busy");
             return false;

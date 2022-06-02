@@ -18,6 +18,7 @@ public class AgrobotGantry : MonoBehaviour
 
     [SerializeField]
     private AgrobotTool[] m_tools;
+    public AgrobotTool[] tools { get => m_tools; }
 
     /// <summary>
     /// Forward-facing movement speed in meters per second. Setting this to a positive value will make the gantry move forwards. 
@@ -30,13 +31,20 @@ public class AgrobotGantry : MonoBehaviour
     /// </summary>
     public float TurningSpeed { get; set; }
 
-    public void Reset()
+    public void Reset(Vector3 startPosition, Quaternion startRotation)
     {
+        gameObject.transform.position = startPosition;
+        gameObject.transform.rotation = startRotation;
         m_isTurning = false;
         m_counterClockwise = false;
         m_firsRowEnterOccured = false;
         m_firsRowExitOccured = false;
+        foreach(AgrobotTool tool in m_tools)
+        {
+            tool.NewField();
+        }
         SetBehaviour(new LaneFarmingBehaviour());
+
     }
 
     void Start()
@@ -101,7 +109,6 @@ public class AgrobotGantry : MonoBehaviour
     {
         if (other.tag == "path" && m_firsRowEnterOccured && !m_isTurning)
         {
-            Debug.Log("exit");
             m_firsRowExitOccured = true;
             SetBehaviour(new TurningBehaviour(m_counterClockwise, 1));
         }
@@ -112,7 +119,6 @@ public class AgrobotGantry : MonoBehaviour
     {
         if (other.tag == "path" && m_firsRowEnterOccured && m_firsRowExitOccured && !m_isTurning)
         {
-            Debug.Log("enter");
             SetBehaviour(new TurningBehaviour(m_counterClockwise, 2));
             m_counterClockwise = !m_counterClockwise;
             m_firsRowEnterOccured = false;
@@ -120,7 +126,6 @@ public class AgrobotGantry : MonoBehaviour
         }
         else if(other.tag == "path" && !m_isTurning)
         {
-            Debug.Log("first enter");
             m_firsRowEnterOccured = true;
         }       
     }
