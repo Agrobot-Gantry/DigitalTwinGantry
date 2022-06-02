@@ -1,5 +1,6 @@
 ﻿using RosSharp.RosBridgeClient;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
@@ -17,7 +18,7 @@ class RosCommandListener : MonoBehaviour
 	private AgrobotGantry m_gantry;
 	private RosListeningBehaviour m_behaviour;
 	private Dictionary<string, Dictionary<string, MethodInfo>> m_translationTable; //<topic, <message, command>>
-	private RosConnector m_rosConnector;
+	private ConcurrentQueue<(string, string)> m_messageQueue; //<(topic, message)>
 
 	//classes for reading the ROS translation JSON
 	[System.Serializable]
@@ -39,9 +40,9 @@ class RosCommandListener : MonoBehaviour
 		m_gantry = GetComponent<AgrobotGantry>();
 		m_behaviour = new RosListeningBehaviour();
 		m_translationTable = new Dictionary<string, Dictionary<string, MethodInfo>>();
+		m_messageQueue = new ConcurrentQueue<(string, string)>();
 
-		m_rosConnector = GetComponent<RosConnector>();
-		m_rosConnector.RosSocket.protocol.OnClosed += OnRosClosed;
+		GetComponent<RosConnector>().RosSocket.protocol.OnClosed += OnRosClosed;
 
 		//load json
 		TextAsset textAsset = Resources.Load<TextAsset>(TRANSLATION_FILE_NAME);
@@ -85,7 +86,30 @@ class RosCommandListener : MonoBehaviour
 	/// </summary>
 	public void OnMessageReceived(string topic, string message)
 	{
-		Debug.Log(topic + "\n" + message);
+		//everything in this thread will not log exceptions and fail silently
+		Debug.Log("received: " + topic + " " + message);
+		m_messageQueue.Enqueue((topic, message));
+	}
+
+	void Update()
+	{
+		if (!m_messageQueue.IsEmpty)
+		{
+			HandleMessage(); //handle the messages on the main thread
+		}
+	}
+
+	private void HandleMessage()
+	{
+		Debug.Log("handling message...");//
+		if (!m_messageQueue.TryDequeue(out (string, string) entry))
+		{
+			Debug.Log("could not dequeue!");//
+			return;
+		}
+
+		string topic = entry.Item1;
+		string message = entry.Item2;
 		if (m_gantry.CurrentBehaviour == null)
 		{
 			return;
@@ -95,8 +119,15 @@ class RosCommandListener : MonoBehaviour
 			StartListening();//
 			return;
 		}
-
-		m_translationTable[topic][message].Invoke(m_behaviour, null);
+		Debug.Log("processing message...");
+		if (m_translationTable.ContainsKey(topic))
+		{
+			if (m_translationTable[topic].ContainsKey(message))
+			{
+				m_translationTable[topic][message].Invoke(m_behaviour, null);
+			}
+		}
+		Debug.Log("done invoking");
 	}
 
 	public void ToggleListening()
@@ -113,13 +144,13 @@ class RosCommandListener : MonoBehaviour
 
 	private void StartListening()
 	{
-		Debug.Log("started listening");
+		Debug.Log("started listening");//
 		m_gantry.SetBehaviour(m_behaviour);
 	}
 
 	private void StopListening()
 	{
-		Debug.Log("stopped listening");
+		Debug.Log("stopped listening");//
 		if (m_gantry.CurrentBehaviour.GetType() == typeof(RosListeningBehaviour))
 		{
 			m_gantry.SetBehaviour(new LaneFarmingBehaviour());
@@ -129,6 +160,7 @@ class RosCommandListener : MonoBehaviour
 	private void OnRosClosed(object sender, EventArgs e)
 	{
 		Debug.LogWarning("ROS connection closed, listening will be disabled");
-		StopListening();
+		StopListening();//TODO this should happen on the main thread too
+		//TODO seperate script for the async to main thread
 	}
 }
