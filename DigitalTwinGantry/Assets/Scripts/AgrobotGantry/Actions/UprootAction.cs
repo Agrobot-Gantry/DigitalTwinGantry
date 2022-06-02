@@ -37,7 +37,8 @@ public class UprootAction : AgrobotAction
 
         InKinematicArm arm = m_tool.GetToolObject().GetComponent<InKinematicArm>();
         yield return arm.ReachForPointSmooth(m_targetInteractable.transform, 0.1f, AgrobotDefinitions.Instance.EquipmentSpeed);
-        arm.ReturnToBase(AgrobotDefinitions.Instance.EquipmentSpeed * 1.5f);
+        yield return new WaitForSeconds(0.2f);
+		arm.ReturnToBase(AgrobotDefinitions.Instance.EquipmentSpeed * 1.2f);
 
         if (m_targetInteractable != null)
         {
