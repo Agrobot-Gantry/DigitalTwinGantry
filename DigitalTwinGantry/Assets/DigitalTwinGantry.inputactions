@@ -223,6 +223,17 @@
                 },
                 {
                     "name": "",
+                    "id": "c8dac6a8-0529-4a3d-bff4-dd2d0cdd8630",
+                    "path": "<Mouse>/delta",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Look",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "dd349cfe-8dd9-405d-901d-4602537dd467",
                     "path": "<Mouse>/rightButton",
                     "interactions": "",

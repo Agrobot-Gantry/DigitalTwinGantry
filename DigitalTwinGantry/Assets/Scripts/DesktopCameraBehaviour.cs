@@ -8,28 +8,37 @@ public class DesktopCameraBehaviour : MonoBehaviour
     private bool held, mouseHeld = false;
     private Vector3 direction;
     public float rotationSpeed = 5;
-    Vector3 rotation;
+    Vector3 rotation, position;
     Vector2 mousePosition;
     private void Start()
     {
        rotation = transform.eulerAngles;
+        position = transform.position;
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (held)
-        {
-            transform.position += direction;
-        }
+      
         if (mouseHeld)
         {
             rotation.y += mousePosition.y;
             rotation.x -= mousePosition.x;
            transform.eulerAngles = rotation;
         }
-       
+        if (held)
+        {
+            float dx = direction.z * Mathf.Sin((rotation.y ) * Mathf.Deg2Rad);
+            float dz = direction.z * Mathf.Cos((rotation.y) * Mathf.Deg2Rad);
+            dx += direction.x * Mathf.Sin((rotation.y +90)* Mathf.Deg2Rad);
+            dz += direction.x * Mathf.Cos((rotation.y +90)* Mathf.Deg2Rad);
+
+            position.x += dx;
+            position.z += dz;
+            position.y += direction.y;
+            transform.position = position;
+        }
 
     }
 
