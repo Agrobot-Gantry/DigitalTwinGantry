@@ -15,7 +15,7 @@ class RosCommandListener : MonoBehaviour
 {
 	private static readonly string TRANSLATION_FILE_NAME = "RosTranslationTable";
 
-	[SerializeField] private bool m_logMessages = false;
+	[SerializeField] private bool m_logRecievedMessages = false;
 	private AgrobotGantry m_gantry;
 	private RosListeningBehaviour m_behaviour;
 	private Dictionary<string, Dictionary<string, MethodInfo>> m_translationTable; //<topic, <message, command>>
@@ -83,18 +83,20 @@ class RosCommandListener : MonoBehaviour
 
 	/// <summary>
 	/// Gets called by the GantryCommandSubscribers when they receive a message.
-	/// Messages are ignored unless the current gantry behaviour is RosListeningBehaviour.
+	/// These calls are not on the main thread so an action is queued to handle the message on the main thread.
 	/// </summary>
 	public void OnMessageReceived(string topic, string message)
 	{
-		//everything in this thread will not log exceptions and fail silently
-		if (m_logMessages)
+		if (m_logRecievedMessages)
 		{
 			Debug.Log("RosCommandListener received: " + topic + " " + message, this);
 		}
 		m_actionQueuer.QueueAction(() => HandleMessage(topic, message));
 	}
 
+	/// <summary>
+	/// Messages are ignored unless the current gantry behaviour is RosListeningBehaviour.
+	/// </summary>
 	private void HandleMessage(string topic, string message)
 	{
 		Debug.Log("handling message...");//
