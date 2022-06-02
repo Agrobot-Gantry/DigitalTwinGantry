@@ -6937,6 +6937,10 @@ PrefabInstance:
       propertyPath: m_tool
       value: 
       objectReference: {fileID: 1107260616}
+    - target: {fileID: 1860392253043048082, guid: 5ee66826a45982545836570c77dd2f34, type: 3}
+      propertyPath: m_segmentMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: 1d54addb9e5a48b409868257b3080d8c, type: 2}
     - target: {fileID: 1872688382037953400, guid: 5ee66826a45982545836570c77dd2f34, type: 3}
       propertyPath: m_Layer
       value: 9
@@ -7065,6 +7069,10 @@ PrefabInstance:
       propertyPath: reachPoint.y
       value: -1
       objectReference: {fileID: 0}
+    - target: {fileID: 8346812135250956221, guid: 5ee66826a45982545836570c77dd2f34, type: 3}
+      propertyPath: m_segmentMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: bf303fa8847b8a34298ffe18fbf09cb6, type: 2}
     - target: {fileID: 8351482929988249268, guid: 5ee66826a45982545836570c77dd2f34, type: 3}
       propertyPath: m_RootOrder
       value: 9
@@ -7077,13 +7085,21 @@ PrefabInstance:
       propertyPath: m_totalSegments
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 8612379087756376686, guid: 5ee66826a45982545836570c77dd2f34, type: 3}
+      propertyPath: m_segmentMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: 0bc4bbf1efc6d144b85ef99f69a5aa94, type: 2}
+    - target: {fileID: 8641316955906963049, guid: 5ee66826a45982545836570c77dd2f34, type: 3}
+      propertyPath: m_segmentMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: 0ee9591c6ff8b7b4a9c35051fb25bf88, type: 2}
     - target: {fileID: 8723070473529762638, guid: 5ee66826a45982545836570c77dd2f34, type: 3}
       propertyPath: m_movementSpeed
-      value: 0.25
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 8723070473529762638, guid: 5ee66826a45982545836570c77dd2f34, type: 3}
       propertyPath: m_equipmentSpeed
-      value: 1
+      value: 1.2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5ee66826a45982545836570c77dd2f34, type: 3}

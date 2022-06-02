@@ -6,6 +6,7 @@ using UnityEngine;
 public class InKinematicArm : MonoBehaviour
 {
     [SerializeField] private GameObject m_segmentPrefab;
+    [SerializeField] private Material m_segmentMaterial;
     [SerializeField] private Vector3 m_reachPoint;
     [SerializeField] private Transform m_basePoint;
     [SerializeField] private int m_totalSegments;
@@ -20,6 +21,12 @@ public class InKinematicArm : MonoBehaviour
         for (int i = 0; i < m_totalSegments; i++)
         {
             GameObject segment = Instantiate(m_segmentPrefab, transform);
+            Renderer[] renderers = segment.GetComponentsInChildren<Renderer>();
+            foreach (Renderer r in renderers)
+            {
+                r.material = m_segmentMaterial;
+            }
+
             segment.transform.localPosition = new Vector3(segment.transform.localPosition.x, segment.transform.localPosition.y, segment.transform.localPosition.z);
             m_segments.Add(segment.GetComponent<InKinematicSegment>());
         }
