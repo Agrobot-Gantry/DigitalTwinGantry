@@ -25,6 +25,10 @@ public class AgrobotTool : MonoBehaviour
     public List<AgrobotInteractable> Reachables { get { return m_reachables; } }
     private List<AgrobotInteractable> m_reachables;
 
+    public bool goingTooFast { get { return m_goingTooFast; } }
+    private bool m_goingTooFast;
+    public bool busy = false;
+
     void Start()
     {
         m_reachables = new List<AgrobotInteractable>();
@@ -39,10 +43,15 @@ public class AgrobotTool : MonoBehaviour
         {
             m_reachables.Clear();
         }
+        this.busy = false;
     }
 
     void Update()
     {
+        if(m_reachables.Count == 0)
+        {
+            m_goingTooFast = false;
+        }
 
     }
 
@@ -56,7 +65,12 @@ public class AgrobotTool : MonoBehaviour
 
     public void OnReachExit(AgrobotInteractable interactable)
     {
-        m_reachables.Remove(interactable);
+        if (m_reachables.Contains(interactable))
+        {
+            m_goingTooFast = true;
+        }
+        
+       // m_reachables.Remove(interactable);
     }
 
     /// <summary>

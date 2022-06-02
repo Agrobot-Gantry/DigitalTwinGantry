@@ -20,20 +20,31 @@ public class LaneFarmingBehaviour : AgrobotBehaviour
 
     public override void Update(float deltaTime)
     {
+        foreach (AgrobotTool tool in m_gantry.tools)
+        {
+            if (tool.goingTooFast)
+            {
+                m_gantry.MovementSpeed = 0.0f;
+                break;
+            }
+            m_gantry.MovementSpeed = AgrobotDefinitions.Instance.MovementSpeed; //keep driving
+        }
         if (m_ongoingActions.Count == 0)
         {
-            m_gantry.MovementSpeed = 1.0f; //keep driving
+           
             if (this.m_gantry.Equipment.GetReachables().Length > 0) //check reach
             {
-                AgrobotAction[] actions = m_gantry.Equipment.GetReachables()[0].GetActions(this, m_gantry.Equipment); //for now we just assume there's just one in reach
-                StartAction(actions[0]); //for now we just assume there's just one action
+                foreach(AgrobotInteractable reachable in m_gantry.Equipment.GetReachables())
+                {
+                    AgrobotAction action = reachable.GetAction(this, m_gantry.Equipment);
+                    if(action != null && !reachable.Busy)
+                    {
+                        StartAction(action);//for now we just assume there's just one action
+                    }
+                }
+                //AgrobotAction action = m_gantry.Equipment.GetReachables()[0].GetActions(this, m_gantry.Equipment); //for now we just assume there's just one in reach
             }
         }
-        else
-        {
-            m_gantry.MovementSpeed = 0.0f; //stop until the action is complete
-        }
-        //TODO stop moving if there are no valid interactables left
     }
 
     public override void Stop()

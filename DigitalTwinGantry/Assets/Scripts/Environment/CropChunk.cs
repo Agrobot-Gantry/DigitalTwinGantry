@@ -8,6 +8,9 @@ public class CropChunk : MonoBehaviour
     [SerializeField] private float m_sizeBetweenCrop;
     [SerializeField] private float m_cropScale;
 
+    private GameObject m_cropType;
+    public GameObject CropType { get => m_cropType; }
+
     private float m_xSize;
     private float m_ySize;
 
@@ -26,6 +29,7 @@ public class CropChunk : MonoBehaviour
         m_timePeriod = timePeriod;
         m_onCHunkEmpty = onChunkEmpty;
 
+        m_cropType = cropType;
         GenerateChunk(cropType, 0);
     }
 
