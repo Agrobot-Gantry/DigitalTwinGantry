@@ -40,7 +40,7 @@ public class HarvestAction : AgrobotAction
         InKinematicArm arm = m_tool.GetToolObject().GetComponent<InKinematicArm>();
 		yield return arm.ReachForPointSmooth(m_targetInteractable.transform, 0.1f, AgrobotDefinitions.Instance.EquipmentSpeed);
         yield return new WaitForSeconds(0.2f);
-		arm.ReturnToBase(AgrobotDefinitions.Instance.EquipmentSpeed * 1.2f);
+		arm.NeutralPosition(AgrobotDefinitions.Instance.EquipmentSpeed);
 
         if (m_targetInteractable != null)
         {

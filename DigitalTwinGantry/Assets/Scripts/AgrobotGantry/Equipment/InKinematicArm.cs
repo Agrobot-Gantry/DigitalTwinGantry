@@ -9,6 +9,7 @@ public class InKinematicArm : MonoBehaviour
     [SerializeField] private Material m_segmentMaterial;
     [SerializeField] private Vector3 m_reachPoint;
     [SerializeField] private Transform m_basePoint;
+    [SerializeField] private Transform m_restPoint;
     [SerializeField] private int m_totalSegments;
     [SerializeField] private bool m_isAttached;
 
@@ -33,26 +34,37 @@ public class InKinematicArm : MonoBehaviour
 
         m_currentReachPoint = transform.position + m_reachPoint;
         ReachForPointInstant(m_currentReachPoint);
-        ReturnToBase(1000);
+        NeutralPosition(1000);
     }
 
-    public void ReturnToBase(float speed)
+    public void NeutralPosition(float speed)
     {
-        StartCoroutine(ReachForPointSmooth(m_basePoint, 0.5f, speed));
+        StartCoroutine(ReachForPointSmooth(m_restPoint, 0.5f, speed));
     }
+
+    private static bool m_busy = false;
 
     public IEnumerator ReachForPointSmooth(Transform point, float minDistance, float speed)
     {
+        while (m_busy)
+        {
+            yield return null;
+        }
+
+        m_busy = true;
+
         ResetReach();
         while (Vector3.Distance(m_currentReachPoint, point.position) > minDistance)
         {
             m_currentReachPoint = Vector3.MoveTowards(m_currentReachPoint, point.position, speed * TimeChanger.DeltaTime);
-            // m_currentReachPoint = Vector3.Lerp(m_currentReachPoint, point, speed * TimeChanger.DeltaTime);
+            m_currentReachPoint = Vector3.Lerp(m_currentReachPoint, point.position, speed * TimeChanger.DeltaTime);
 
             ReachForPointInstant(m_currentReachPoint);
 
             yield return null;
         }
+
+        m_busy = false;
     }
 
     public void ReachForPointInstant(Vector3 point)
