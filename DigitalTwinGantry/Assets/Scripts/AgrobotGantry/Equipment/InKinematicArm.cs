@@ -34,9 +34,6 @@ public class InKinematicArm : MonoBehaviour
         m_currentReachPoint = transform.position + m_reachPoint;
         ReachForPointInstant(m_currentReachPoint);
         ReturnToBase(1000);
-
-
-        // StartCoroutine(ReachForPointRobotic(transform.position + m_reachPoint, 0.5f, 3));
     }
 
     public void ReturnToBase(float speed)
@@ -56,49 +53,6 @@ public class InKinematicArm : MonoBehaviour
 
             yield return null;
         }
-    }
-
-    public IEnumerator ReachForPointRobotic(Transform point, float minDistance, float speed)
-    {
-        ResetReach();
-
-        Vector3 reach = m_currentReachPoint;
-        while (Vector3.Distance(reach, point.position) > minDistance)
-        {
-            reach = Vector3.MoveTowards(reach, point.position, speed * TimeChanger.DeltaTime);
-
-            InKinematicSegment end = m_segments[m_segments.Count - 1];
-            end.Follow(point.position);
-
-            m_segments[0].gameObject.transform.position = m_basePoint.position;
-            for (int i = 1; i < m_segments.Count; i++)
-            {
-                m_segments[i].gameObject.transform.position = m_segments[i - 1].EndPos;
-            }
-
-            yield return null;
-        }
-
-        for (int i = m_segments.Count - 2; i >= 0; i--)
-        {
-            reach = m_segments[i].transform.position;
-            while (Vector3.Distance(reach, m_segments[i + 1].transform.position) > minDistance)
-            {
-                reach = Vector3.MoveTowards(reach, m_segments[i + 1].transform.position, speed * TimeChanger.DeltaTime);
-
-                m_segments[i].Follow(reach);
-
-                yield return null;
-            }
-
-            m_segments[0].gameObject.transform.position = m_basePoint.position;
-            for (int j = 1; j < m_segments.Count; j++)
-            {
-                m_segments[j].gameObject.transform.position = m_segments[j - 1].EndPos;
-            }
-        }
-
-        m_currentReachPoint = point.position;
     }
 
     public void ReachForPointInstant(Vector3 point)
