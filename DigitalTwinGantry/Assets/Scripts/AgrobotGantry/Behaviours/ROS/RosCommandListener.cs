@@ -15,6 +15,7 @@ class RosCommandListener : MonoBehaviour
 {
 	private static readonly string TRANSLATION_FILE_NAME = "RosTranslationTable";
 
+	[SerializeField] private bool m_logMessages = false;
 	private AgrobotGantry m_gantry;
 	private RosListeningBehaviour m_behaviour;
 	private Dictionary<string, Dictionary<string, MethodInfo>> m_translationTable; //<topic, <message, command>>
@@ -87,7 +88,10 @@ class RosCommandListener : MonoBehaviour
 	public void OnMessageReceived(string topic, string message)
 	{
 		//everything in this thread will not log exceptions and fail silently
-		Debug.Log("received: " + topic + " " + message);
+		if (m_logMessages)
+		{
+			Debug.Log("RosCommandListener received: " + topic + " " + message, this);
+		}
 		m_actionQueuer.QueueAction(() => HandleMessage(topic, message));
 	}
 
@@ -145,6 +149,5 @@ class RosCommandListener : MonoBehaviour
 	{
 		Debug.LogWarning("ROS connection closed, listening will be disabled");
 		StopListening();//TODO this should happen on the main thread too
-		//TODO debuglogger
 	}
 }
