@@ -75,7 +75,9 @@ public class BlackOut : MonoBehaviour
 
     public void Fade() {
         StopAllCoroutines();
+#if UNITY_ANDROID
         StartCoroutine(FadeRoutine());
+#endif
     }
 
     private IEnumerator FadeRoutine() {
