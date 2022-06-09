@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.XR.CoreUtils;
 using UnityEngine;
 
-public class InKinematicSegment : MonoBehaviour
+public class AgrobotArmSegment : MonoBehaviour
 {
     [SerializeField] private Transform m_endPos;
 
