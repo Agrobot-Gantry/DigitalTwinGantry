@@ -13,11 +13,16 @@ public class AgrobotArm : MonoBehaviour
     [Header("Transform settings")]
     [SerializeField] private Vector3 m_reachPoint;
     [SerializeField] private Transform m_basePoint;
+    [SerializeField] private Transform m_restPoint;
     [SerializeField] private int m_totalSegments;
     [SerializeField] private bool m_isAttached;
 
     private List<AgrobotArmSegment> m_segments;
     private Vector3 m_currentReachPoint;
+
+    private AgrobotToolEffect m_effect;
+
+    private static bool s_busy = false;
 
     private void Start()
     {
@@ -35,33 +40,49 @@ public class AgrobotArm : MonoBehaviour
             m_segments.Add(segment.GetComponent<AgrobotArmSegment>());
         }
 
+        if (m_toolEffect != null)
+        {
+            GameObject toolEffect = Instantiate(m_toolEffect, m_segments[m_segments.Count - 1].gameObject.transform);
+            toolEffect.transform.position = m_segments[m_segments.Count - 1].EndPos;
+            m_effect = toolEffect.GetComponentInChildren<AgrobotToolEffect>();
+        }
+
         m_currentReachPoint = transform.position + m_reachPoint;
-        //ReachForPointInstant(m_currentReachPoint);
-        ReturnToBase(1000);
+        ReachForPointInstant(m_currentReachPoint);
+        ReachForPointInstant(m_restPoint.position);
     }
 
-    public void ReturnToBase(float speed)
+    public void NeutralPosition(float speed)
     {
-        StartCoroutine(ReachForPointSmooth(m_basePoint, 0.5f, speed));
+        StartCoroutine(ReachForPointSmooth(m_restPoint, 0.5f, speed, false));
     }
 
-    public IEnumerator ReachForPointSmooth(Transform point, float minDistance, float speed)
+    public IEnumerator ReachForPointSmooth(Transform point, float minDistance, float speed, bool doEffect = true)
     {
+        while (s_busy)
+        {
+            yield return null;
+        }
+
+        s_busy = true;
+
         ResetReach();
         while (Vector3.Distance(m_currentReachPoint, point.position) > minDistance)
         {
             m_currentReachPoint = Vector3.MoveTowards(m_currentReachPoint, point.position, speed * TimeChanger.DeltaTime);
-            // m_currentReachPoint = Vector3.Lerp(m_currentReachPoint, point, speed * TimeChanger.DeltaTime);
+            m_currentReachPoint = Vector3.Lerp(m_currentReachPoint, point.position, speed * TimeChanger.DeltaTime);
 
             ReachForPointInstant(m_currentReachPoint);
 
             yield return null;
         }
 
-        if (m_toolEffect != null)
+        if (m_effect != null && doEffect)
         {
-            m_toolEffect.GetComponent<AgrobotToolEffect>().OEffectStart();
+            m_effect.OEffectStart();
         }
+
+        s_busy = false;
     }
 
     public void ReachForPointInstant(Vector3 point)
