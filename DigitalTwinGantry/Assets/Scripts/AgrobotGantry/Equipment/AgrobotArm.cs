@@ -16,10 +16,7 @@ public class AgrobotArm : MonoBehaviour
     [SerializeField] private int m_totalSegments;
     [SerializeField] private bool m_isAttached;
 
-    public AgrobotArmSegment LastSegment 
-    {
-        get => m_segments[m_segments.Count - 1];
-    }
+    public AgrobotArmSegment LastSegment => m_segments[m_segments.Count - 1];
 
     private List<AgrobotArmSegment> m_segments;
     private Vector3 m_currentReachPoint;

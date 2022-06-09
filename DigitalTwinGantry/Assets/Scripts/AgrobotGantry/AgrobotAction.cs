@@ -6,9 +6,9 @@ using UnityEngine;
 /// </summary>
 public class AgrobotAction
 {
+    private AgrobotInteractable m_targetInteractable;
 	public AgrobotInteractable TargetInteractable { get { return m_targetInteractable; } }
 
-	private AgrobotInteractable m_targetInteractable;
     private AgrobotEquipment m_equipment;
 
 	private delegate void Callback(AgrobotAction action);
@@ -59,7 +59,11 @@ public class AgrobotAction
         {
             m_targetInteractable.OnInteract(this);
         }
-        else Debug.Log("TargetInteractable is null");
+        else
+        {
+            Debug.Log("TargetInteractable is null");
+        }
+
         m_tool.busy = false;
         Finish();
 	}
