@@ -5,11 +5,16 @@ using UnityEngine.InputSystem;
 
 public class DesktopCameraBehaviour : MonoBehaviour
 {
+    [SerializeField]
+    private float rotationSpeed = 0.2f;
+    [SerializeField]
+    private float movementSpeed = 0.05f;
+
     private bool held, mouseHeld = false;
     private Vector3 direction;
-    public float rotationSpeed = 5;
     Vector3 rotation, position;
     Vector2 mousePosition;
+
     private void Start()
     {
        rotation = transform.eulerAngles;
@@ -37,6 +42,11 @@ public class DesktopCameraBehaviour : MonoBehaviour
             position.x += dx;
             position.z += dz;
             position.y += direction.y;
+
+            if (transform.position.y < 0.5)
+            {
+                position.y = 0.5f;
+            }
             transform.position = position;
         }
 
@@ -47,8 +57,7 @@ public class DesktopCameraBehaviour : MonoBehaviour
         
         if (input.performed)
         {
-            direction = input.ReadValue<Vector3>() / 20;
-            Debug.Log(input.ReadValue<Vector3>() / 20);
+            direction = input.ReadValue<Vector3>() * movementSpeed;
             held = true;
         }
         if (input.canceled)
