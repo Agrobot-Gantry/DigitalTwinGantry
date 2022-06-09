@@ -8,7 +8,6 @@ public class AgrobotArm : MonoBehaviour
     [Header("Model settings")]
     [SerializeField] private GameObject m_segmentPrefab;
     [SerializeField] private Material m_segmentMaterial;
-    [SerializeField] private GameObject m_toolEffect;
 
     [Header("Transform settings")]
     [SerializeField] private Vector3 m_reachPoint;
@@ -17,10 +16,13 @@ public class AgrobotArm : MonoBehaviour
     [SerializeField] private int m_totalSegments;
     [SerializeField] private bool m_isAttached;
 
+    public AgrobotArmSegment LastSegment 
+    {
+        get => m_segments[m_segments.Count - 1];
+    }
+
     private List<AgrobotArmSegment> m_segments;
     private Vector3 m_currentReachPoint;
-
-    private AgrobotToolEffect m_effect;
 
     private static bool s_busy = false;
 
@@ -40,13 +42,6 @@ public class AgrobotArm : MonoBehaviour
             m_segments.Add(segment.GetComponent<AgrobotArmSegment>());
         }
 
-        if (m_toolEffect != null)
-        {
-            GameObject toolEffect = Instantiate(m_toolEffect, m_segments[m_segments.Count - 1].gameObject.transform);
-            toolEffect.transform.position = m_segments[m_segments.Count - 1].EndPos;
-            m_effect = toolEffect.GetComponentInChildren<AgrobotToolEffect>();
-        }
-
         m_currentReachPoint = transform.position + m_reachPoint;
         ReachForPointInstant(m_currentReachPoint);
         ReachForPointInstant(m_restPoint.position);
@@ -54,10 +49,10 @@ public class AgrobotArm : MonoBehaviour
 
     public void NeutralPosition(float speed)
     {
-        StartCoroutine(ReachForPointSmooth(m_restPoint, 0.5f, speed, false));
+        StartCoroutine(ReachForPointSmooth(m_restPoint, 0.5f, speed));
     }
 
-    public IEnumerator ReachForPointSmooth(Transform point, float minDistance, float speed, bool doEffect = true)
+    public IEnumerator ReachForPointSmooth(Transform point, float minDistance, float speed)
     {
         while (s_busy)
         {
@@ -75,11 +70,6 @@ public class AgrobotArm : MonoBehaviour
             ReachForPointInstant(m_currentReachPoint);
 
             yield return null;
-        }
-
-        if (m_effect != null && doEffect)
-        {
-            m_effect.OEffectStart();
         }
 
         s_busy = false;
@@ -110,17 +100,5 @@ public class AgrobotArm : MonoBehaviour
     private void ResetReach()
     {
         m_currentReachPoint = m_segments[m_segments.Count - 1].EndPos;
-    }
-
-    private void OnValidate()
-    {
-        if (m_toolEffect != null)
-        {
-            if (m_toolEffect.GetComponentInChildren<AgrobotToolEffect>() == null)
-            {
-                Debug.LogError("Tool effect gameobject should contain a AgrobotToolEffect component");
-                m_toolEffect = null;
-            }
-        }
     }
 }

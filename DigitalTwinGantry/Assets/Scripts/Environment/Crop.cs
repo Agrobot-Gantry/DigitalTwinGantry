@@ -52,14 +52,14 @@ public class Crop : MonoBehaviour
 
 	public void OnInteract(AgrobotAction action)
 	{
-		if (action.GetFlags().HasFlag(InteractableFlag.SOW))
+		if (action.Flags.HasFlag(InteractableFlag.SOW))
 		{
 			//change to the model of a recently sown crop
 			m_currentTimePeriod.Model.SetActive(false);
 			m_postSowingModel.SetActive(true);
 		}
 
-		if (action.GetFlags().HasFlag(InteractableFlag.HARVEST))
+		if (action.Flags.HasFlag(InteractableFlag.HARVEST))
 		{
 			m_currentTimePeriod.Model.SetActive(false);
 			m_onHarvestCallback(this, true);

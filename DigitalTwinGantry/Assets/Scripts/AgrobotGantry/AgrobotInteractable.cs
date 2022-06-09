@@ -48,22 +48,22 @@ public class AgrobotInteractable : MonoBehaviour
 		if (this.HasFlag(InteractableFlag.HARVEST))
 		{
 			AgrobotTool tool = equipment.GetTool(InteractableFlag.HARVEST);
-			if (tool != null) action = new HarvestAction(this, behaviour, equipment);
+			if (tool != null) action = new AgrobotAction(this, behaviour, equipment, InteractableFlag.HARVEST);
 		}
 		else if (this.HasFlag(InteractableFlag.SOW))
 		{
 			AgrobotTool tool = equipment.GetTool(InteractableFlag.SOW);
-			if (tool != null) action = new SowAction(this, behaviour, equipment);
+			if (tool != null) action = new AgrobotAction(this, behaviour, equipment, InteractableFlag.SOW);
 		}
 		else if (this.HasFlag(InteractableFlag.WATER))
 		{
 			AgrobotTool tool = equipment.GetTool(InteractableFlag.WATER);
-			if (tool != null) action = new IrrigationAction(this, behaviour, equipment);
+			if (tool != null) action = new AgrobotAction(this, behaviour, equipment, InteractableFlag.WATER);
 		}
 		else if (this.HasFlag(InteractableFlag.UPROOT))
 		{
 			AgrobotTool tool = equipment.GetTool(InteractableFlag.UPROOT);
-			if (tool != null) action = new UprootAction(this, behaviour, equipment);
+			if (tool != null) action = new AgrobotAction(this, behaviour, equipment, InteractableFlag.UPROOT);
 		}
 		return action;
 	}
