@@ -29,8 +29,6 @@ public class LaneFarmingBehaviour : AgrobotBehaviour
             }
             m_gantry.MovementSpeed = AgrobotDefinitions.Instance.MovementSpeed; //keep driving
         }
-        if (m_ongoingActions.Count == 0)
-        {
            
             if (this.m_gantry.Equipment.GetReachables().Length > 0) //check reach
             {
@@ -44,7 +42,6 @@ public class LaneFarmingBehaviour : AgrobotBehaviour
                 }
                 //AgrobotAction action = m_gantry.Equipment.GetReachables()[0].GetActions(this, m_gantry.Equipment); //for now we just assume there's just one in reach
             }
-        }
     }
 
     public override void Stop()
