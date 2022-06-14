@@ -104,12 +104,12 @@ public class AgrobotArm : MonoBehaviour
         m_segments[0].gameObject.transform.position = m_basePoint.position;
         for (int i = 1; i < m_segments.Count; i++)
         {
-            m_segments[i].gameObject.transform.position = m_segments[i - 1].EndPos;
+            m_segments[i].gameObject.transform.position = m_segments[i - 1].HingePoint;
         }
     }
 
     private void ResetReach()
     {
-        m_currentReachPoint = m_segments[m_segments.Count - 1].EndPos;
+        m_currentReachPoint = m_segments[m_segments.Count - 1].HingePoint;
     }
 }

@@ -144,7 +144,7 @@ MonoBehaviour:
   m_reach: {fileID: 0}
   m_tool: {fileID: 4031316467079372932}
   m_flag: 8
-  m_toolEffect: {fileID: 2859486443307533502, guid: 1cc4404172a07444ca8ca10aebfb9915, type: 3}
+  m_toolEffect: {fileID: 0}
   busy: 0
 --- !u!1 &3908369310012870518
 GameObject:
