@@ -59,7 +59,7 @@ public class Crop : MonoBehaviour
 			m_postSowingModel.SetActive(true);
 		}
 
-		if (action.Flags.HasFlag(InteractableFlag.HARVEST))
+		if (action.Flags.HasFlag(InteractableFlag.HARVEST) || action.Flags.HasFlag(InteractableFlag.UPROOT))
 		{
 			m_currentTimePeriod.Model.SetActive(false);
 			m_onHarvestCallback(this, true);
