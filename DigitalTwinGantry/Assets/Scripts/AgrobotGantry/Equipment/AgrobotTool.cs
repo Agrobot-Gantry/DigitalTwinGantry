@@ -29,7 +29,7 @@ public class AgrobotTool : MonoBehaviour
 
     public bool goingTooFast { get { return m_goingTooFast; } }
     private bool m_goingTooFast;
-    public bool busy = false;
+    public bool busy = false; //TODO make private and visialize in scene view
 
     private AgrobotArm m_arm;
     private AgrobotToolEffect m_effect;
