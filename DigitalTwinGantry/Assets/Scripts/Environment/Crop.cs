@@ -14,13 +14,18 @@ public class Crop : MonoBehaviour
 	private const InteractableFlag INSTANTLY_REMOVE_CROP_FLAG = InteractableFlag.NONE;
 
 	[SerializeField] private AgrobotInteractable m_interactable;
+
 	[SerializeField] private GameObject m_postSowingModel;
+    public GameObject PostSowingModel => m_postSowingModel;
+
 	[SerializeField] private TimePeriod[] m_timePeriods;
 	public TimePeriod[] TimePeriods { get { return m_timePeriods; } }
 
 	private Action<Crop, bool> m_onHarvestCallback;
 	private TimePeriod m_currentTimePeriod;
 	private int m_timePeriodOffset; //offset the current crop timeperiod from the real timeperiod received in UpdateTimePeriod(int newTimePeriod)
+
+    public GameObject CurrentModel => m_currentTimePeriod.Model;
 
 	public void Initialize(int currentTimePeriod, int timePeriodOffset, Action<Crop, bool> onHarvestCallback)
 	{
