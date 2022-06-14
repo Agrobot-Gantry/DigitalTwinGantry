@@ -48,6 +48,8 @@ MonoBehaviour:
   m_reach: {fileID: 0}
   m_tool: {fileID: 7618125417005180720}
   m_flag: 1
+  m_toolEffect: {fileID: 0}
+  busy: 0
 --- !u!1 &4183042882386937982
 GameObject:
   m_ObjectHideFlags: 0

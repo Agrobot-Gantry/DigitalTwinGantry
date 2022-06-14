@@ -46,8 +46,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_reach: {fileID: 0}
-  m_tool: {fileID: 8127596817783821205}
+  m_tool: {fileID: 3537828329999854554}
   m_flag: 2
+  m_toolEffect: {fileID: 0}
   busy: 0
 --- !u!1 &8127596817783821205
 GameObject:
@@ -314,6 +315,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ac0184e53519d98419bfbad3d72c44ce, type: 3}
+--- !u!1 &3537828329999854554 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2244568717649012943, guid: ac0184e53519d98419bfbad3d72c44ce, type: 3}
+  m_PrefabInstance: {fileID: 3332289084802990869}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3537828329999854532 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2244568717649012945, guid: ac0184e53519d98419bfbad3d72c44ce, type: 3}

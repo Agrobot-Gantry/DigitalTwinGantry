@@ -18,6 +18,8 @@ public class AgrobotTool : MonoBehaviour
     private GameObject m_tool;
     [SerializeField]
     private InteractableFlag m_flag;
+    [SerializeField] 
+    private GameObject m_toolEffect;
 
     /// <summary>
     /// A list of all interactables that are in reach of this tool and have an appropriate flag.
@@ -29,14 +31,41 @@ public class AgrobotTool : MonoBehaviour
     private bool m_goingTooFast;
     public bool busy = false;
 
-    void Start()
+    private AgrobotArm m_arm;
+    private AgrobotToolEffect m_effect;
+
+    private void Start()
     {
         m_reachables = new List<AgrobotInteractable>();
         m_reach.ConnectToTool(this);
 
         //check if the tool has exactly one flag set
         Assert.IsTrue(AgrobotInteractable.FlagCount(m_flag) == 1);
+
+        m_arm = GetComponentInChildren<AgrobotArm>();
+
+        if (m_toolEffect != null)
+        {
+            AgrobotArmSegment segment = m_arm.LastSegment;
+            GameObject toolEffect = Instantiate(m_toolEffect, segment.transform);
+            toolEffect.transform.position = segment.EndPos;
+            m_effect = toolEffect.GetComponentInChildren<AgrobotToolEffect>();
+        }
     }
+
+    public IEnumerator PickupInteractable(AgrobotInteractable interactable, InteractableFlag action, float speed)
+    {
+        yield return m_arm.ReachForPointSmooth(interactable.transform, 0.1f, speed);
+
+        if (m_effect != null)
+        {
+            m_effect.OEffectStart();
+        }
+
+        yield return new WaitForSeconds(0.2f);
+		m_arm.NeutralPosition(speed);
+    }
+
     public void NewField()
     {
         if (m_reachables != null)
@@ -46,13 +75,12 @@ public class AgrobotTool : MonoBehaviour
         this.busy = false;
     }
 
-    void Update()
+    private void Update()
     {
         if(m_reachables.Count == 0)
         {
             m_goingTooFast = false;
         }
-
     }
 
     public void OnReachEnter(AgrobotInteractable interactable)
@@ -109,5 +137,17 @@ public class AgrobotTool : MonoBehaviour
     public InteractableFlag GetFlag()
     {
         return m_flag;
+    }
+
+    private void OnValidate()
+    {
+        if (m_toolEffect != null)
+        {
+            if (m_toolEffect.GetComponentInChildren<AgrobotToolEffect>() == null)
+            {
+                Debug.LogError("Tool effect gameobject should contain a AgrobotToolEffect component");
+                m_toolEffect = null;
+            }
+        }
     }
 }

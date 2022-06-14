@@ -24,6 +24,7 @@ Shader "DigitalTwin/BlackOut"
             {
                 float4 vertex : POSITION;
                 // float2 uv : TEXCOORD0;
+                // float3 normal : NORMAL;
             };
 
             struct v2f
@@ -43,7 +44,7 @@ Shader "DigitalTwin/BlackOut"
             {
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
-                //o.uv = TRANSFORM_TEX(v.uv, _MainTex);
+                // o.uv = TRANSFORM_TEX(v.uv, _MainTex);
                 return o;
             }
 

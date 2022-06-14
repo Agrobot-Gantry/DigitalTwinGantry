@@ -19,12 +19,15 @@ public class InfoDisplayer : MonoBehaviour
             m_monthText.text = "Month: " + (m_cropField.CurrentMonth + 1);
 
             string actionText = "Actions: ";
-            foreach (AgrobotAction action in m_gantry.CurrentBehaviour.OnGoingActions)
-            {   
-                actionText += action.GetType().Name + ", ";
-            }
+            if (m_gantry.CurrentBehaviour != null)
+            {
+                foreach (AgrobotAction action in m_gantry.CurrentBehaviour.OnGoingActions)
+                {
+                    actionText += action.GetType().Name + ", ";
+                }
 
-            m_actionText.text = actionText;
+                m_actionText.text = actionText;
+            }
 
             yield return new WaitForSeconds(0.5f);
         }
