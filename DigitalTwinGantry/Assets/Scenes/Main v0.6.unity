@@ -8143,6 +8143,7 @@ GameObject:
   - component: {fileID: 1232349242}
   - component: {fileID: 1232349241}
   - component: {fileID: 1232349244}
+  - component: {fileID: 1232349245}
   m_Layer: 0
   m_Name: Desktop Camera
   m_TagString: Untagged
@@ -8339,6 +8340,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotationSpeed: 0.2
   movementSpeed: 0.02
+--- !u!81 &1232349245
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1232349240}
+  m_Enabled: 1
 --- !u!1 &1240063381
 GameObject:
   m_ObjectHideFlags: 0
