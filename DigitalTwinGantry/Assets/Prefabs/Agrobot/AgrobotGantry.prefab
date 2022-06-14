@@ -880,6 +880,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: IrrigationTool
       objectReference: {fileID: 0}
+    - target: {fileID: 4910161397498561369, guid: 1e3fa9a3ddde87046a8db94cca0ed27c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6900375379625699788, guid: 1e3fa9a3ddde87046a8db94cca0ed27c, type: 3}
       propertyPath: m_reach
       value: 
@@ -1042,6 +1046,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SowingTool
       objectReference: {fileID: 0}
+    - target: {fileID: 8127596817783821205, guid: eec55d19432548b4886ee9934690c297, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eec55d19432548b4886ee9934690c297, type: 3}
 --- !u!4 &2623256469083304785 stripped
@@ -1067,6 +1075,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8026312815964508148}
     m_Modifications:
+    - target: {fileID: 99010838519334853, guid: 82959cfe0093e9c41991fd7fa20d4276, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 939456474767466781, guid: 82959cfe0093e9c41991fd7fa20d4276, type: 3}
       propertyPath: m_Name
       value: UprootTool

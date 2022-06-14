@@ -142,8 +142,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_reach: {fileID: 0}
-  m_tool: {fileID: 99010838519334853}
+  m_tool: {fileID: 4031316467079372932}
   m_flag: 8
+  m_toolEffect: {fileID: 2859486443307533502, guid: 1cc4404172a07444ca8ca10aebfb9915, type: 3}
   busy: 0
 --- !u!1 &3908369310012870518
 GameObject:
@@ -260,10 +261,6 @@ PrefabInstance:
       propertyPath: m_reachPoint.y
       value: -1
       objectReference: {fileID: 0}
-    - target: {fileID: 2244568717649012942, guid: ac0184e53519d98419bfbad3d72c44ce, type: 3}
-      propertyPath: m_totalSegments
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 2244568717649012943, guid: ac0184e53519d98419bfbad3d72c44ce, type: 3}
       propertyPath: m_Name
       value: AgrobotArm
@@ -314,6 +311,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ac0184e53519d98419bfbad3d72c44ce, type: 3}
+--- !u!1 &4031316467079372932 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2244568717649012943, guid: ac0184e53519d98419bfbad3d72c44ce, type: 3}
+  m_PrefabInstance: {fileID: 2942068457130068043}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4031316467079372954 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2244568717649012945, guid: ac0184e53519d98419bfbad3d72c44ce, type: 3}
