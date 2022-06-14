@@ -10,6 +10,12 @@ using UnityEngine;
 /// Received messages are used to call methods on the RosListeningBehaviour.
 /// The ROS app to connect with should be running before the application starts.
 /// </summary>
+/// <remarks>
+/// Be careful when expanding this functionality! The ROS connection on the other side could potentially be abused.
+/// Make sure that any functionality triggered by the ROS connection cannot be used to affect the device running
+/// this application. Things like reading/writing files can be dangerous even when the ROS application isn't 
+/// intentionally malicious.
+/// </remarks>
 class RosCommandListener : MonoBehaviour
 {
 	private static readonly string TRANSLATION_FILE_NAME = "RosTranslationTable";
