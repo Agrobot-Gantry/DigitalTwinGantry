@@ -98,7 +98,12 @@ public class AgrobotTool : MonoBehaviour
             m_reachables.Clear();
         }
         this.busy = false;
-        m_arm.Busy = false;
+
+        if (m_arm != null)
+        {
+            m_arm.Busy = false;
+        }
+        
     }
 
     private void Update()
