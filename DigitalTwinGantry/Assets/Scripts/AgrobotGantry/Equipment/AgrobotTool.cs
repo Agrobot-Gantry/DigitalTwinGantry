@@ -57,6 +57,15 @@ public class AgrobotTool : MonoBehaviour
 
     public IEnumerator PickupInteractable(AgrobotInteractable interactable, InteractableFlag action, float speed)
     {
+        GameObject cropMesh = null;
+        if (action == InteractableFlag.SOW)
+        {
+            cropMesh = Instantiate(interactable.InteractableObject.GetComponent<Crop>().PostSowingModel,
+                m_arm.LastSegment.transform);
+            cropMesh.transform.position = m_arm.LastSegment.EndPos;
+            cropMesh.SetActive(true);
+        }
+
         yield return m_arm.ReachForPointSmooth(interactable.transform, 0.1f, speed);
 
         if (m_effect != null)
@@ -66,6 +75,22 @@ public class AgrobotTool : MonoBehaviour
 
         yield return new WaitForSeconds(0.2f);
 		m_arm.NeutralPosition(speed);
+
+        if (cropMesh != null)
+        {
+            Destroy(cropMesh);
+        }
+
+        if (action == InteractableFlag.UPROOT || action == InteractableFlag.HARVEST)
+        {
+            Quaternion rotation = interactable.InteractableObject.GetComponent<Crop>().PostSowingModel.transform.rotation;
+            cropMesh = Instantiate(interactable.InteractableObject.GetComponent<Crop>().CurrentModel,
+                m_arm.LastSegment.transform);
+            cropMesh.transform.position = m_arm.LastSegment.EndPos;
+            cropMesh.transform.rotation = rotation;
+            cropMesh.SetActive(true);
+            Destroy(cropMesh, 0.6f);
+        }
     }
 
     public void NewField()
@@ -75,7 +100,12 @@ public class AgrobotTool : MonoBehaviour
             m_reachables.Clear();
         }
         this.busy = false;
-        m_arm.Busy = false;
+
+        if (m_arm != null)
+        {
+            m_arm.Busy = false;
+        }
+        
     }
 
     private void Update()
@@ -112,7 +142,6 @@ public class AgrobotTool : MonoBehaviour
     /// <param name="interactable">the interactable that was modified</param>
     public void InteractableModified(AgrobotInteractable interactable)
     {
-
         if (interactable == null)
         {
             m_reachables.Remove(interactable);

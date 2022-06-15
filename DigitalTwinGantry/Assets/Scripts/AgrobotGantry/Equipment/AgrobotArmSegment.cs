@@ -5,9 +5,11 @@ using UnityEngine;
 
 public class AgrobotArmSegment : MonoBehaviour
 {
-    [SerializeField] private Transform m_endPos;
+    [SerializeField] private Transform m_hingePoint;
+    public Vector3 HingePoint => m_hingePoint.position;
 
-    public Vector3 EndPos { get => m_endPos.position; }
+    [SerializeField] private Transform m_endPos;
+    public Vector3 EndPos => m_endPos.position;
 
     public void Follow(Vector3 target)
     {

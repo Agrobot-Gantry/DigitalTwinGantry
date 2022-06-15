@@ -347,7 +347,6 @@ MonoBehaviour:
   uprootAmount: 1
   irrigationTool: {fileID: 0}
   irrigationAmount: 1
-  harvestTest: {fileID: 0}
 --- !u!54 &4693249330679280201
 Rigidbody:
   m_ObjectHideFlags: 0
