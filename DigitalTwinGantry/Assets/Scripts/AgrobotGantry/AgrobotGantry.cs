@@ -66,6 +66,11 @@ public class AgrobotGantry : MonoBehaviour
 
     public void addTool(AgrobotTool tool, int amount)
     {
+        if(amount > 7)
+        {
+            amount = 7;
+            Debug.LogWarning("Amount of arms can't be more then 7");
+        }
         float sidePosOffset = 0.2f;
         toolPos.y = gameObject.transform.position.y + tool.transform.position.y;
         toolPos.z = gameObject.transform.position.z + tool.transform.position.z;
@@ -75,7 +80,7 @@ public class AgrobotGantry : MonoBehaviour
             if(i != 1)
             {
                 toolPos.x += sidePosOffset;
-                sidePosOffset *= -2;
+                sidePosOffset *= -1.5f;
             }
             
             AgrobotTool workTool = Instantiate(tool, toolPos, Quaternion.identity, gameObject.transform);

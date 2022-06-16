@@ -10468,7 +10468,7 @@ PrefabInstance:
       objectReference: {fileID: 161935745361048781, guid: eec55d19432548b4886ee9934690c297, type: 3}
     - target: {fileID: 329504548137172329, guid: 5ee66826a45982545836570c77dd2f34, type: 3}
       propertyPath: sowAmount
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 329504548137172329, guid: 5ee66826a45982545836570c77dd2f34, type: 3}
       propertyPath: toolReach
@@ -10484,11 +10484,11 @@ PrefabInstance:
       objectReference: {fileID: 594249318175025114, guid: 97fc4bfc401d80d46b523fa1b2a15bf3, type: 3}
     - target: {fileID: 329504548137172329, guid: 5ee66826a45982545836570c77dd2f34, type: 3}
       propertyPath: uprootAmount
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 329504548137172329, guid: 5ee66826a45982545836570c77dd2f34, type: 3}
       propertyPath: harvestAmount
-      value: 2
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 329504548137172329, guid: 5ee66826a45982545836570c77dd2f34, type: 3}
       propertyPath: irrigationTool
