@@ -25,10 +25,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 618739491487320414}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 4726629582129912358}
   - {fileID: 7618125417005180718}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -257,13 +256,17 @@ PrefabInstance:
       propertyPath: reachPoint.y
       value: -2
       objectReference: {fileID: 0}
+    - target: {fileID: 2244568717649012942, guid: ac0184e53519d98419bfbad3d72c44ce, type: 3}
+      propertyPath: m_segmentMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: bf303fa8847b8a34298ffe18fbf09cb6, type: 2}
     - target: {fileID: 2244568717649012943, guid: ac0184e53519d98419bfbad3d72c44ce, type: 3}
       propertyPath: m_Name
       value: AgrobotArm
       objectReference: {fileID: 0}
     - target: {fileID: 2244568717649012945, guid: ac0184e53519d98419bfbad3d72c44ce, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2244568717649012945, guid: ac0184e53519d98419bfbad3d72c44ce, type: 3}
       propertyPath: m_LocalPosition.x
@@ -271,11 +274,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2244568717649012945, guid: ac0184e53519d98419bfbad3d72c44ce, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.5
+      value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: 2244568717649012945, guid: ac0184e53519d98419bfbad3d72c44ce, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 2244568717649012945, guid: ac0184e53519d98419bfbad3d72c44ce, type: 3}
       propertyPath: m_LocalRotation.w
