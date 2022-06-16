@@ -87,7 +87,8 @@ public class AgrobotTool : MonoBehaviour
             cropMesh.transform.position = m_arm.LastSegment.EndPos;
             cropMesh.transform.rotation = rotation;
             cropMesh.SetActive(true);
-            Destroy(cropMesh, 0.6f);
+
+            Destroy(cropMesh, 0.6f * (1 / TimeChanger.TimeScale));
         }
     }
 
