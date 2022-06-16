@@ -10488,7 +10488,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 329504548137172329, guid: 5ee66826a45982545836570c77dd2f34, type: 3}
       propertyPath: harvestAmount
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 329504548137172329, guid: 5ee66826a45982545836570c77dd2f34, type: 3}
       propertyPath: irrigationTool
@@ -10496,7 +10496,7 @@ PrefabInstance:
       objectReference: {fileID: 6900375379625699788, guid: 1e3fa9a3ddde87046a8db94cca0ed27c, type: 3}
     - target: {fileID: 329504548137172329, guid: 5ee66826a45982545836570c77dd2f34, type: 3}
       propertyPath: irrigationAmount
-      value: 4
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 329504548137172329, guid: 5ee66826a45982545836570c77dd2f34, type: 3}
       propertyPath: m_tools.Array.size
@@ -12208,7 +12208,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: bf0c8c252f1be24478058bd8a68cc48c, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.4
+  m_Volume: 0.7
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -12495,7 +12495,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: f97045703cdcc7a41a5305fc481a3605, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.5
+  m_Volume: 1
   m_Pitch: 1
   Loop: 1
   Mute: 0
