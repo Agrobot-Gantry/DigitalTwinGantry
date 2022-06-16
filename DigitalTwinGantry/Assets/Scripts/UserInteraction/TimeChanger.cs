@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TimeChanger : MonoBehaviour
 {
-    private static float m_timeScale = 1;
+    private static float m_timeScale = 1f;
 
     public static float DeltaTime => (Time.deltaTime * m_timeScale);
     public static float TimeScale => m_timeScale;

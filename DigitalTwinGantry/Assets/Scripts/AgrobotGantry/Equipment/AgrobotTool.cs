@@ -62,6 +62,9 @@ public class AgrobotTool : MonoBehaviour
                 m_arm.LastSegment.transform);
             cropMesh.transform.position = m_arm.LastSegment.EndPos;
             cropMesh.SetActive(true);
+
+            // Temporary timed destroy, this has to be replaced by the commented code underneath
+            Destroy(cropMesh, (speed / 2) * (1 / TimeChanger.TimeScale));
         }
 
         yield return m_arm.ReachForPointSmooth(interactable.transform, 0.1f, speed);
@@ -74,10 +77,12 @@ public class AgrobotTool : MonoBehaviour
         yield return new WaitForSeconds(0.2f);
 		m_arm.NeutralPosition(speed);
 
-        if (cropMesh != null)
-        {
-            Destroy(cropMesh);
-        }
+        // Correct way to destroy the cropMesh. This has been disabled because this Coroutine
+        // sometimes gets stopped so the cropMesh never gets destroyed. Fix: This coroutine should not be stopped.
+        // if (cropMesh != null)
+        // {
+        //     Destroy(cropMesh);
+        // }
 
         if (action == InteractableFlag.UPROOT || action == InteractableFlag.HARVEST)
         {
