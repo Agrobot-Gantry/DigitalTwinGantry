@@ -57,7 +57,7 @@ public class DesktopCameraBehaviour : MonoBehaviour
         
         if (input.performed)
         {
-            direction = input.ReadValue<Vector3>() * movementSpeed;
+            direction = input.ReadValue<Vector3>() * movementSpeed * Time.deltaTime;
             held = true;
         }
         if (input.canceled)
@@ -68,8 +68,8 @@ public class DesktopCameraBehaviour : MonoBehaviour
     public void onLook(InputAction.CallbackContext input)
     {
         
-        mousePosition.y = input.ReadValue<Vector2>().x * rotationSpeed;
-        mousePosition.x = input.ReadValue<Vector2>().y * rotationSpeed;
+        mousePosition.y = input.ReadValue<Vector2>().x * rotationSpeed * Time.deltaTime;
+        mousePosition.x = input.ReadValue<Vector2>().y * rotationSpeed * Time.deltaTime;
 
     }
 

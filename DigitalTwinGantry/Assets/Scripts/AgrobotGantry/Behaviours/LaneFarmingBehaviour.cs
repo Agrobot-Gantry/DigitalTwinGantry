@@ -29,8 +29,6 @@ public class LaneFarmingBehaviour : AgrobotBehaviour
             }
             m_gantry.MovementSpeed = AgrobotDefinitions.Instance.MovementSpeed; //keep driving
         }
-        if (m_ongoingActions.Count == 0) //TODO update dit zoals het op development is
-        {
            
             if (this.m_gantry.Equipment.GetReachables().Length > 0) //check reach
             {

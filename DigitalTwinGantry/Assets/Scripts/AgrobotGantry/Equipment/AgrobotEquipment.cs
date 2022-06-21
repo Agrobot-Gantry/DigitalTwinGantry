@@ -26,7 +26,7 @@ public class AgrobotEquipment
                     flaggedTools++;
                 }
             }
-            Assert.IsTrue(flaggedTools <= 1); //never more than 1 tool per flag
+            //Assert.IsTrue(flaggedTools <= 1); //never more than 1 tool per flag
         }
     }
 

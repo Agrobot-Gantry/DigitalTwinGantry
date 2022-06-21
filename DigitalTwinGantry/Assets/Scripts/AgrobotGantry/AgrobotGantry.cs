@@ -17,8 +17,25 @@ public class AgrobotGantry : MonoBehaviour
     private bool m_isTurning;
 
     [SerializeField]
-    private AgrobotTool[] m_tools;
-    public AgrobotTool[] tools { get => m_tools; }
+    private ToolReach toolReach;
+    [Header("harvest")]
+    [SerializeField] private AgrobotTool harvestTool;
+    [SerializeField] private int harvestAmount = 1;
+    [Header("sow")]
+    [SerializeField] private AgrobotTool sowTool;
+    [SerializeField] private int sowAmount = 1;
+    [Header("uproot")]
+    [SerializeField] private AgrobotTool uprootTool;
+    [SerializeField] private int uprootAmount = 1;
+    [Header("irrigation")]
+    [SerializeField] private AgrobotTool irrigationTool;
+    [SerializeField] private int irrigationAmount = 1;
+
+    private Vector3 toolPos;
+
+
+    private List<AgrobotTool> m_tools = new List<AgrobotTool>();
+    public List<AgrobotTool> tools { get => m_tools; }
 
     /// <summary>
     /// Forward-facing movement speed in meters per second. Setting this to a positive value will make the gantry move forwards. 
@@ -47,11 +64,41 @@ public class AgrobotGantry : MonoBehaviour
 
     }
 
+    public void addTool(AgrobotTool tool, int amount)
+    {
+        if(amount > 7)
+        {
+            amount = 7;
+            Debug.LogWarning("Amount of arms can't be more then 7");
+        }
+        float sidePosOffset = 0.2f;
+        toolPos.y = gameObject.transform.position.y + tool.transform.position.y;
+        toolPos.z = gameObject.transform.position.z + tool.transform.position.z;
+        toolPos.x = gameObject.transform.position.x + tool.transform.position.x;
+        for ( int i = 1; i<=amount; i++)
+        {
+            if(i != 1)
+            {
+                toolPos.x += sidePosOffset;
+                sidePosOffset *= -1.5f;
+            }
+            
+            AgrobotTool workTool = Instantiate(tool, toolPos, Quaternion.identity, gameObject.transform);
+            workTool.reach = toolReach;
+            m_tools.Add(workTool);
+            
+        }
+    }
+
     void Start()
     {
         MovementSpeed = 0.0f;
         TurningSpeed = 0.0f;
-        m_equipment = new AgrobotEquipment(m_tools);
+        addTool(harvestTool, harvestAmount);
+        addTool(sowTool, sowAmount);
+        addTool(uprootTool, uprootAmount);
+        addTool(irrigationTool, irrigationAmount);
+        m_equipment = new AgrobotEquipment(m_tools.ToArray());
         m_currentBehaviour = new LaneFarmingBehaviour();
         ShowCasing(true);
 
@@ -60,21 +107,24 @@ public class AgrobotGantry : MonoBehaviour
 
     void Update()
     {
-        //moving
-        if (MovementSpeed != 0.0f)
+        if (m_tools.Count > 0)
         {
-            transform.Translate(Vector3.forward * TimeChanger.DeltaTime * MovementSpeed);
-            m_isTurning = false;
-        }
+            //moving
+            if (MovementSpeed != 0.0f)
+            {
+                transform.Translate(Vector3.forward * TimeChanger.DeltaTime * MovementSpeed);
+                m_isTurning = false;
+            }
 
-        //turning
-        if (TurningSpeed != 0.0f)
-        {
-            transform.Rotate(Vector3.up, TimeChanger.DeltaTime * TurningSpeed);
-            m_isTurning = true;
-        }
+            //turning
+            if (TurningSpeed != 0.0f)
+            {
+                transform.Rotate(Vector3.up, TimeChanger.DeltaTime * TurningSpeed);
+                m_isTurning = true;
+            }
 
-        m_currentBehaviour.Update(TimeChanger.DeltaTime);
+            m_currentBehaviour.Update(TimeChanger.DeltaTime);
+        }
     }
 
     public void ShowCasing(bool showCasing)

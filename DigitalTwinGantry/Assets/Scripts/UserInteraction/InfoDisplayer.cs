@@ -23,7 +23,7 @@ public class InfoDisplayer : MonoBehaviour
             {
                 foreach (AgrobotAction action in m_gantry.CurrentBehaviour.OnGoingActions)
                 {
-                    actionText += action.GetType().Name + ", ";
+                    actionText += action.Flags.ToString() + ", ";
                 }
 
                 m_actionText.text = actionText;

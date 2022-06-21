@@ -18,8 +18,10 @@ public class AgrobotTool : MonoBehaviour
     private GameObject m_tool;
     [SerializeField]
     private InteractableFlag m_flag;
-    [SerializeField] 
+    [SerializeField]
     private GameObject m_toolEffect;
+
+    public ToolReach reach {set { m_reach = value; } }
 
     /// <summary>
     /// A list of all interactables that are in reach of this tool and have an appropriate flag.
@@ -55,15 +57,46 @@ public class AgrobotTool : MonoBehaviour
 
 	public IEnumerator PickupInteractable(AgrobotInteractable interactable, InteractableFlag action, float speed)
     {
+        GameObject cropMesh = null;
+        if (action == InteractableFlag.SOW)
+        {
+            cropMesh = Instantiate(interactable.InteractableObject.GetComponent<Crop>().PostSowingModel,
+                m_arm.LastSegment.transform);
+            cropMesh.transform.position = m_arm.LastSegment.EndPos;
+            cropMesh.SetActive(true);
+
+            // Temporary timed destroy, this has to be replaced by the commented code underneath
+            Destroy(cropMesh, (speed / 2) * (1 / TimeChanger.TimeScale));
+        }
+
         yield return m_arm.ReachForPointSmooth(interactable.transform, 0.1f, speed);
 
         if (m_effect != null)
         {
-            m_effect.OEffectStart();
+            m_effect.EffectStart();
         }
 
         yield return new WaitForSeconds(0.2f);
 		m_arm.NeutralPosition(speed);
+
+        // Correct way to destroy the cropMesh. This has been disabled because this Coroutine
+        // sometimes gets stopped so the cropMesh never gets destroyed. Fix: This coroutine should not be stopped.
+        // if (cropMesh != null)
+        // {
+        //     Destroy(cropMesh);
+        // }
+
+        if (action == InteractableFlag.UPROOT || action == InteractableFlag.HARVEST)
+        {
+            Quaternion rotation = interactable.InteractableObject.GetComponent<Crop>().PostSowingModel.transform.rotation;
+            cropMesh = Instantiate(interactable.InteractableObject.GetComponent<Crop>().CurrentModel,
+                m_arm.LastSegment.transform);
+            cropMesh.transform.position = m_arm.LastSegment.EndPos;
+            cropMesh.transform.rotation = rotation;
+            cropMesh.SetActive(true);
+
+            Destroy(cropMesh, 0.6f * (1 / TimeChanger.TimeScale));
+        }
     }
 
     public void ActionCancelled()
@@ -79,6 +112,12 @@ public class AgrobotTool : MonoBehaviour
             m_reachables.Clear();
         }
         this.busy = false;
+
+        if (m_arm != null)
+        {
+            m_arm.Busy = false;
+        }
+        
     }
 
     private void Update()
@@ -115,7 +154,6 @@ public class AgrobotTool : MonoBehaviour
     /// <param name="interactable">the interactable that was modified</param>
     public void InteractableModified(AgrobotInteractable interactable)
     {
-
         if (interactable == null)
         {
             m_reachables.Remove(interactable);
