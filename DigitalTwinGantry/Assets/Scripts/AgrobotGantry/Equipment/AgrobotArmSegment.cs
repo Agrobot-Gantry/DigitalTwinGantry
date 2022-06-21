@@ -3,15 +3,29 @@ using System.Collections.Generic;
 using Unity.XR.CoreUtils;
 using UnityEngine;
 
+/// <summary>
+/// A single segment of the total agrobot arm.
+/// This class uses inversed kinematics to reach for points.
+/// </summary>
 public class AgrobotArmSegment : MonoBehaviour
 {
     [SerializeField] private Transform m_hingePoint;
+    /// <summary>
+    /// The lower hinge point of the model of the segment.
+    /// </summary>
     public Vector3 HingePoint => m_hingePoint.position;
 
     [SerializeField] private Transform m_endPos;
+    /// <summary>
+    /// The lowest end point of the model of the segment.
+    /// </summary>
     public Vector3 EndPos => m_endPos.position;
 
-    public void Follow(Vector3 target)
+    /// <summary>
+    /// Moves and rotates the segment so the EndPos reaches the target.
+    /// </summary>
+    /// <param name="target">The point the segment needs to reach</param>
+    public void Reach(Vector3 target)
     {
         Vector3 direction = target - transform.position;
 
