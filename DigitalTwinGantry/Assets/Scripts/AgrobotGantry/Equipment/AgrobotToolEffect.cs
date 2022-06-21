@@ -8,7 +8,7 @@ public class AgrobotToolEffect : MonoBehaviour
 {
     [SerializeField] private UnityEvent m_onEffectStart;
 
-    public void OEffectStart()
+    public void EffectStart()
     {
         m_onEffectStart.Invoke();
     }

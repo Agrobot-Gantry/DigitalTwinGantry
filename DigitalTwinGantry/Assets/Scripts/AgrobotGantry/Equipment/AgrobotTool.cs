@@ -73,7 +73,7 @@ public class AgrobotTool : MonoBehaviour
 
         if (m_effect != null)
         {
-            m_effect.OEffectStart();
+            m_effect.EffectStart();
         }
 
         yield return new WaitForSeconds(0.2f);
