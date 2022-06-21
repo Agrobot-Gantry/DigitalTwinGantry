@@ -88,7 +88,7 @@ public class AgrobotAction
 
 	public void Cancel()
 	{
-		m_tool.busy = false;
+		m_tool.ActionCancelled();
 		if (m_targetInteractable != null)
 		{
 			m_targetInteractable.Busy = false;

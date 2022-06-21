@@ -53,7 +53,7 @@ public class AgrobotTool : MonoBehaviour
         }
     }
 
-    public IEnumerator PickupInteractable(AgrobotInteractable interactable, InteractableFlag action, float speed)
+	public IEnumerator PickupInteractable(AgrobotInteractable interactable, InteractableFlag action, float speed)
     {
         yield return m_arm.ReachForPointSmooth(interactable.transform, 0.1f, speed);
 
@@ -64,6 +64,12 @@ public class AgrobotTool : MonoBehaviour
 
         yield return new WaitForSeconds(0.2f);
 		m_arm.NeutralPosition(speed);
+    }
+
+    public void ActionCancelled()
+    {
+        busy = false;
+        m_arm.Busy = false;
     }
 
     public void NewField()

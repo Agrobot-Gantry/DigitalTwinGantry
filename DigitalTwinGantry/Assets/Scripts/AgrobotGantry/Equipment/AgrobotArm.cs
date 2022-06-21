@@ -32,7 +32,8 @@ public class AgrobotArm : MonoBehaviour
     private List<AgrobotArmSegment> m_segments;
     private Vector3 m_currentReachPoint;
 
-    private bool m_busy = false;
+    public bool Busy { get { return m_busy; } set { m_busy = value; } }
+    public bool m_busy = false;
 
     private void Awake()
     {
