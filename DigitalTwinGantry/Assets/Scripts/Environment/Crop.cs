@@ -68,6 +68,7 @@ public class Crop : MonoBehaviour
 		{
 			m_currentTimePeriod.Model.SetActive(false);
 			m_onHarvestCallback(this, true);
+			Destroy(gameObject);
 		}
 	}
 
