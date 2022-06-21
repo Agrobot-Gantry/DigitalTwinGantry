@@ -32,7 +32,7 @@ public class AgrobotArm : MonoBehaviour
     private List<AgrobotArmSegment> m_segments;
     private Vector3 m_currentReachPoint;
 
-    private static bool s_busy = false;
+    private bool m_busy = false;
 
     private void Awake()
     {
@@ -65,12 +65,12 @@ public class AgrobotArm : MonoBehaviour
 
     public IEnumerator ReachForPointSmooth(Transform point, float minDistance, float speed)
     {
-        while (s_busy)
+        while (m_busy)
         {
             yield return null;
         }
 
-        s_busy = true;
+        m_busy = true;
 
         ResetReach();
         while (Vector3.Distance(m_currentReachPoint, point.position) > minDistance)
@@ -79,11 +79,10 @@ public class AgrobotArm : MonoBehaviour
             m_currentReachPoint = Vector3.Lerp(m_currentReachPoint, point.position, speed * TimeChanger.DeltaTime);
 
             ReachForPointInstant(m_currentReachPoint);
-
             yield return null;
         }
 
-        s_busy = false;
+        m_busy = false;
     }
 
     public void ReachForPointInstant(Vector3 point)

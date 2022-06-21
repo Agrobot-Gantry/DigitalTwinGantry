@@ -41,7 +41,6 @@ abstract public class AgrobotBehaviour
 			m_ongoingActions[0].Cancel();
 			m_gantry.StopCoroutine(m_ongoingActions[0].ExecutingCoroutine);
 			m_ongoingActions.RemoveAt(0);
-			Debug.Log("cancelled action");//
 		}
 		m_gantry.StopAllCoroutines(); //TODO only stop the action coroutines
 		//TODO tools remain busy when the behaviour stops while they are active
@@ -106,7 +105,6 @@ abstract public class AgrobotBehaviour
 		m_ongoingActions.Add(action);
 		Coroutine coroutine = m_gantry.StartCoroutine(action.Start());
 		action.ExecutingCoroutine = coroutine;
-		Debug.Log("started action");//
 		return true;
 	}
 
