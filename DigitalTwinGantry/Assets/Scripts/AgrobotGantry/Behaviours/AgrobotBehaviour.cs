@@ -17,9 +17,9 @@ abstract public class AgrobotBehaviour
 		{ InteractableFlag.HARVEST, InteractableFlag.SOW, InteractableFlag.WATER, InteractableFlag.UPROOT };
 
 	protected AgrobotGantry m_gantry;
-	protected List<AgrobotAction> m_ongoingActions;
+	protected List<AgrobotAction> m_ongoingActions; //TODO make private
 	public List<AgrobotAction> OnGoingActions { get => m_ongoingActions; }
-	protected AgrobotInteractable[] m_allInteractables;
+	protected AgrobotInteractable[] m_allInteractables; //TODO remove
 
 	public AgrobotBehaviour()
 	{
@@ -36,15 +36,25 @@ abstract public class AgrobotBehaviour
 
 	public virtual void Stop()
 	{
-		m_gantry.StopAllCoroutines();
+		while (m_ongoingActions.Count > 0)
+		{
+			m_ongoingActions[0].Cancel();
+			m_gantry.StopCoroutine(m_ongoingActions[0].ExecutingCoroutine);
+			m_ongoingActions.RemoveAt(0);
+			Debug.Log("cancelled action");//
+		}
+		m_gantry.StopAllCoroutines(); //TODO only stop the action coroutines
 		//TODO tools remain busy when the behaviour stops while they are active
+
+		//als het stopt zijn de tools niet meer busy
+		//bij opnieuw starten zijn ze weer busy maar ze bewegen niet meer
 	}
 
 	/// <summary>
 	/// Updates the list of interactables this behaviour is keeping track of (which should be all of them).
 	/// Also updates the interactables for the equipment. Call this when interactables have been added or removed.
 	/// </summary>
-	public void UpdateAllInteractables()
+	public void UpdateAllInteractables() //TODO remove
 	{
 		m_allInteractables = Object.FindObjectsOfType<AgrobotInteractable>();
 		//TODO update equipment
@@ -94,7 +104,9 @@ abstract public class AgrobotBehaviour
 	protected bool StartAction(AgrobotAction action)
 	{
 		m_ongoingActions.Add(action);
-		m_gantry.StartCoroutine(action.Start());
+		Coroutine coroutine = m_gantry.StartCoroutine(action.Start());
+		action.ExecutingCoroutine = coroutine;
+		Debug.Log("started action");//
 		return true;
 	}
 

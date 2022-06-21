@@ -15,6 +15,9 @@ public class AgrobotAction
 	public InteractableFlag Flags => m_flags;
 	private InteractableFlag m_flags;
 
+	public Coroutine ExecutingCoroutine { get { return m_coroutine; } set { m_coroutine = value; } }
+	private Coroutine m_coroutine;
+
 	private Action<AgrobotAction>[] m_onFinishedcallbacks;
 
 	public AgrobotAction(AgrobotInteractable target, AgrobotTool tool, InteractableFlag flags, params Action<AgrobotAction>[] onFinishedCallbacks)
@@ -80,6 +83,15 @@ public class AgrobotAction
 		foreach (Action<AgrobotAction> action in m_onFinishedcallbacks)
 		{
 			action.Invoke(this);
+		}
+	}
+
+	public void Cancel()
+	{
+		m_tool.busy = false;
+		if (m_targetInteractable != null)
+		{
+			m_targetInteractable.Busy = false;
 		}
 	}
 }
