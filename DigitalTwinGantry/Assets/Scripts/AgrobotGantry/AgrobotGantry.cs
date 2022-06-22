@@ -145,7 +145,6 @@ public class AgrobotGantry : MonoBehaviour
 
     public void SetBehaviour(AgrobotBehaviour behaviour)
     {
-        Debug.Log(m_currentBehaviour + " => " + behaviour);
         if (m_currentBehaviour != null)
         {
             m_currentBehaviour.Stop();

@@ -120,7 +120,7 @@ class RosCommandListener : MonoBehaviour
 		}
 		if (m_gantry.CurrentBehaviour.GetType() != typeof(RosListeningBehaviour))
 		{
-			StartListening(); //TODO turn listening on/off using the button
+			return;
 		}
 		if (m_translationTable.ContainsKey(topic))
 		{
@@ -128,10 +128,6 @@ class RosCommandListener : MonoBehaviour
 			{
 				m_translationTable[topic][message].Invoke(m_behaviour, null);
 			}
-		}
-		if (message == "stoplistening")//TODO remove after button is added
-		{
-			StopListening();
 		}
 	}
 
