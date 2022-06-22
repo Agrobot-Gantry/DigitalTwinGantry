@@ -286,6 +286,9 @@ GameObject:
   - component: {fileID: 329504548137172329}
   - component: {fileID: 4693249330679280201}
   - component: {fileID: 459802136821148171}
+  - component: {fileID: 8318669297664411222}
+  - component: {fileID: 8330802213403413172}
+  - component: {fileID: 7450197065861598392}
   m_Layer: 0
   m_Name: AgrobotGantry
   m_TagString: Untagged
@@ -376,6 +379,47 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &8318669297664411222
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3119885546648364450}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a68616de364d24c4ebfdfdad927683f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_logRecievedMessages: 1
+--- !u!114 &8330802213403413172
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3119885546648364450}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff98778ae051cfd40a6e4effdf851ebd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SecondsTimeout: 10
+  Serializer: 0
+  protocol: 0
+  RosBridgeServerUrl: ws://192.168.56.104:9090
+--- !u!114 &7450197065861598392
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3119885546648364450}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a16ee54caac5c24e876d2ef6911f197, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4145106576134327601
 GameObject:
   m_ObjectHideFlags: 0
