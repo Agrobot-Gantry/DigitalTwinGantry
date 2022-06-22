@@ -4,6 +4,10 @@ using System;
 using UnityEngine;
 using UnityEngine.Events;
 
+/// <summary>
+/// Place this at the end of the cropfield so the application can go to the next time period 
+/// </summary>
+[RequireComponent(typeof(Collider))]
 public class EndZone : MonoBehaviour
 {
     private Action m_onTrigger;

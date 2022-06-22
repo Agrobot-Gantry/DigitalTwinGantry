@@ -4,6 +4,9 @@ using UnityEngine;
 using System;
 using UnityEngine.Events;
 
+/// <summary>
+/// The main script of the crop system. This class will generate the whole cropfield.
+/// </summary>
 public class CropField : MonoBehaviour
 {
 	/// <summary>
@@ -302,6 +305,10 @@ public class CropField : MonoBehaviour
 		m_fieldType = type;
 	}
 
+	/// <summary>
+	/// Generates a whole field with a single type of crop with the specified action
+	/// </summary>
+	/// <param name="action">The action that needs to be done on each crop</param>
 	public void GenerateFieldWithAction(int action)
 	{
 		switch (action)

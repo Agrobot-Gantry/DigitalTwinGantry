@@ -27,6 +27,12 @@ public class Crop : MonoBehaviour
 
     public GameObject CurrentModel => m_currentTimePeriod.Model;
 
+	/// <summary>
+	/// Initializes the crop, call this function right after instantiating the crop.
+	/// </summary>
+	/// <param name="currentTimePeriod">The current time periode this crop is on</param>
+	/// <param name="timePeriodOffset">The internal time period offset of this crop (is the crop for example sowed 2 time periods too early?)</param>
+	/// <param name="onHarvestCallback">This function will be called when this crop gets harvested</param>
 	public void Initialize(int currentTimePeriod, int timePeriodOffset, Action<Crop, bool> onHarvestCallback)
 	{
 		m_onHarvestCallback = onHarvestCallback;

@@ -3,6 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// A cropchunk contains multiple crops wich are all the same type (only tomatoes, only carrots, etc.)
+/// </summary>
 public class CropChunk : MonoBehaviour
 {
     [SerializeField] private float m_sizeBetweenCrop;
@@ -20,6 +23,14 @@ public class CropChunk : MonoBehaviour
     private int m_timePeriod;
     private bool m_regenerateChunk = false;
 
+    /// <summary>
+    /// Initializes the chunk, call this method right after instantiating this chunk.
+    /// This method will also generate the crops inside the chunk.
+    /// </summary>
+    /// <param name="cropType">The crop type this chunk should contain</param>
+    /// <param name="chunkSize">The size of the chunk</param>
+    /// <param name="timePeriod">The time period this chunk should be in</param>
+    /// <param name="onChunkEmpty">This function will be called when the chunk gets empty</param>
     public void Initialize(GameObject cropType, Vector2 chunkSize, int timePeriod, Action<CropChunk, bool> onChunkEmpty)
     {
         m_crops = new List<GameObject>();
@@ -33,6 +44,11 @@ public class CropChunk : MonoBehaviour
         GenerateChunk(cropType, 0);
     }
 
+    /// <summary>
+    /// Generates the crops inside the chunk
+    /// </summary>
+    /// <param name="cropType">The crop type the chunk should contain</param>
+    /// <param name="offset">The internal time period offset the crops will have (is the crop for example sowed 2 time periods too early?)</param>
     public void GenerateChunk(GameObject cropType, int offset)
     {
         for (int i = 0; i < m_crops.Count; i++)

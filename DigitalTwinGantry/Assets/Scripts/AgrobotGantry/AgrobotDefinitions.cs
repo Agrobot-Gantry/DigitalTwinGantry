@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// A singleton class used to store agrobot definitions such as movement speed.
+/// </summary>
 public class AgrobotDefinitions : MonoBehaviour
 {
     [SerializeField] private float m_movementSpeed = 1;

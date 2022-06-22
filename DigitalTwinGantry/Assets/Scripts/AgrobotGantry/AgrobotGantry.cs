@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// This class is responsible for moving the agrobot gantry.
+/// This class is responsible for moving the agrobot gantry and is the main class of the agrobot system
 /// </summary>
 public class AgrobotGantry : MonoBehaviour
 {
@@ -16,26 +16,24 @@ public class AgrobotGantry : MonoBehaviour
     private bool m_firsRowExitOccured = false;
     private bool m_isTurning;
 
-    [SerializeField]
-    private ToolReach toolReach;
+    [SerializeField] private ToolReach m_toolReach;
     [Header("harvest")]
-    [SerializeField] private AgrobotTool harvestTool;
-    [SerializeField] private int harvestAmount = 1;
+    [SerializeField] private AgrobotTool m_harvestTool;
+    [SerializeField] private int m_harvestAmount = 1;
     [Header("sow")]
-    [SerializeField] private AgrobotTool sowTool;
-    [SerializeField] private int sowAmount = 1;
+    [SerializeField] private AgrobotTool m_sowTool;
+    [SerializeField] private int m_sowAmount = 1;
     [Header("uproot")]
-    [SerializeField] private AgrobotTool uprootTool;
-    [SerializeField] private int uprootAmount = 1;
+    [SerializeField] private AgrobotTool m_uprootTool;
+    [SerializeField] private int m_uprootAmount = 1;
     [Header("irrigation")]
-    [SerializeField] private AgrobotTool irrigationTool;
-    [SerializeField] private int irrigationAmount = 1;
+    [SerializeField] private AgrobotTool m_irrigationTool;
+    [SerializeField] private int m_irrigationAmount = 1;
 
-    private Vector3 toolPos;
-
+    private Vector3 m_toolPos;
 
     private List<AgrobotTool> m_tools = new List<AgrobotTool>();
-    public List<AgrobotTool> tools { get => m_tools; }
+    public List<AgrobotTool> Tools { get => m_tools; }
 
     /// <summary>
     /// Forward-facing movement speed in meters per second. Setting this to a positive value will make the gantry move forwards. 
@@ -48,6 +46,11 @@ public class AgrobotGantry : MonoBehaviour
     /// </summary>
     public float TurningSpeed { get; set; }
 
+    /// <summary>
+    /// Resets the agrobot (call when a new field is generated)
+    /// </summary>
+    /// <param name="startPosition">The position the agrobot needs to have after the reset</param>
+    /// <param name="startRotation">The rotation the agrobot needs to have after the reset</param>
     public void Reset(Vector3 startPosition, Quaternion startRotation)
     {
         gameObject.transform.position = startPosition;
@@ -58,13 +61,18 @@ public class AgrobotGantry : MonoBehaviour
         m_firsRowExitOccured = false;
         foreach(AgrobotTool tool in m_tools)
         {
-            tool.NewField();
+            tool.Reset();
         }
         SetBehaviour(new LaneFarmingBehaviour());
 
     }
-
-    public void addTool(AgrobotTool tool, int amount)
+    
+    /// <summary>
+    /// Adds x amount of the specified tool to the agrobot
+    /// </summary>
+    /// <param name="tool">The tool type that needs to be added</param>
+    /// <param name="amount">The amount of the specified tool need to be added</param>
+    public void AddTool(AgrobotTool tool, int amount)
     {
         if(amount > 7)
         {
@@ -72,19 +80,19 @@ public class AgrobotGantry : MonoBehaviour
             Debug.LogWarning("Amount of arms can't be more then 7");
         }
         float sidePosOffset = 0.2f;
-        toolPos.y = gameObject.transform.position.y + tool.transform.position.y;
-        toolPos.z = gameObject.transform.position.z + tool.transform.position.z;
-        toolPos.x = gameObject.transform.position.x + tool.transform.position.x;
+        m_toolPos.y = gameObject.transform.position.y + tool.transform.position.y;
+        m_toolPos.z = gameObject.transform.position.z + tool.transform.position.z;
+        m_toolPos.x = gameObject.transform.position.x + tool.transform.position.x;
         for ( int i = 1; i<=amount; i++)
         {
             if(i != 1)
             {
-                toolPos.x += sidePosOffset;
+                m_toolPos.x += sidePosOffset;
                 sidePosOffset *= -1.5f;
             }
             
-            AgrobotTool workTool = Instantiate(tool, toolPos, Quaternion.identity, gameObject.transform);
-            workTool.reach = toolReach;
+            AgrobotTool workTool = Instantiate(tool, m_toolPos, Quaternion.identity, gameObject.transform);
+            workTool.Reach = m_toolReach;
             m_tools.Add(workTool);
             
         }
@@ -94,10 +102,10 @@ public class AgrobotGantry : MonoBehaviour
     {
         MovementSpeed = 0.0f;
         TurningSpeed = 0.0f;
-        addTool(harvestTool, harvestAmount);
-        addTool(sowTool, sowAmount);
-        addTool(uprootTool, uprootAmount);
-        addTool(irrigationTool, irrigationAmount);
+        AddTool(m_harvestTool, m_harvestAmount);
+        AddTool(m_sowTool, m_sowAmount);
+        AddTool(m_uprootTool, m_uprootAmount);
+        AddTool(m_irrigationTool, m_irrigationAmount);
         m_equipment = new AgrobotEquipment(m_tools.ToArray());
         m_currentBehaviour = new LaneFarmingBehaviour();
         ShowCasing(true);

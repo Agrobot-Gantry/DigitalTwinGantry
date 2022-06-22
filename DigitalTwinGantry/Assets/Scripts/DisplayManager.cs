@@ -2,13 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// This script will turn on and off all the desktop/XR components dependant on the build type (PC version or Android version)
+/// </summary>
 public class DisplayManager : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject desktop;
-    [SerializeField]
-    private GameObject[] XRComponents;
-    // Start is called before the first frame update
+    [SerializeField] private GameObject m_desktop;
+    [SerializeField] private GameObject[] m_XRComponents;
+
     void Start()
     {
 #if UNITY_STANDALONE
@@ -19,12 +20,11 @@ public class DisplayManager : MonoBehaviour
         }
 #endif
 #if UNITY_ANDROID
-        foreach (GameObject XR in XRComponents)
+        foreach (GameObject XR in m_XRComponents)
         {
             XR.SetActive(true);
         }
-        desktop.SetActive(false);
+        m_desktop.SetActive(false);
 #endif
-
     }
 }

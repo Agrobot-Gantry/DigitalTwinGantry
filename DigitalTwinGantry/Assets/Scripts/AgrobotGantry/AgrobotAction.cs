@@ -7,7 +7,7 @@ using UnityEngine;
 public class AgrobotAction
 {
     private AgrobotInteractable m_targetInteractable;
-	public AgrobotInteractable TargetInteractable { get { return m_targetInteractable; } }
+	public AgrobotInteractable TargetInteractable => m_targetInteractable;
 
     private AgrobotEquipment m_equipment;
 
@@ -36,7 +36,7 @@ public class AgrobotAction
 	/// <returns>a coroutine that takes care of the action and calls Finish() when it's done</returns>
 	public IEnumerator Start()
 	{
-        m_tool.busy = true;
+        m_tool.Busy = true;
 
 		Vector3 target = new Vector3(m_targetInteractable.transform.position.x,
 		          m_tool.GetToolObject().transform.position.y, m_tool.GetToolObject().transform.position.z);
@@ -53,7 +53,7 @@ public class AgrobotAction
             yield return null;
 	    }
 
-		yield return m_tool.PickupInteractable(m_targetInteractable, m_flags, AgrobotDefinitions.Instance.EquipmentSpeed);
+		yield return m_tool.Interact(m_targetInteractable, m_flags, AgrobotDefinitions.Instance.EquipmentSpeed);
 
         if (m_targetInteractable != null)
         {
@@ -64,7 +64,7 @@ public class AgrobotAction
             Debug.Log("TargetInteractable is null");
         }
 
-        m_tool.busy = false;
+        m_tool.Busy = false;
         Finish();
 	}
 

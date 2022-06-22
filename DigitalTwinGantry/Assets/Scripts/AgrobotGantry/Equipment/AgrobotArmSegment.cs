@@ -58,6 +58,12 @@ public class AgrobotArmSegment : MonoBehaviour
         transform.position = target + direction;
     }
 
+    /// <summary>
+    /// Calculates the 3D rotation (Euler) needed to rotate from one vector to the other 
+    /// </summary>
+    /// <param name="from">Start vector</param>
+    /// <param name="to">The vector the <see cref="from"/> vector needs to rotate to</param>
+    /// <returns>The rotation (Euler) needed to rotate from the <see cref="from"/> vector to the <see cref="to"/> vector</returns>
     private static Vector3 GetAngle(Vector3 from, Vector3 to)
     {
         float rotX = Mathf.Rad2Deg * Mathf.Atan2(to.z - from.z, to.y - from.y);

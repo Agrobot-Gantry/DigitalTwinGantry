@@ -1,7 +1,10 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// This time period is used with a crop to tell at which time period which action and model needs to be performed or showed on the crop.
+/// </summary>
 [System.Serializable]
-public partial struct TimePeriod
+public struct TimePeriod
 {
 	/// <summary>
 	/// The amount of time periods that every croptype has.

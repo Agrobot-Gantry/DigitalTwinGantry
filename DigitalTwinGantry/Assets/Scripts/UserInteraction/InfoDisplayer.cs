@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// This script will write info about the application on selected text fields
+/// </summary>
 public class InfoDisplayer : MonoBehaviour
 {
     [SerializeField] private CropField m_cropField;
@@ -10,12 +13,15 @@ public class InfoDisplayer : MonoBehaviour
     [SerializeField] private Text m_monthText;
     [SerializeField] private Text m_actionText;
 
-    private void Start() {
+    private void Start() 
+    {
         StartCoroutine(OnUpdate());
     }
 
-    private IEnumerator OnUpdate() {
-        while (true) {
+    private IEnumerator OnUpdate() 
+    {
+        while (true) 
+        {
             m_monthText.text = "Month: " + (m_cropField.CurrentMonth + 1);
 
             string actionText = "Actions: ";

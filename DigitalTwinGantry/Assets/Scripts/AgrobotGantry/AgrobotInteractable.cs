@@ -5,6 +5,19 @@ using UnityEngine;
 using UnityEngine.Events;
 
 /// <summary>
+/// Flags are to decide which actions should be used for a specific interactable.
+/// </summary>
+[Flags]
+public enum InteractableFlag
+{
+    NONE = 0,
+    HARVEST = 1 << 0,
+    SOW = 1 << 1,
+    WATER = 1 << 2,
+    UPROOT = 1 << 3
+}
+
+/// <summary>
 /// Interactables can be added to a GameObject so that an AgrobotAction can target it using actions.
 /// Setting flags on the interactable dictates what actions will be used on it. Multiple flags can be set on the same interactable.
 /// </summary>
@@ -68,34 +81,7 @@ public class AgrobotInteractable : MonoBehaviour
 		return action;
 	}
 
-	/*public AgrobotAction GetAction(AgrobotBehaviour behaviour, AgrobotEquipment equipment)
-    {
-		AgrobotAction[] action = new AgrobotAction[FlagCount(m_flags)];
-		if (this.HasFlag(InteractableFlag.HARVEST))
-		{
-			action = new HarvestAction(this, behaviour, equipment);
-		}
-		if (this.HasFlag(InteractableFlag.SOW))
-		{
-			action = new SowAction(this, behaviour, equipment);
-		}
-		if (this.HasFlag(InteractableFlag.WATER))
-		{
-			action = new IrrigationAction(this, behaviour, equipment);
-		}
-		if (this.HasFlag(InteractableFlag.UPROOT))
-		{
-			action = new UprootAction(this, behaviour, equipment);
-		}
-		AgrobotTool tool = equipment.GetTool(InteractableFlag.HARVEST);
-		if (tool == null)
-        {
-			return null;
-        }
-		return ;
-    }*/
-
-	public void OnInteract(AgrobotAction action)
+    public void OnInteract(AgrobotAction action)
 	{
 		if (m_interactionCallback != null)
 		{
@@ -129,17 +115,4 @@ public class AgrobotInteractable : MonoBehaviour
 		}
 		return count;
 	}
-}
-
-/// <summary>
-/// Flags are to decide which actions whould be used for a specific interactable.
-/// </summary>
-[Flags]
-public enum InteractableFlag
-{
-	NONE = 0,
-	HARVEST = 1 << 0,
-	SOW = 1 << 1,
-	WATER = 1 << 2,
-	UPROOT = 1 << 3
 }

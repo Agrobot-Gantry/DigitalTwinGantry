@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// A simple example of a behaviour. Makes the gantry move forward intil it runs into something it's tools can reach.
+/// This behaviour makes the gantry move forward until its tools fall behind which makes it wait for them.
 /// </summary>
 public class LaneFarmingBehaviour : AgrobotBehaviour
 {
@@ -20,9 +20,9 @@ public class LaneFarmingBehaviour : AgrobotBehaviour
 
     public override void Update(float deltaTime)
     {
-        foreach (AgrobotTool tool in m_gantry.tools)
+        foreach (AgrobotTool tool in m_gantry.Tools)
         {
-            if (tool.goingTooFast)
+            if (tool.GoingTooFast)
             {
                 m_gantry.MovementSpeed = 0.0f;
                 break;

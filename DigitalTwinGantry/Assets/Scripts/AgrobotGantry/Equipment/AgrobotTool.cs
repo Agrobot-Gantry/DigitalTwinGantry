@@ -21,17 +21,18 @@ public class AgrobotTool : MonoBehaviour
     [SerializeField]
     private GameObject m_toolEffect;
 
-    public ToolReach reach {set { m_reach = value; } }
+    public ToolReach Reach { set => m_reach = value; }
 
     /// <summary>
     /// A list of all interactables that are in reach of this tool and have an appropriate flag.
     /// </summary>
-    public List<AgrobotInteractable> Reachables { get { return m_reachables; } }
+    public List<AgrobotInteractable> Reachables => m_reachables;
+
     private List<AgrobotInteractable> m_reachables;
 
-    public bool goingTooFast { get { return m_goingTooFast; } }
+    public bool GoingTooFast { get { return m_goingTooFast; } }
     private bool m_goingTooFast;
-    public bool busy = false;
+    public bool Busy = false;
 
     private AgrobotArm m_arm;
     private AgrobotToolEffect m_effect;
@@ -55,7 +56,14 @@ public class AgrobotTool : MonoBehaviour
         }
     }
 
-    public IEnumerator PickupInteractable(AgrobotInteractable interactable, InteractableFlag action, float speed)
+    /// <summary>
+    /// Does the appropriate animation to interact with an interactable
+    /// </summary>
+    /// <param name="interactable">The interactable that needs to be interacted with</param>
+    /// <param name="action">The action that needs to be performed on the interactable</param>
+    /// <param name="speed">The speed at which the animation should play (delta time is already accounted for)</param>
+    /// <returns>nothing, this method should be used inside a coroutine</returns>
+    public IEnumerator Interact(AgrobotInteractable interactable, InteractableFlag action, float speed)
     {
         GameObject cropMesh = null;
         if (action == InteractableFlag.SOW)
@@ -99,13 +107,17 @@ public class AgrobotTool : MonoBehaviour
         }
     }
 
-    public void NewField()
+    /// <summary>
+    /// Call this function to reset the tool.
+    /// It is recommended to use this method when regenerating a new cropfield.
+    /// </summary>
+    public void Reset()
     {
         if (m_reachables != null)
         {
             m_reachables.Clear();
         }
-        this.busy = false;
+        this.Busy = false;
 
         if (m_arm != null)
         {

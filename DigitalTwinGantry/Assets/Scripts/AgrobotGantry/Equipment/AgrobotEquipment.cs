@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Assertions;
 
 /// <summary>
-/// The equipment contains all of the tools that interact with AgrobotInteractables.
+/// The equipment contains all of the tools that can interact with AgrobotInteractables.
 /// AgrobotActions should use this class to get access to the tools they require.
 /// </summary>
 public class AgrobotEquipment
@@ -36,7 +36,7 @@ public class AgrobotEquipment
     {
         foreach (AgrobotTool tool in m_tools)
         {
-            if (tool.GetFlag() == flag && !tool.busy)
+            if (tool.GetFlag() == flag && !tool.Busy)
             {
                 return tool;
 

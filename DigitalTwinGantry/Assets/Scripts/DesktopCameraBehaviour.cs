@@ -3,85 +3,83 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+/// <summary>
+/// This script will handle all the keyboard and mouse input to navigate through the application in desktop mode
+/// </summary>
 public class DesktopCameraBehaviour : MonoBehaviour
 {
-    [SerializeField]
-    private float rotationSpeed = 0.2f;
-    [SerializeField]
-    private float movementSpeed = 0.05f;
+    [SerializeField] private float m_rotationSpeed = 0.2f;
+    [SerializeField] private float m_movementSpeed = 0.05f;
 
-    private bool held, mouseHeld = false;
-    private Vector3 direction;
-    Vector3 rotation, position;
-    Vector2 mousePosition;
+    private bool m_held, m_mouseHeld = false;
+    private Vector3 m_direction;
+    private Vector3 m_rotation, m_position;
+    private Vector2 m_mousePosition;
 
     private void Start()
     {
-       rotation = transform.eulerAngles;
-        position = transform.position;
-
+        m_rotation = transform.eulerAngles;
+        m_position = transform.position;
     }
 
-    // Update is called once per frame
     void Update()
     {
-      
-        if (mouseHeld)
+        if (m_mouseHeld)
         {
-            rotation.y += mousePosition.y;
-            rotation.x -= mousePosition.x;
-           transform.eulerAngles = rotation;
+            m_rotation.y += m_mousePosition.y;
+            m_rotation.x -= m_mousePosition.x;
+           transform.eulerAngles = m_rotation;
         }
-        if (held)
+        
+        if (m_held)
         {
-            float dx = direction.z * Mathf.Sin((rotation.y ) * Mathf.Deg2Rad);
-            float dz = direction.z * Mathf.Cos((rotation.y) * Mathf.Deg2Rad);
-            dx += direction.x * Mathf.Sin((rotation.y +90)* Mathf.Deg2Rad);
-            dz += direction.x * Mathf.Cos((rotation.y +90)* Mathf.Deg2Rad);
+            float dx = m_direction.z * Mathf.Sin((m_rotation.y ) * Mathf.Deg2Rad);
+            float dz = m_direction.z * Mathf.Cos((m_rotation.y) * Mathf.Deg2Rad);
+            dx += m_direction.x * Mathf.Sin((m_rotation.y +90)* Mathf.Deg2Rad);
+            dz += m_direction.x * Mathf.Cos((m_rotation.y +90)* Mathf.Deg2Rad);
 
-            position.x += dx;
-            position.z += dz;
-            position.y += direction.y;
+            m_position.x += dx;
+            m_position.z += dz;
+            m_position.y += m_direction.y;
 
             if (transform.position.y < 0.5)
             {
-                position.y = 0.5f;
+                m_position.y = 0.5f;
             }
-            transform.position = position;
+            transform.position = m_position;
         }
 
     }
-
-    public void onMove(InputAction.CallbackContext input)
-    {
-        
-        if (input.performed)
-        {
-            direction = input.ReadValue<Vector3>() * movementSpeed * Time.deltaTime;
-            held = true;
-        }
-        if (input.canceled)
-        {
-            held = false;
-        }
-    }
-    public void onLook(InputAction.CallbackContext input)
-    {
-        
-        mousePosition.y = input.ReadValue<Vector2>().x * rotationSpeed * Time.deltaTime;
-        mousePosition.x = input.ReadValue<Vector2>().y * rotationSpeed * Time.deltaTime;
-
-    }
-
-    public void onRotate(InputAction.CallbackContext input)
+    
+    public void OnMove(InputAction.CallbackContext input)
     {
         if (input.performed)
         {
-            mouseHeld = true;
+            m_direction = input.ReadValue<Vector3>() * m_movementSpeed * Time.deltaTime;
+            m_held = true;
         }
         if (input.canceled)
         {
-            mouseHeld = false;
+            m_held = false;
+        }
+    }
+
+    public void OnLook(InputAction.CallbackContext input)
+    {
+        m_mousePosition.y = input.ReadValue<Vector2>().x * m_rotationSpeed * Time.deltaTime;
+        m_mousePosition.x = input.ReadValue<Vector2>().y * m_rotationSpeed * Time.deltaTime;
+    }
+
+    public void OnRotate(InputAction.CallbackContext input)
+    {
+        if (input.performed)
+        {
+            m_mouseHeld = true;
+        }
+
+        if (input.canceled)
+        {
+            m_mouseHeld = false;
         }
     }
 }

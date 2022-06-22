@@ -8,7 +8,7 @@ using UnityEngine;
 /// The behaviour can then start actions targeting these interactables.
 /// The base class keeps the list of ongoing actions up to date.
 /// </summary>
-abstract public class AgrobotBehaviour
+public abstract class AgrobotBehaviour
 {
     protected AgrobotGantry m_gantry;
     protected List<AgrobotAction> m_ongoingActions;
