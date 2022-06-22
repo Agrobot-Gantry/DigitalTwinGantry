@@ -1490,8 +1490,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2ead3060e54ac145aad8d66c6232aae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  desktop: {fileID: 1368510784}
-  XRComponents:
+  m_desktop: {fileID: 1368510784}
+  m_XRComponents:
   - {fileID: 1487392593}
   - {fileID: 76739215}
 --- !u!4 &157961924
@@ -8826,8 +8826,8 @@ MonoBehaviour:
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1232349244}
-        m_TargetAssemblyTypeName: TestBehaviour, Assembly-CSharp
-        m_MethodName: onMove
+        m_TargetAssemblyTypeName: DesktopCameraBehaviour, Assembly-CSharp
+        m_MethodName: OnMove
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -8842,8 +8842,8 @@ MonoBehaviour:
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1232349244}
-        m_TargetAssemblyTypeName: TestBehaviour, Assembly-CSharp
-        m_MethodName: onLook
+        m_TargetAssemblyTypeName: DesktopCameraBehaviour, Assembly-CSharp
+        m_MethodName: OnLook
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -8899,7 +8899,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1232349244}
         m_TargetAssemblyTypeName: DesktopCameraBehaviour, Assembly-CSharp
-        m_MethodName: onRotate
+        m_MethodName: OnRotate
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -8985,8 +8985,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bdff451682ac48a478aecefbe8e62579, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationSpeed: 8
-  movementSpeed: 4
+  m_rotationSpeed: 8
+  m_movementSpeed: 4
 --- !u!81 &1232349245
 AudioListener:
   m_ObjectHideFlags: 0
@@ -9688,7 +9688,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1368510785}
   m_Layer: 0
-  m_Name: desktop
+  m_Name: Desktop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11156,14 +11156,6 @@ PrefabInstance:
     - target: {fileID: 8641316955906963062, guid: 5ee66826a45982545836570c77dd2f34, type: 3}
       propertyPath: m_LocalPosition.z
       value: -0.25
-      objectReference: {fileID: 0}
-    - target: {fileID: 8723070473529762638, guid: 5ee66826a45982545836570c77dd2f34, type: 3}
-      propertyPath: m_movementSpeed
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8723070473529762638, guid: 5ee66826a45982545836570c77dd2f34, type: 3}
-      propertyPath: m_equipmentSpeed
-      value: 1.2
       objectReference: {fileID: 0}
     - target: {fileID: 9188086255263259022, guid: 5ee66826a45982545836570c77dd2f34, type: 3}
       propertyPath: m_RootOrder
@@ -14078,7 +14070,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7557997257567496225, guid: ec9f947e7aab4ee4ea00e87d8ee4a4e1, type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7557997257567496225, guid: ec9f947e7aab4ee4ea00e87d8ee4a4e1, type: 3}
       propertyPath: m_LocalPosition.x
@@ -17961,10 +17953,6 @@ PrefabInstance:
       value: CropField
       objectReference: {fileID: 0}
     - target: {fileID: 7557997257567496227, guid: ec9f947e7aab4ee4ea00e87d8ee4a4e1, type: 3}
-      propertyPath: m_ground
-      value: 
-      objectReference: {fileID: 7725423180565256841, guid: 927f773ec1ad549469be0179e21a7bb9, type: 3}
-    - target: {fileID: 7557997257567496227, guid: ec9f947e7aab4ee4ea00e87d8ee4a4e1, type: 3}
       propertyPath: m_agrobot
       value: 
       objectReference: {fileID: 1127241093}
@@ -17981,53 +17969,13 @@ PrefabInstance:
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7557997257567496227, guid: ec9f947e7aab4ee4ea00e87d8ee4a4e1, type: 3}
-      propertyPath: m_pathPrefab
-      value: 
-      objectReference: {fileID: 3345911593946909174, guid: be38518abad797241beaf837bd6ec9ad, type: 3}
-    - target: {fileID: 7557997257567496227, guid: ec9f947e7aab4ee4ea00e87d8ee4a4e1, type: 3}
       propertyPath: fieldTypeSlider
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7557997257567496227, guid: ec9f947e7aab4ee4ea00e87d8ee4a4e1, type: 3}
-      propertyPath: m_endZonePrefab
-      value: 
-      objectReference: {fileID: 9082467766312943773, guid: 3d833e3e3a2315d4cae5815d8ac84c3a, type: 3}
-    - target: {fileID: 7557997257567496227, guid: ec9f947e7aab4ee4ea00e87d8ee4a4e1, type: 3}
       propertyPath: m_startingMonth
-      value: 0
+      value: 5
       objectReference: {fileID: 0}
-    - target: {fileID: 7557997257567496227, guid: ec9f947e7aab4ee4ea00e87d8ee4a4e1, type: 3}
-      propertyPath: m_cropTypes.Array.data[1]
-      value: 
-      objectReference: {fileID: 2043524626836718842, guid: 576270822f95d1045a368dc63974df6b, type: 3}
-    - target: {fileID: 7557997257567496227, guid: ec9f947e7aab4ee4ea00e87d8ee4a4e1, type: 3}
-      propertyPath: m_cropTypes.Array.data[2]
-      value: 
-      objectReference: {fileID: 2043524626836718842, guid: 27c94459d2d1eb74297cedca8be338d4, type: 3}
-    - target: {fileID: 7557997257567496227, guid: ec9f947e7aab4ee4ea00e87d8ee4a4e1, type: 3}
-      propertyPath: m_cropTypes.Array.data[3]
-      value: 
-      objectReference: {fileID: 2043524626836718842, guid: f65df808464dba5469fb456eab4f728a, type: 3}
-    - target: {fileID: 7557997257567496227, guid: ec9f947e7aab4ee4ea00e87d8ee4a4e1, type: 3}
-      propertyPath: m_cropTypes.Array.data[4]
-      value: 
-      objectReference: {fileID: 2043524626836718842, guid: 81f1fc054f48f1f41ae3e29ec24446f1, type: 3}
-    - target: {fileID: 7557997257567496227, guid: ec9f947e7aab4ee4ea00e87d8ee4a4e1, type: 3}
-      propertyPath: m_cropTypes.Array.data[5]
-      value: 
-      objectReference: {fileID: 2043524626836718842, guid: 00370bee5038025419ab206e9acd5c2f, type: 3}
-    - target: {fileID: 7557997257567496227, guid: ec9f947e7aab4ee4ea00e87d8ee4a4e1, type: 3}
-      propertyPath: m_cropTypes.Array.data[6]
-      value: 
-      objectReference: {fileID: 2043524626836718842, guid: cc370ef760802054fbaa90805078c9d8, type: 3}
-    - target: {fileID: 7557997257567496227, guid: ec9f947e7aab4ee4ea00e87d8ee4a4e1, type: 3}
-      propertyPath: m_cropTypes.Array.data[7]
-      value: 
-      objectReference: {fileID: 2043524626836718842, guid: ce9a89cbc31e52c4baad9cab13f0b16b, type: 3}
-    - target: {fileID: 7557997257567496227, guid: ec9f947e7aab4ee4ea00e87d8ee4a4e1, type: 3}
-      propertyPath: m_cropTypes.Array.data[8]
-      value: 
-      objectReference: {fileID: 2043524626836718842, guid: 1c47d59c888d16c42aa33665872b4736, type: 3}
     - target: {fileID: 7557997257567496227, guid: ec9f947e7aab4ee4ea00e87d8ee4a4e1, type: 3}
       propertyPath: m_onChange.m_PersistentCalls.m_Calls.Array.size
       value: 1

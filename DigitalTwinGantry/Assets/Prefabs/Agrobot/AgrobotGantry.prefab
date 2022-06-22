@@ -108,7 +108,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8cd256ff49e7cec42bd201ac199f0296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  showReach: 0
+  ShowReach: 0
 --- !u!1 &2184836169385350144
 GameObject:
   m_ObjectHideFlags: 0
@@ -326,9 +326,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e3b0111d8669d3498ed3a70a3159aeb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_movementSpeed: 5
+  m_movementSpeed: 0.2
   m_turningSpeed: 20
-  m_equipmentSpeed: 5
+  m_equipmentSpeed: 1.2
 --- !u!114 &329504548137172329
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -341,15 +341,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0c2ad32ad15f1747ba271d7c3666668, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  toolReach: {fileID: 0}
-  harvestTool: {fileID: 0}
-  harvestAmount: 1
-  sowTool: {fileID: 0}
-  sowAmount: 1
-  uprootTool: {fileID: 0}
-  uprootAmount: 1
-  irrigationTool: {fileID: 0}
-  irrigationAmount: 1
+  m_toolReach: {fileID: 7097244662345111620}
+  m_harvestTool: {fileID: 594249318175025114, guid: 97fc4bfc401d80d46b523fa1b2a15bf3, type: 3}
+  m_harvestAmount: 1
+  m_sowTool: {fileID: 161935745361048781, guid: eec55d19432548b4886ee9934690c297, type: 3}
+  m_sowAmount: 2
+  m_uprootTool: {fileID: 7302396251405549990, guid: 82959cfe0093e9c41991fd7fa20d4276, type: 3}
+  m_uprootAmount: 1
+  m_irrigationTool: {fileID: 6900375379625699788, guid: 1e3fa9a3ddde87046a8db94cca0ed27c, type: 3}
+  m_irrigationAmount: 2
 --- !u!54 &4693249330679280201
 Rigidbody:
   m_ObjectHideFlags: 0

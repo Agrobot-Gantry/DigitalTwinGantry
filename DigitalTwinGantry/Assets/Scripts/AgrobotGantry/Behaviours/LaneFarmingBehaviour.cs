@@ -34,13 +34,12 @@ public class LaneFarmingBehaviour : AgrobotBehaviour
             {
                 foreach(AgrobotInteractable reachable in m_gantry.Equipment.GetReachables())
                 {
-                    AgrobotAction action = reachable.GetAction(this, m_gantry.Equipment);
-                    if(action != null && !reachable.Busy)
+                AgrobotAction action = CreateAction(reachable);
+                    if(action != null)
                     {
-                        StartAction(action);//for now we just assume there's just one action
+                        StartAction(action);
                     }
                 }
-                //AgrobotAction action = m_gantry.Equipment.GetReachables()[0].GetActions(this, m_gantry.Equipment); //for now we just assume there's just one in reach
             }
     }
 

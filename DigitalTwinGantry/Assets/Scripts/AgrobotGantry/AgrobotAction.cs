@@ -25,7 +25,7 @@ public class AgrobotAction
 		m_targetInteractable = target;
 		m_targetInteractable.Busy = true; //to prevent the creation of multiple actions with the same interactable
 		m_tool = tool;
-		m_tool.busy = true; //to prevent the creation of multiple actions with the same tool
+		m_tool.Busy = true; //to prevent the creation of multiple actions with the same tool
 		m_flags = flags;
 		m_onFinishedcallbacks = onFinishedCallbacks;
 	}
@@ -73,7 +73,7 @@ public class AgrobotAction
 	/// </summary>
 	public void Finish()
 	{
-		m_tool.busy = false;
+		m_tool.Busy = false;
 		if (m_targetInteractable != null)
 		{
 			m_targetInteractable.ClearFlag(m_flags);

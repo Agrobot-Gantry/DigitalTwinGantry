@@ -13,8 +13,8 @@ public class DisplayManager : MonoBehaviour
     void Start()
     {
 #if UNITY_STANDALONE
-        desktop.SetActive(true);
-        foreach (GameObject XR in XRComponents)
+        m_desktop.SetActive(true);
+        foreach (GameObject XR in m_XRComponents)
         {
             XR.SetActive(false);
         }

@@ -109,7 +109,7 @@ public class AgrobotTool : MonoBehaviour
 
     public void ActionCancelled()
     {
-        busy = false;
+        Busy = false;
         m_arm.Busy = false;
     }
 
