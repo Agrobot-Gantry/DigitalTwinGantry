@@ -47,14 +47,17 @@ class RosCommandListener : MonoBehaviour
 		public string command;
 	}
 
-	void Start()
+	private void Awake()
 	{
 		m_gantry = GetComponent<AgrobotGantry>();
 		m_behaviour = new RosListeningBehaviour();
 		m_translationTable = new Dictionary<string, Dictionary<string, MethodInfo>>();
 		m_actionQueuer = GetComponent<MainThreadActionQueuer>();
 		m_display = GetComponent<StatusDisplay>();
+	}
 
+	void Start()
+	{
 		GetComponent<RosConnector>().RosSocket.protocol.OnClosed += OnRosClosed;
 
 		//load json
@@ -144,14 +147,14 @@ class RosCommandListener : MonoBehaviour
 		}
 	}
 
-	private void StartListening()
+	public void StartListening()
 	{
 		if (m_disconnected) return;
 		m_gantry.SetBehaviour(m_behaviour);
 		if (m_display != null) m_display.SetStatus(true);
 	}
 
-	private void StopListening()
+	public void StopListening()
 	{
 		if (m_disconnected) return;
 		if (m_gantry.CurrentBehaviour.GetType() == typeof(RosListeningBehaviour))

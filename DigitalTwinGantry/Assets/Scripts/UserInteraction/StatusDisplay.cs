@@ -22,8 +22,8 @@ public class StatusDisplay : MonoBehaviour
 				}
                 foreach (Image image in m_imageDisplays)
 				{
-                    image.material = m_activeColor;
-				}
+                    image.color = m_activeColor.color;
+                }
                 break;
             case false:
                 foreach (Renderer renderer in m_displays)
@@ -32,7 +32,7 @@ public class StatusDisplay : MonoBehaviour
                 }
                 foreach (Image image in m_imageDisplays)
                 {
-                    image.material = m_activeColor;
+                    image.color = m_inactiveColor.color;
                 }
                 break;
             case null:
@@ -42,7 +42,7 @@ public class StatusDisplay : MonoBehaviour
                 }
                 foreach (Image image in m_imageDisplays)
                 {
-                    image.material = m_activeColor;
+                    image.color = m_disabledColor.color;
                 }
                 break;
 		}

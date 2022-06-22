@@ -65,6 +65,9 @@ public class AgrobotGantry : MonoBehaviour
         }
         SetBehaviour(new LaneFarmingBehaviour());
 
+        RosCommandListener rosListener = GetComponent<RosCommandListener>();
+        if (rosListener != null) rosListener.StopListening();
+
     }
 
     public void addTool(AgrobotTool tool, int amount)
