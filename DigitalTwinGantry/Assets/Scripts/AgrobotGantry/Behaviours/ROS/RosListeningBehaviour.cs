@@ -19,23 +19,30 @@ class RosListeningBehaviour : AgrobotBehaviour
 		
 	}
 
-	public void Forward()
+	public void MoveForward()
 	{
-		Debug.Log("called forward");
+		m_gantry.MovementSpeed = AgrobotDefinitions.Instance.MovementSpeed;
 	}
 
-	public void Backward()
+	public void MoveBackward()
 	{
-		Debug.Log("called backward");
+		m_gantry.MovementSpeed = -AgrobotDefinitions.Instance.MovementSpeed;
 	}
 
-	public void ForwardAtSpeed(float speed)
+	public void TurnLeft()
 	{
-
+		m_gantry.TurningSpeed = AgrobotDefinitions.Instance.TurningSpeed;
 	}
 
-	public void ResetGantry()
+	public void TurnRight()
 	{
-		//TODO reset gantry and go to a normal behaviour
+		m_gantry.TurningSpeed = -AgrobotDefinitions.Instance.TurningSpeed;
 	}
+
+	public void StopMoving()
+	{
+		m_gantry.MovementSpeed = 0.0f;
+		m_gantry.TurningSpeed = 0.0f;
+	}
+
 }

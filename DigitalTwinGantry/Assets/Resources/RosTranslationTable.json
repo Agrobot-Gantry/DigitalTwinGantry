@@ -3,22 +3,27 @@
       {
          "topic":"/gantry",
          "message":"forward",
-         "command":"Forward"
+         "command":"MoveForward"
       },
       {
          "topic":"/gantry",
          "message":"backward",
-         "command":"Backward"
+         "command":"MoveBackward"
       },
       {
-         "topic":"/servo",
-         "message":"w",
-         "command":"Forward"
+         "topic":"/gantry",
+         "message":"left",
+         "command":"TurnLeft"
       },
       {
-         "topic":"/servo",
-         "message":"s",
-         "command":"Backward"
+         "topic":"/gantry",
+         "message":"right",
+         "command":"TurnRight"
+      },
+      {
+         "topic":"/gantry",
+         "message":"stop",
+         "command":"StopMoving"
       }
    ]
 }
