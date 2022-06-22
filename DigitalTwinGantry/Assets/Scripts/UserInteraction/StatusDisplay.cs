@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// Changes material or image color when a status is set.
+/// </summary>
 public class StatusDisplay : MonoBehaviour
 {
     [SerializeField] private Renderer[] m_displays;
@@ -11,6 +14,10 @@ public class StatusDisplay : MonoBehaviour
     [SerializeField] private Material m_inactiveColor;
     [SerializeField] private Material m_disabledColor;
     
+    /// <summary>
+    /// Changes the material of all registered displays and changes the color of all registered images.
+    /// Using true applies the active color. Using false applies the inactive color. Using null applies the disabled color.
+    /// </summary>
     public void SetStatus(bool? active)
 	{
         switch(active)
