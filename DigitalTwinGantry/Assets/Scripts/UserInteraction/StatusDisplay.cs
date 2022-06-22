@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class StatusDisplay : MonoBehaviour
 {
     [SerializeField] private Renderer[] m_displays;
+    [SerializeField] private Image[] m_imageDisplays;
     [SerializeField] private Material m_activeColor;
     [SerializeField] private Material m_inactiveColor;
     [SerializeField] private Material m_disabledColor;
@@ -18,17 +20,29 @@ public class StatusDisplay : MonoBehaviour
 				{
                     renderer.material = m_activeColor;
 				}
+                foreach (Image image in m_imageDisplays)
+				{
+                    image.material = m_activeColor;
+				}
                 break;
             case false:
                 foreach (Renderer renderer in m_displays)
                 {
                     renderer.material = m_inactiveColor;
                 }
+                foreach (Image image in m_imageDisplays)
+                {
+                    image.material = m_activeColor;
+                }
                 break;
             case null:
                 foreach (Renderer renderer in m_displays)
                 {
                     renderer.material = m_disabledColor;
+                }
+                foreach (Image image in m_imageDisplays)
+                {
+                    image.material = m_activeColor;
                 }
                 break;
 		}
