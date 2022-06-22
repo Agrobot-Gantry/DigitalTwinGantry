@@ -16,6 +16,9 @@ using UnityEngine;
 /// this application. Things like reading/writing files can be dangerous even when the ROS application isn't 
 /// intentionally malicious.
 /// </remarks>
+[RequireComponent(typeof(AgrobotGantry))]
+[RequireComponent(typeof(MainThreadActionQueuer))]
+[RequireComponent(typeof(RosConnector))]
 class RosCommandListener : MonoBehaviour
 {
 	private static readonly string TRANSLATION_FILE_NAME = "RosTranslationTable";
