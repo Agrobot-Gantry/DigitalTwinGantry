@@ -31,12 +31,12 @@ class RosListeningBehaviour : AgrobotBehaviour
 
 	public void TurnLeft()
 	{
-		m_gantry.TurningSpeed = AgrobotDefinitions.Instance.TurningSpeed;
+		m_gantry.TurningSpeed = -AgrobotDefinitions.Instance.TurningSpeed;
 	}
 
 	public void TurnRight()
 	{
-		m_gantry.TurningSpeed = -AgrobotDefinitions.Instance.TurningSpeed;
+		m_gantry.TurningSpeed = AgrobotDefinitions.Instance.TurningSpeed;
 	}
 
 	public void StopMoving()

@@ -158,16 +158,19 @@ public class AgrobotGantry : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
+        if (m_currentBehaviour.GetType() == typeof(RosListeningBehaviour)) return; //ignore turning triggers when listening to ROS
+
         if (other.tag == "path" && m_firsRowEnterOccured && !m_isTurning)
         {
             m_firsRowExitOccured = true;
             SetBehaviour(new TurningBehaviour(m_counterClockwise, 1));
         }
-       
-        
     }
+
     private void OnTriggerEnter(Collider other)
     {
+        if (m_currentBehaviour.GetType() == typeof(RosListeningBehaviour)) return; //ignore turning triggers when listening to ROS
+
         if (other.tag == "path" && m_firsRowEnterOccured && m_firsRowExitOccured && !m_isTurning)
         {
             SetBehaviour(new TurningBehaviour(m_counterClockwise, 2));
