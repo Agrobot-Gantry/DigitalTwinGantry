@@ -11,7 +11,7 @@ public class AgrobotGantry : MonoBehaviour
     private AgrobotEquipment m_equipment;
     public AgrobotBehaviour CurrentBehaviour { get => m_currentBehaviour; }
     private AgrobotBehaviour m_currentBehaviour;
-    public Transform ResetPosition { get { return m_resetPosition; } set { m_resetPosition = value; } } //TODO use this for reset method
+    public Transform ResetPosition { get { return m_resetPosition; } set { m_resetPosition = value; } }
     private Transform m_resetPosition;
 
     private bool m_counterClockwise = false;
@@ -51,10 +51,10 @@ public class AgrobotGantry : MonoBehaviour
     /// </summary>
     public float TurningSpeed { get; set; }
 
-    public void Reset(Vector3 startPosition, Quaternion startRotation)
+    public void Reset()
     {
-        gameObject.transform.position = startPosition;
-        gameObject.transform.rotation = startRotation;
+        gameObject.transform.position = m_resetPosition.position;
+        gameObject.transform.rotation = m_resetPosition.rotation;
         m_isTurning = false;
         m_counterClockwise = false;
         m_firsRowEnterOccured = false;

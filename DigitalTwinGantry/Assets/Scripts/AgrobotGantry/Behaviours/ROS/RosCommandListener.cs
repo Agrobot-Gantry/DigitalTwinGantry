@@ -151,7 +151,7 @@ class RosCommandListener : MonoBehaviour
 		Debug.Log("stopped listening");//
 		if (m_gantry.CurrentBehaviour.GetType() == typeof(RosListeningBehaviour))
 		{
-			m_gantry.Reset(m_gantry.ResetPosition.position, m_gantry.ResetPosition.rotation);
+			m_gantry.Reset();
 		}
 	}
 
