@@ -9,8 +9,11 @@ public class AgrobotGantry : MonoBehaviour
 {
     public AgrobotEquipment Equipment { get { return m_equipment; } }
     private AgrobotEquipment m_equipment;
-    private AgrobotBehaviour m_currentBehaviour;
     public AgrobotBehaviour CurrentBehaviour { get => m_currentBehaviour; }
+    private AgrobotBehaviour m_currentBehaviour;
+    public Transform ResetPosition { get { return m_resetPosition; } set { m_resetPosition = value; } } //TODO use this for reset method
+    private Transform m_resetPosition;
+
     private bool m_counterClockwise = false;
     private bool m_firsRowEnterOccured = false;
     private bool m_firsRowExitOccured = false;
@@ -90,7 +93,12 @@ public class AgrobotGantry : MonoBehaviour
         }
     }
 
-    void Start()
+	void Awake()
+	{
+        m_resetPosition = gameObject.transform;
+	}
+
+	void Start()
     {
         MovementSpeed = 0.0f;
         TurningSpeed = 0.0f;

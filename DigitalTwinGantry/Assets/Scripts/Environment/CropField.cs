@@ -53,6 +53,7 @@ public class CropField : MonoBehaviour
 			m_agrobotStart = new GameObject("Agrobot Start Pos").transform;
 			m_agrobotStart.position = m_agrobot.transform.position;
 			m_agrobotStart.rotation = m_agrobot.transform.rotation;
+			m_agrobot.ResetPosition = m_agrobotStart;
 			m_gantryWidth = m_agrobot.GetGantryWidth();
 			m_gantryWheelWidth = m_agrobot.GetGantryWheelWidth();
 		}
