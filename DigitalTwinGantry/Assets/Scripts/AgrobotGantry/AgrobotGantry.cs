@@ -9,8 +9,11 @@ public class AgrobotGantry : MonoBehaviour
 {
     public AgrobotEquipment Equipment { get { return m_equipment; } }
     private AgrobotEquipment m_equipment;
-    private AgrobotBehaviour m_currentBehaviour;
     public AgrobotBehaviour CurrentBehaviour { get => m_currentBehaviour; }
+    private AgrobotBehaviour m_currentBehaviour;
+    public Transform ResetPosition { get { return m_resetPosition; } set { m_resetPosition = value; } }
+    private Transform m_resetPosition;
+
     private bool m_counterClockwise = false;
     private bool m_firsRowEnterOccured = false;
     private bool m_firsRowExitOccured = false;
@@ -49,12 +52,10 @@ public class AgrobotGantry : MonoBehaviour
     /// <summary>
     /// Resets the agrobot (call when a new field is generated)
     /// </summary>
-    /// <param name="startPosition">The position the agrobot needs to have after the reset</param>
-    /// <param name="startRotation">The rotation the agrobot needs to have after the reset</param>
-    public void Reset(Vector3 startPosition, Quaternion startRotation)
+    public void Reset()
     {
-        gameObject.transform.position = startPosition;
-        gameObject.transform.rotation = startRotation;
+        gameObject.transform.position = m_resetPosition.position;
+        gameObject.transform.rotation = m_resetPosition.rotation;
         m_isTurning = false;
         m_counterClockwise = false;
         m_firsRowEnterOccured = false;
@@ -64,6 +65,9 @@ public class AgrobotGantry : MonoBehaviour
             tool.Reset();
         }
         SetBehaviour(new LaneFarmingBehaviour());
+
+        RosCommandListener rosListener = GetComponent<RosCommandListener>();
+        if (rosListener != null) rosListener.StopListening();
 
     }
     
@@ -98,7 +102,12 @@ public class AgrobotGantry : MonoBehaviour
         }
     }
 
-    void Start()
+	void Awake()
+	{
+        m_resetPosition = gameObject.transform;
+	}
+
+	void Start()
     {
         MovementSpeed = 0.0f;
         TurningSpeed = 0.0f;
@@ -165,16 +174,19 @@ public class AgrobotGantry : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
+        if (m_currentBehaviour.GetType() == typeof(RosListeningBehaviour)) return; //ignore turning triggers when listening to ROS
+
         if (other.tag == "path" && m_firsRowEnterOccured && !m_isTurning)
         {
             m_firsRowExitOccured = true;
             SetBehaviour(new TurningBehaviour(m_counterClockwise, 1));
         }
-       
-        
     }
+
     private void OnTriggerEnter(Collider other)
     {
+        if (m_currentBehaviour.GetType() == typeof(RosListeningBehaviour)) return; //ignore turning triggers when listening to ROS
+
         if (other.tag == "path" && m_firsRowEnterOccured && m_firsRowExitOccured && !m_isTurning)
         {
             SetBehaviour(new TurningBehaviour(m_counterClockwise, 2));

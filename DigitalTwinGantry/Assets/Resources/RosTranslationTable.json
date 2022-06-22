@@ -1,0 +1,29 @@
+{
+   "entries":[
+      {
+         "topic":"/gantry",
+         "message":"forward",
+         "command":"MoveForward"
+      },
+      {
+         "topic":"/gantry",
+         "message":"backward",
+         "command":"MoveBackward"
+      },
+      {
+         "topic":"/gantry",
+         "message":"left",
+         "command":"TurnLeft"
+      },
+      {
+         "topic":"/gantry",
+         "message":"right",
+         "command":"TurnRight"
+      },
+      {
+         "topic":"/gantry",
+         "message":"stop",
+         "command":"StopMoving"
+      }
+   ]
+}

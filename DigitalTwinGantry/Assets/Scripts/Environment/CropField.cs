@@ -35,7 +35,6 @@ public class CropField : MonoBehaviour
 	
 	private GameObject m_groundMesh;
 
-	private Transform m_agrobotStart;
 	private float m_gantryWidth = 3;
 	private float m_gantryWheelWidth = 0.5f;
 
@@ -53,9 +52,10 @@ public class CropField : MonoBehaviour
 	{
 		if (m_agrobot != null) 
 		{
-			m_agrobotStart = new GameObject("Agrobot Start Pos").transform;
-			m_agrobotStart.position = m_agrobot.transform.position;
-			m_agrobotStart.rotation = m_agrobot.transform.rotation;
+			Transform agrobotStart = new GameObject("Agrobot Start Pos").transform;
+			agrobotStart.position = m_agrobot.transform.position;
+			agrobotStart.rotation = m_agrobot.transform.rotation;
+			m_agrobot.ResetPosition = agrobotStart;
 			m_gantryWidth = m_agrobot.GetGantryWidth();
 			m_gantryWheelWidth = m_agrobot.GetGantryWheelWidth();
 		}
@@ -92,7 +92,7 @@ public class CropField : MonoBehaviour
 		// Reset agrobot transform
 		if (m_agrobot != null) 
 		{
-			m_agrobot.Reset(m_agrobotStart.position, m_agrobotStart.rotation);
+			m_agrobot.Reset();
 		}
 	}
 
@@ -251,8 +251,8 @@ public class CropField : MonoBehaviour
 		// Reset agrobot transform
 		if (m_agrobot != null) 
 		{
-			m_agrobotStart.position = new Vector3(m_field.bounds.min.x + (m_gantryWidth / 2), m_field.bounds.max.y, m_field.bounds.min.z - (m_gantryWidth));
-			m_agrobot.Reset(m_agrobotStart.position, m_agrobotStart.rotation);
+			m_agrobot.ResetPosition.position = new Vector3(m_field.bounds.min.x + (m_gantryWidth / 2), m_field.bounds.max.y, m_field.bounds.min.z - (m_gantryWidth));
+			m_agrobot.Reset();
 		}
 	}
 

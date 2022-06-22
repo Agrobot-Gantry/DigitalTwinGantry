@@ -23,8 +23,9 @@ public enum InteractableFlag
 /// </summary>
 public class AgrobotInteractable : MonoBehaviour
 {
-	[SerializeField] private GameObject m_interactableObject;
+	public InteractableFlag Flags { get { return m_flags; } }
 	[SerializeField] private InteractableFlag m_flags;
+	[SerializeField] private GameObject m_interactableObject;
 	[SerializeField] private UnityEvent<AgrobotAction> m_interactionCallback;
 
 	/// <summary>
@@ -48,40 +49,7 @@ public class AgrobotInteractable : MonoBehaviour
 		}
 	}
 
-	/// <summary>
-	/// Creates actions targeting this interactable. The types of action is determined by the flags. 
-	/// The actions come in an array sorted in the order in which they should be executed.
-	/// </summary>
-	/// <param name="behaviour">the behaviour trying to start an action targeting this interactable</param>
-	/// <param name="equipment">the equipment of the agrobot running the behaviour</param>
-	/// <returns>an array of appropriate AgrobotActions targeting this interactable</returns>
-	public AgrobotAction GetAction(AgrobotBehaviour behaviour, AgrobotEquipment equipment)
-	{
-		AgrobotAction action = null;
-		if (this.HasFlag(InteractableFlag.HARVEST))
-		{
-			AgrobotTool tool = equipment.GetTool(InteractableFlag.HARVEST);
-			if (tool != null) action = new AgrobotAction(this, behaviour, equipment, InteractableFlag.HARVEST);
-		}
-		else if (this.HasFlag(InteractableFlag.SOW))
-		{
-			AgrobotTool tool = equipment.GetTool(InteractableFlag.SOW);
-			if (tool != null) action = new AgrobotAction(this, behaviour, equipment, InteractableFlag.SOW);
-		}
-		else if (this.HasFlag(InteractableFlag.WATER))
-		{
-			AgrobotTool tool = equipment.GetTool(InteractableFlag.WATER);
-			if (tool != null) action = new AgrobotAction(this, behaviour, equipment, InteractableFlag.WATER);
-		}
-		else if (this.HasFlag(InteractableFlag.UPROOT))
-		{
-			AgrobotTool tool = equipment.GetTool(InteractableFlag.UPROOT);
-			if (tool != null) action = new AgrobotAction(this, behaviour, equipment, InteractableFlag.UPROOT);
-		}
-		return action;
-	}
-
-    public void OnInteract(AgrobotAction action)
+	public void OnInteract(AgrobotAction action)
 	{
 		if (m_interactionCallback != null)
 		{

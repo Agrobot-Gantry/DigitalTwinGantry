@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -9,26 +10,27 @@ public class AgrobotAction
     private AgrobotInteractable m_targetInteractable;
 	public AgrobotInteractable TargetInteractable => m_targetInteractable;
 
-    private AgrobotEquipment m_equipment;
+	private AgrobotTool m_tool;
 
-	private delegate void Callback(AgrobotAction action);
-	private Callback m_callback;
-
-    private AgrobotTool m_tool;
-
-    private InteractableFlag m_flags;
 	public InteractableFlag Flags => m_flags;
+	private InteractableFlag m_flags;
 
-    public AgrobotAction(AgrobotInteractable target, AgrobotBehaviour behaviour, AgrobotEquipment equipment, InteractableFlag flags)
+	public Coroutine ExecutingCoroutine { get { return m_coroutine; } set { m_coroutine = value; } }
+	private Coroutine m_coroutine;
+
+	private Action<AgrobotAction>[] m_onFinishedcallbacks;
+
+	public AgrobotAction(AgrobotInteractable target, AgrobotTool tool, InteractableFlag flags, params Action<AgrobotAction>[] onFinishedCallbacks)
 	{
-		m_callback = new Callback(behaviour.ActionFinished);
 		m_targetInteractable = target;
-		m_equipment = equipment;
-        m_flags = flags;
-		m_tool = equipment.GetTool(m_flags);
+		m_targetInteractable.Busy = true; //to prevent the creation of multiple actions with the same interactable
+		m_tool = tool;
+		m_tool.busy = true; //to prevent the creation of multiple actions with the same tool
+		m_flags = flags;
+		m_onFinishedcallbacks = onFinishedCallbacks;
 	}
 
-    /// <summary>
+	/// <summary>
 	/// This coroutine should execute everything that is needed from the action (animations, interactable manipulation, etc.).
 	/// This coroutine MUST call Finish() when the action is complete.
 	/// The AgrobotBehaviour starts this coroutine from the AgrobotGantry when StartAction() is called.
@@ -36,36 +38,33 @@ public class AgrobotAction
 	/// <returns>a coroutine that takes care of the action and calls Finish() when it's done</returns>
 	public IEnumerator Start()
 	{
-        m_tool.Busy = true;
-
 		Vector3 target = new Vector3(m_targetInteractable.transform.position.x,
-		          m_tool.GetToolObject().transform.position.y, m_tool.GetToolObject().transform.position.z);
-		
+				  m_tool.GetToolObject().transform.position.y, m_tool.GetToolObject().transform.position.z);
+
 		while (m_targetInteractable != null && Vector3.Distance(m_tool.GetToolObject().transform.position, target) > 0.1f)
-	    {
-            target = new Vector3(m_targetInteractable.transform.position.x,
-                m_tool.GetToolObject().transform.position.y, m_tool.GetToolObject().transform.position.z);
+		{
+			target = new Vector3(m_targetInteractable.transform.position.x,
+				m_tool.GetToolObject().transform.position.y, m_tool.GetToolObject().transform.position.z);
 
 			m_tool.GetToolObject().transform.position = Vector3.MoveTowards(
-		    m_tool.GetToolObject().transform.position, target,
-		    AgrobotDefinitions.Instance.EquipmentSpeed * TimeChanger.DeltaTime);
+			m_tool.GetToolObject().transform.position, target,
+			AgrobotDefinitions.Instance.EquipmentSpeed * TimeChanger.DeltaTime);
 
-            yield return null;
-	    }
+			yield return null;
+		}
 
 		yield return m_tool.Interact(m_targetInteractable, m_flags, AgrobotDefinitions.Instance.EquipmentSpeed);
 
-        if (m_targetInteractable != null)
-        {
-            m_targetInteractable.OnInteract(this);
-        }
-        else
-        {
-            Debug.Log("TargetInteractable is null");
-        }
+		if (m_targetInteractable != null)
+		{
+			m_targetInteractable.OnInteract(this);
+		}
+		else
+		{
+			Debug.Log("TargetInteractable is null");
+		}
 
-        m_tool.Busy = false;
-        Finish();
+		Finish();
 	}
 
 	/// <summary>
@@ -74,13 +73,25 @@ public class AgrobotAction
 	/// </summary>
 	public void Finish()
 	{
+		m_tool.busy = false;
 		if (m_targetInteractable != null)
 		{
 			m_targetInteractable.ClearFlag(m_flags);
 			m_targetInteractable.Busy = false;
 		}
-		//the flag may be cleared but tools only check flags on collision so we need to update them for this specific interactable
-		m_equipment.InteractableModified(m_targetInteractable);
-		m_callback(this);
+		
+		foreach (Action<AgrobotAction> action in m_onFinishedcallbacks)
+		{
+			action.Invoke(this);
+		}
+	}
+
+	public void Cancel()
+	{
+		m_tool.ActionCancelled();
+		if (m_targetInteractable != null)
+		{
+			m_targetInteractable.Busy = false;
+		}
 	}
 }

@@ -107,6 +107,12 @@ public class AgrobotTool : MonoBehaviour
         }
     }
 
+    public void ActionCancelled()
+    {
+        busy = false;
+        m_arm.Busy = false;
+    }
+
     /// <summary>
     /// Call this function to reset the tool.
     /// It is recommended to use this method when regenerating a new cropfield.

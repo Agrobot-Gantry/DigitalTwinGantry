@@ -65,6 +65,8 @@ public class AgrobotEquipment
 
     /// <summary>
     /// Notify the equipment (and all underlying tools) that a specific interactable has been modified.
+    /// Tools only check the interactable flags on collision. Call this method when an interactable has been changed
+    /// so that tools can stop tracking them.
     /// </summary>
     /// <param name="interactable">the interactable that has been modified</param>
     public void InteractableModified(AgrobotInteractable interactable)
@@ -74,5 +76,10 @@ public class AgrobotEquipment
             tool.InteractableModified(interactable);
         }
     }
+
+    public void InteractableModified(AgrobotAction action)
+	{
+        InteractableModified(action.TargetInteractable);
+	}
 
 }
