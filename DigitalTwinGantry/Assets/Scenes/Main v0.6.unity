@@ -12653,6 +12653,23 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1740679896
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1740679894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87966060d0f892a499bfcefac8242fac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_displays:
+  - {fileID: 2132013401}
+  m_activeColor: {fileID: 2100000, guid: f656b04b49d780d44aefbe03079ffa3c, type: 2}
+  m_inactiveColor: {fileID: 2100000, guid: 9de8d68e4056b2249bbbc245ae285f5e, type: 2}
+  m_disabledColor: {fileID: 2100000, guid: 2116180d184f5b24094c57d073a8bc9b, type: 2}
 --- !u!114 &1740679900 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8318669297664411222, guid: 5ee66826a45982545836570c77dd2f34, type: 3}
@@ -16155,6 +16172,11 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2093110930}
   m_Mesh: {fileID: -462981019419857548, guid: 336b4fa63f9d11249915abae12f6918d, type: 3}
+--- !u!23 &2132013401 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 6521910008741435498, guid: 58587c477c15ded4eafdefd312dd4bb6, type: 3}
+  m_PrefabInstance: {fileID: 1689214890}
+  m_PrefabAsset: {fileID: 0}
 --- !u!33 &41970401876283026
 MeshFilter:
   m_ObjectHideFlags: 0

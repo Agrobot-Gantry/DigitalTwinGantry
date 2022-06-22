@@ -29,6 +29,9 @@ class RosCommandListener : MonoBehaviour
 	private Dictionary<string, Dictionary<string, MethodInfo>> m_translationTable; //<topic, <message, command>>
 	private MainThreadActionQueuer m_actionQueuer;
 
+	private StatusDisplay? m_display;
+	private bool m_disconnected = false;
+
 	//classes for reading the ROS translation JSON
 	[System.Serializable]
 	public class Translations
@@ -50,6 +53,7 @@ class RosCommandListener : MonoBehaviour
 		m_behaviour = new RosListeningBehaviour();
 		m_translationTable = new Dictionary<string, Dictionary<string, MethodInfo>>();
 		m_actionQueuer = GetComponent<MainThreadActionQueuer>();
+		m_display = GetComponent<StatusDisplay>();
 
 		GetComponent<RosConnector>().RosSocket.protocol.OnClosed += OnRosClosed;
 
@@ -142,22 +146,26 @@ class RosCommandListener : MonoBehaviour
 
 	private void StartListening()
 	{
-		Debug.Log("started listening");//
+		if (m_disconnected) return;
 		m_gantry.SetBehaviour(m_behaviour);
+		if (m_display != null) m_display.SetStatus(true);
 	}
 
 	private void StopListening()
 	{
-		Debug.Log("stopped listening");//
+		if (m_disconnected) return;
 		if (m_gantry.CurrentBehaviour.GetType() == typeof(RosListeningBehaviour))
 		{
 			m_gantry.Reset();
 		}
+		if (m_display != null) m_display.SetStatus(false);
 	}
 
 	private void OnRosClosed(object sender, EventArgs e)
 	{
 		Debug.LogWarning("ROS connection closed, listening will be disabled");
+		m_disconnected = true;
 		m_actionQueuer.QueueAction(() => StopListening());
+		if (m_display != null) m_actionQueuer.QueueAction(() => m_display.SetStatus(null));
 	}
 }
