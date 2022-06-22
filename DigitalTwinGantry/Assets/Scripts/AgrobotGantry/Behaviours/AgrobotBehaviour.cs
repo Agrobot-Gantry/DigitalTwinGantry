@@ -11,20 +11,18 @@ using UnityEngine;
 public abstract class AgrobotBehaviour
 {
 	/// <summary>
-	/// TODO document
+	/// Actions are created in this order. Later action types are not created if the interactable has an earlier interaction flag.
 	/// </summary>
 	private static readonly InteractableFlag[] INTERACTION_ORDER = 
 		{ InteractableFlag.HARVEST, InteractableFlag.SOW, InteractableFlag.WATER, InteractableFlag.UPROOT };
 
 	protected AgrobotGantry m_gantry;
-	protected List<AgrobotAction> m_ongoingActions; //TODO make private
+	private List<AgrobotAction> m_ongoingActions;
 	public List<AgrobotAction> OnGoingActions { get => m_ongoingActions; }
-	protected AgrobotInteractable[] m_allInteractables; //TODO remove
 
 	public AgrobotBehaviour()
 	{
 		m_ongoingActions = new List<AgrobotAction>();
-		m_allInteractables = Object.FindObjectsOfType<AgrobotInteractable>();
 	}
 
 	virtual public void Start(AgrobotGantry agrobotGantry)
@@ -47,20 +45,6 @@ public abstract class AgrobotBehaviour
 
 		//als het stopt zijn de tools niet meer busy
 		//bij opnieuw starten zijn ze weer busy maar ze bewegen niet meer
-	}
-
-	/// <summary>
-	/// Updates the list of interactables this behaviour is keeping track of (which should be all of them).
-	/// Also updates the interactables for the equipment. Call this when interactables have been added or removed.
-	/// </summary>
-	public void UpdateAllInteractables() //TODO remove
-	{
-		m_allInteractables = Object.FindObjectsOfType<AgrobotInteractable>();
-		//TODO update equipment
-		foreach (AgrobotInteractable interactable in m_allInteractables)
-		{
-			m_gantry.Equipment.InteractableModified(interactable);
-		}
 	}
 
 	/// <summary>
