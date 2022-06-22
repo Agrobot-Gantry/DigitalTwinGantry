@@ -18,8 +18,10 @@ It is made with the unity version: 2020.3.32f1 with the android build support.
 4. Press 'build' or 'build and run' and choose the directory you want the files in.
 
 
-If you already started the project in unity, you can change the version:
+
+
+## If you already started the project in unity, you can change the version like this:
 1. Go to file - build settings
-2. Select PC, Mac & Linux standalone and press 'switch platform' if you want the stand alone version.
+2. Select PC, Mac & Linux standalone and press 'switch platform' if you want the desktop version.
 3. Select Android and press 'switch platform' if you want the VR version.
 4. Press 'build or 'build and run' and choose the direrectory you want the files in
