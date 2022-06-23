@@ -61,9 +61,11 @@ MonoBehaviour:
   m_xChunks: 5
   m_yChunks: 5
   m_agrobot: {fileID: 0}
-  m_path: {fileID: 3345911593946909174, guid: be38518abad797241beaf837bd6ec9ad, type: 3}
+  m_pathPrefab: {fileID: 3345911593946909174, guid: be38518abad797241beaf837bd6ec9ad, type: 3}
+  m_endZonePrefab: {fileID: 9082467766312943773, guid: 3d833e3e3a2315d4cae5815d8ac84c3a, type: 3}
+  m_ground: {fileID: 7725423180565256841, guid: 927f773ec1ad549469be0179e21a7bb9, type: 3}
   m_chunk: {fileID: 3866838336186678800, guid: 7d4700a3209b2d54ea4633fd0866949d, type: 3}
-  m_startingMonth: 5
+  m_startingMonth: 0
   m_cropTypes:
   - {fileID: 2043524626836718842, guid: 9acbd1565d2769445804dc60fc2007df, type: 3}
   - {fileID: 2043524626836718842, guid: 576270822f95d1045a368dc63974df6b, type: 3}
@@ -74,3 +76,6 @@ MonoBehaviour:
   - {fileID: 2043524626836718842, guid: cc370ef760802054fbaa90805078c9d8, type: 3}
   - {fileID: 2043524626836718842, guid: ce9a89cbc31e52c4baad9cab13f0b16b, type: 3}
   - {fileID: 2043524626836718842, guid: 1c47d59c888d16c42aa33665872b4736, type: 3}
+  m_onChange:
+    m_PersistentCalls:
+      m_Calls: []

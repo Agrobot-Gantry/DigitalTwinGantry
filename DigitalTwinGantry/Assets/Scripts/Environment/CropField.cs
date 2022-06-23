@@ -4,6 +4,9 @@ using UnityEngine;
 using System;
 using UnityEngine.Events;
 
+/// <summary>
+/// The main script of the crop system. This class will generate the whole cropfield.
+/// </summary>
 public class CropField : MonoBehaviour
 {
 	/// <summary>
@@ -32,7 +35,6 @@ public class CropField : MonoBehaviour
 	
 	private GameObject m_groundMesh;
 
-	private Transform m_agrobotStart;
 	private float m_gantryWidth = 3;
 	private float m_gantryWheelWidth = 0.5f;
 
@@ -50,9 +52,10 @@ public class CropField : MonoBehaviour
 	{
 		if (m_agrobot != null) 
 		{
-			m_agrobotStart = new GameObject("Agrobot Start Pos").transform;
-			m_agrobotStart.position = m_agrobot.transform.position;
-			m_agrobotStart.rotation = m_agrobot.transform.rotation;
+			Transform agrobotStart = new GameObject("Agrobot Start Pos").transform;
+			agrobotStart.position = m_agrobot.transform.position;
+			agrobotStart.rotation = m_agrobot.transform.rotation;
+			m_agrobot.ResetPosition = agrobotStart;
 			m_gantryWidth = m_agrobot.GetGantryWidth();
 			m_gantryWheelWidth = m_agrobot.GetGantryWheelWidth();
 		}
@@ -89,7 +92,7 @@ public class CropField : MonoBehaviour
 		// Reset agrobot transform
 		if (m_agrobot != null) 
 		{
-			m_agrobot.Reset(m_agrobotStart.position, m_agrobotStart.rotation);
+			m_agrobot.Reset();
 		}
 	}
 
@@ -190,8 +193,11 @@ public class CropField : MonoBehaviour
 		{
 			for (int z = 0; z < m_yChunks; z++)
 			{
-				GameObject chunkObject = Instantiate(m_chunk, new Vector3(m_field.bounds.min.x, transform.position.y, m_field.bounds.min.z) + 
-					new Vector3(x * chunkWidth, 0, z * chunkHeight), Quaternion.Euler(0, 0, 0));
+				GameObject chunkObject = Instantiate(m_chunk, transform);
+
+                chunkObject.transform.position =
+                    new Vector3(m_field.bounds.min.x, transform.position.y, m_field.bounds.min.z) +
+                    new Vector3(x * chunkWidth, 0, z * chunkHeight);
 
 				CropChunk chunk = chunkObject.GetComponent<CropChunk>();
 
@@ -245,8 +251,8 @@ public class CropField : MonoBehaviour
 		// Reset agrobot transform
 		if (m_agrobot != null) 
 		{
-			m_agrobotStart.position = new Vector3(m_field.bounds.min.x + (m_gantryWidth / 2), m_field.bounds.max.y, m_field.bounds.min.z - (m_gantryWidth));
-			m_agrobot.Reset(m_agrobotStart.position, m_agrobotStart.rotation);
+			m_agrobot.ResetPosition.position = new Vector3(m_field.bounds.min.x + (m_gantryWidth / 2), m_field.bounds.max.y, m_field.bounds.min.z - (m_gantryWidth));
+			m_agrobot.Reset();
 		}
 	}
 
@@ -277,6 +283,9 @@ public class CropField : MonoBehaviour
 			case 0: // Monoculture
 				GenerateChunks(GetStartingCrop());
 				break;
+			case 1: // Pixel cropping
+				GenerateChunks();
+				break;
 			case 2: // Strip cultivation
 				Crop[,] crops = new Crop[m_xChunks, m_yChunks];
 				for (int x = 0; x < m_xChunks; x++)
@@ -287,11 +296,7 @@ public class CropField : MonoBehaviour
 						crops[x, z] = crop;
 					}
 				}
-
 				GenerateChunks(crops);
-				break;
-			case 1: // Pixel cropping
-				GenerateChunks();
 				break;
 			default:
 				return;
@@ -300,13 +305,17 @@ public class CropField : MonoBehaviour
 		m_fieldType = type;
 	}
 
+	/// <summary>
+	/// Generates a whole field with a single type of crop with the specified action
+	/// </summary>
+	/// <param name="action">The action that needs to be done on each crop</param>
 	public void GenerateFieldWithAction(int action)
 	{
 		switch (action)
 		{
 			case 0: GenerateFieldWithAction(InteractableFlag.HARVEST); break;
-			case 1: GenerateFieldWithAction(InteractableFlag.SOW); break;
-			case 2: GenerateFieldWithAction(InteractableFlag.WATER); break;
+			case 1: GenerateFieldWithAction(InteractableFlag.WATER); break;
+			case 2: GenerateFieldWithAction(InteractableFlag.SOW); break;
 			case 3: GenerateFieldWithAction(InteractableFlag.UPROOT); break;
 			default: Debug.LogError("Given action " + action + " to generate a field does not reflect any Action yet!"); break;
 		}

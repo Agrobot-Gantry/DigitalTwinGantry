@@ -14,7 +14,10 @@ public class Crop : MonoBehaviour
 	private const InteractableFlag INSTANTLY_REMOVE_CROP_FLAG = InteractableFlag.NONE;
 
 	[SerializeField] private AgrobotInteractable m_interactable;
+
 	[SerializeField] private GameObject m_postSowingModel;
+    public GameObject PostSowingModel => m_postSowingModel;
+
 	[SerializeField] private TimePeriod[] m_timePeriods;
 	public TimePeriod[] TimePeriods { get { return m_timePeriods; } }
 
@@ -22,6 +25,21 @@ public class Crop : MonoBehaviour
 	private TimePeriod m_currentTimePeriod;
 	private int m_timePeriodOffset; //offset the current crop timeperiod from the real timeperiod received in UpdateTimePeriod(int newTimePeriod)
 
+    public GameObject CurrentModel => m_currentTimePeriod.Model;
+
+	/// <summary>
+	/// Initializes the crop, call this function right after instantiating the crop.
+	/// </summary>
+	/// <remarks>
+	/// Each crop has an internal time period offset. 
+	/// This is used to account for crops being sown earlier than the sowing time period set on the prefab.
+	/// You might want to sow a specific crop early for example. But the sowing time period on the prefab would not match
+	/// the current time period. The offset allows the crop to internally track that difference. So when the crop is updated
+	/// to the next time period, it will use the time period that comes after the sowing period.
+	/// </remarks>
+	/// <param name="currentTimePeriod">The current time period this crop is on</param>
+	/// <param name="timePeriodOffset">The internal time period offset of this crop (is the crop for example sowed 2 time periods too early?)</param>
+	/// <param name="onHarvestCallback">This function will be called when this crop gets harvested</param>
 	public void Initialize(int currentTimePeriod, int timePeriodOffset, Action<Crop, bool> onHarvestCallback)
 	{
 		m_onHarvestCallback = onHarvestCallback;
@@ -36,6 +54,11 @@ public class Crop : MonoBehaviour
 		UpdateTimePeriod(currentTimePeriod);
 	}
 
+	/// <summary>
+	/// Changes the appearance and flags of a crop to the values for its specified time period.
+	/// The timeperiod the crop changes to is offset by a value that can be set per crop (m_timePeriodOffset).
+	/// </summary>
+	/// <param name="newTimePeriod">the time period to change to, the used time period for the crop will be offset by m_timePeriodOffset</param>
 	public void UpdateTimePeriod(int newTimePeriod)
 	{
 		m_currentTimePeriod.Model.SetActive(false);
@@ -50,19 +73,24 @@ public class Crop : MonoBehaviour
 		}
 	}
 
+	/// <summary>
+	/// Makes the crop react to an action. The action will call this at a specific point while being executed.
+	/// </summary>
+	/// <param name="action">the action the crop should react to</param>
 	public void OnInteract(AgrobotAction action)
 	{
-		if (action.GetFlags().HasFlag(InteractableFlag.SOW))
+		if (action.Flags.HasFlag(InteractableFlag.SOW))
 		{
 			//change to the model of a recently sown crop
 			m_currentTimePeriod.Model.SetActive(false);
 			m_postSowingModel.SetActive(true);
 		}
 
-		if (action.GetFlags().HasFlag(InteractableFlag.HARVEST))
+		if (action.Flags.HasFlag(InteractableFlag.HARVEST) || action.Flags.HasFlag(InteractableFlag.UPROOT))
 		{
 			m_currentTimePeriod.Model.SetActive(false);
 			m_onHarvestCallback(this, true);
+			Destroy(gameObject);
 		}
 	}
 

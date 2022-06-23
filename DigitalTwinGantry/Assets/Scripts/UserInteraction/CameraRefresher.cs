@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// This script will take all the camera's put into this script and will only refresh one of them each frame.
+/// This is used to increase performance but will lower the refresh rate of the camera's.
+/// </summary>
 public class CameraRefresher : MonoBehaviour
 {
     [SerializeField] private Camera[] m_cameras;

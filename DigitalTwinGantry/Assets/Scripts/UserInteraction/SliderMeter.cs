@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.Events;
 using Oculus.Interaction;
 
+/// <summary>
+/// This script is used to generate sections in a slider and measure at which section the slider is.
+/// </summary>
 public class SliderMeter : MonoBehaviour
 {
     [SerializeField] private GameObject m_divider;
@@ -16,10 +19,11 @@ public class SliderMeter : MonoBehaviour
     private float[] m_sections;
 
     private int m_currentSection;
-    public int CurrentSection { get => m_currentSection; }
-    public int TotalSections { get => m_totalSelections; }
+    public int CurrentSection => m_currentSection;
+    public int TotalSections => m_totalSelections;
 
-    private void Start() {
+    private void Start() 
+    {
         m_grabbable.WhenGrabbableUpdated += WhenGrabbableUpdated;
 
         float divider = 1f / m_totalSelections;
@@ -27,10 +31,13 @@ public class SliderMeter : MonoBehaviour
 
         m_sections = new float[m_totalSelections];
 
-        for (int i = 0; i < m_totalSelections; i++) {
-            if (i == 0) {
+        for (int i = 0; i < m_totalSelections; i++) 
+        {
+            if (i == 0) 
+            {
                 linear = divider / 2;
-            } else {
+            } else 
+            {
                 linear += divider;
             }
 
@@ -47,41 +54,42 @@ public class SliderMeter : MonoBehaviour
         CalculateCurrentSection(true);
     }
 
-    private void WhenGrabbableUpdated(GrabbableArgs args) {
+    private void WhenGrabbableUpdated(GrabbableArgs args) 
+    {
         CalculateCurrentSection(false);
-
-        // if (args.GrabbableEvent == GrabbableEvent.Remove) {
-        //     Debug.Log(CurrentSection);
-        // }
     }
 
-    private void CalculateCurrentSection(bool isReset) {
+    private void CalculateCurrentSection(bool isReset) 
+    {
         float smallestDistance = 1000;
 
         int previousSection = m_currentSection;
 
-        for (int i = 0; i < m_sections.Length; i++) {
+        for (int i = 0; i < m_sections.Length; i++) 
+        {
             float distance = Mathf.Abs(transform.localPosition.x - m_sections[i]);
 
-            if (distance < smallestDistance) {
+            if (distance < smallestDistance) 
+            {
                 m_currentSection = i;
                 smallestDistance = distance;
             }
         }
 
-        // Debug.Log(m_currentSection);
-
-        if (previousSection != m_currentSection && !isReset) {
+        if (previousSection != m_currentSection && !isReset) 
+        {
             m_audio?.Play();
             m_onSelectionChanged.Invoke(CurrentSection);
         }
     }
 
-    private void OnDestroy() {
+    private void OnDestroy() 
+    {
         m_grabbable.WhenGrabbableUpdated -= WhenGrabbableUpdated;
     }    
 
-    private void OnValidate() {
+    private void OnValidate() 
+    {
         m_totalSelections = Mathf.Max(m_totalSelections, 2);
     }
 }

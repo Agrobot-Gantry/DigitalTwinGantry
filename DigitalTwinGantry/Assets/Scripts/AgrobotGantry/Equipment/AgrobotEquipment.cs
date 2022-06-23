@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Assertions;
 
 /// <summary>
-/// The equipment contains all of the tools that interact with AgrobotInteractables.
+/// The equipment contains all of the tools that can interact with AgrobotInteractables.
 /// AgrobotActions should use this class to get access to the tools they require.
 /// </summary>
 public class AgrobotEquipment
@@ -26,7 +26,7 @@ public class AgrobotEquipment
                     flaggedTools++;
                 }
             }
-            Assert.IsTrue(flaggedTools <= 1); //never more than 1 tool per flag
+            //Assert.IsTrue(flaggedTools <= 1); //never more than 1 tool per flag
         }
     }
 
@@ -36,7 +36,7 @@ public class AgrobotEquipment
     {
         foreach (AgrobotTool tool in m_tools)
         {
-            if (tool.GetFlag() == flag && !tool.busy)
+            if (tool.GetFlag() == flag && !tool.Busy)
             {
                 return tool;
 
@@ -65,6 +65,8 @@ public class AgrobotEquipment
 
     /// <summary>
     /// Notify the equipment (and all underlying tools) that a specific interactable has been modified.
+    /// Tools only check the interactable flags on collision. Call this method when an interactable has been changed
+    /// so that tools can stop tracking them.
     /// </summary>
     /// <param name="interactable">the interactable that has been modified</param>
     public void InteractableModified(AgrobotInteractable interactable)
@@ -74,5 +76,10 @@ public class AgrobotEquipment
             tool.InteractableModified(interactable);
         }
     }
+
+    public void InteractableModified(AgrobotAction action)
+	{
+        InteractableModified(action.TargetInteractable);
+	}
 
 }
