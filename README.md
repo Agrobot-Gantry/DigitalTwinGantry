@@ -13,7 +13,7 @@ It is made with the unity version: 2020.3.32f1 with the android build support.
 
 ## Uploading VR apk to the Oculus Quest 2
 1. [Install ADB.](https://www.xda-developers.com/install-adb-windows-macos-linux/)
-2. Open command prompt and enter: `adb install -r <apk-path>`.
+2. Open command prompt and enter: `adb install <apk-path>`.
 
 replace `<apk-path>` with the file path leading to DigitalTwinGantry.apk.
 
