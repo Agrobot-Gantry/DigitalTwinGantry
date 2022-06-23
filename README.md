@@ -1,7 +1,7 @@
 # DigitalTwinGantry
 
 This application is meant for VR with the Oculus Quest 2.
-It can also be build as a desktop version.
+It can also be built as a desktop application.
 
 It is made with the unity version: 2020.3.32f1 with the android build support.
 
@@ -10,6 +10,12 @@ It is made with the unity version: 2020.3.32f1 with the android build support.
 2. Start the project in unity.
 3. Go to file -  build settings.
 4. Press 'build' or 'build and run' and choose the directory you want the files in.
+
+## Uploading VR apk to the Oculus Quest 2
+1. [Install ADB.](https://www.xda-developers.com/install-adb-windows-macos-linux/)
+2. Open command prompt and enter: `adb install -r <apk-path>`.
+
+replace `<apk-path>` with the file path leading to DigitalTwinGantry.apk.
 
 ## Building desktop version
 1. Set in unity hub the target platform to current platform.
