@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// Contains methods that the RosCommandListener can call to move the gantry.
+/// </summary>
 class RosListeningBehaviour : AgrobotBehaviour
 {
 	public RosListeningBehaviour() : base()

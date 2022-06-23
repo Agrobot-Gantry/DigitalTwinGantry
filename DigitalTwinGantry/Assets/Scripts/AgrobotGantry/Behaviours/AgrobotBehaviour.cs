@@ -32,6 +32,9 @@ public abstract class AgrobotBehaviour
 
 	abstract public void Update(float deltaTime);
 
+	/// <summary>
+	/// Cancels all ongoing actions and stops their coroutines
+	/// </summary>
 	public virtual void Stop()
 	{
 		while (m_ongoingActions.Count > 0)
@@ -40,11 +43,7 @@ public abstract class AgrobotBehaviour
 			m_gantry.StopCoroutine(m_ongoingActions[0].ExecutingCoroutine);
 			m_ongoingActions.RemoveAt(0);
 		}
-		m_gantry.StopAllCoroutines(); //TODO only stop the action coroutines
-		//TODO tools remain busy when the behaviour stops while they are active
-
-		//als het stopt zijn de tools niet meer busy
-		//bij opnieuw starten zijn ze weer busy maar ze bewegen niet meer
+		m_gantry.StopAllCoroutines();
 	}
 
 	/// <summary>
@@ -83,13 +82,11 @@ public abstract class AgrobotBehaviour
 	/// Actions on interactables that are busy (already have an ongoing action targeting them) get ignored and cause the method to return false.
 	/// </summary>
 	/// <param name="action">the AgrobotAction to start</param>
-	/// <returns>true if the action could be started</returns>
-	protected bool StartAction(AgrobotAction action)
+	protected void StartAction(AgrobotAction action)
 	{
 		m_ongoingActions.Add(action);
 		Coroutine coroutine = m_gantry.StartCoroutine(action.Start());
 		action.ExecutingCoroutine = coroutine;
-		return true;
 	}
 
 	/// <summary>

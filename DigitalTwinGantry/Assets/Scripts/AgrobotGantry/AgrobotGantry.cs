@@ -117,7 +117,6 @@ public class AgrobotGantry : MonoBehaviour
         AddTool(m_irrigationTool, m_irrigationAmount);
         m_equipment = new AgrobotEquipment(m_tools.ToArray());
         m_currentBehaviour = new LaneFarmingBehaviour();
-        ShowCasing(true);
 
         m_currentBehaviour.Start(this);
     }
@@ -142,11 +141,6 @@ public class AgrobotGantry : MonoBehaviour
 
             m_currentBehaviour.Update(TimeChanger.DeltaTime);
         }
-    }
-
-    public void ShowCasing(bool showCasing)
-    {
-        //TODO show/hide all pieces of the casing
     }
 
     public void SetBehaviour(AgrobotBehaviour behaviour)

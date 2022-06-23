@@ -20,6 +20,14 @@ public class AgrobotAction
 
 	private Action<AgrobotAction>[] m_onFinishedcallbacks;
 
+	/// <summary>
+	/// Creates an action. The interactable and tool are immideately set to be busy, 
+	/// to prevent the creation of multiple actions using the same interactable/tool.
+	/// </summary>
+	/// <param name="target">the interactable to target with this action</param>
+	/// <param name="tool">the tool to perform this action with</param>
+	/// <param name="flags">the flags to clear from the interactable when the action is finished</param>
+	/// <param name="onFinishedCallbacks">actions to call after the action finishes</param>
 	public AgrobotAction(AgrobotInteractable target, AgrobotTool tool, InteractableFlag flags, params Action<AgrobotAction>[] onFinishedCallbacks)
 	{
 		m_targetInteractable = target;
@@ -86,6 +94,11 @@ public class AgrobotAction
 		}
 	}
 
+	/// <summary>
+	/// Cancels the action without running the onFinished callbacks.
+	/// The relevant tool and interactable are set to no longer be busy.
+	/// This does not stop the coroutine running the action.
+	/// </summary>
 	public void Cancel()
 	{
 		m_tool.ActionCancelled();

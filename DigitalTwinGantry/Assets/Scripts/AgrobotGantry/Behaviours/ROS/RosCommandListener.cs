@@ -143,6 +143,9 @@ class RosCommandListener : MonoBehaviour
 		}
 	}
 
+	/// <summary>
+	/// Makes the gantry react to ROS messages.
+	/// </summary>
 	public void StartListening()
 	{
 		if (m_disconnected) return;
@@ -150,6 +153,9 @@ class RosCommandListener : MonoBehaviour
 		if (m_display != null) m_display.SetStatus(true);
 	}
 
+	/// <summary>
+	/// Resets the gantry and stops it from reacting to ROS messages.
+	/// </summary>
 	public void StopListening()
 	{
 		if (m_disconnected) return;
